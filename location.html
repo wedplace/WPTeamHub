@@ -517,6 +517,7 @@
     <div class="result-title">Paste this into Ideogram or Midjourney</div>
     <div class="prompt-box" id="promptOutput"></div>
     <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">Copy prompt to clipboard</button>
+    <button class="btn-restart" onclick="emailPrompt()" style="margin-top:10px; border-color:#2a2a2a; color:rgba(255,255,255,0.5);">📧 Email to elevate@wpglassco.com</button>
     <button class="btn-restart" onclick="restart()">Start over</button>
     <div class="tip">
       <strong>Ideogram tip:</strong> Use "Realistic" style. Upload the weedplace. logo as a reference image for color matching. If the building looks grungy, add "well-maintained, clean facade" to the prompt.<br><br>
@@ -596,6 +597,13 @@
     getStep(currentStep).classList.remove('active');
     document.getElementById('result').classList.add('active');
     document.getElementById('progressBar').style.width = '100%';
+  }
+
+  function emailPrompt() {
+    const text = document.getElementById('promptOutput').textContent;
+    const subject = encodeURIComponent('weedplace. storefront image prompt');
+    const body = encodeURIComponent(text);
+    window.location.href = `mailto:elevate@wpglassco.com?subject=${subject}&body=${body}`;
   }
 
   function copyPrompt() {
