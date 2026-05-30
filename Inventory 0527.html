@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WPGlassCo — Inventory Log</title>
+<style>
+  body { background: #0f0f0f; color: #e0e0e0; font-family: 'DM Sans', sans-serif; padding: 32px; }
+  h1 { font-size: 1.4rem; color: #00c9a7; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  p.meta { font-size: 0.75rem; color: #666; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead tr { background: #1a1a1a; color: #00c9a7; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #1e1e1e; }
+  tbody tr:hover { background: #161616; }
+  tbody tr.out-of-stock { opacity: 0.5; }
+  .sku { color: #888; font-size: 0.75rem; }
+  .brand { color: #aaa; }
+  .qty.low { color: #ff6b6b; font-weight: bold; }
+  .qty.ok { color: #00c9a7; font-weight: bold; }
+  .qty.out { color: #ff3030; font-weight: bold; font-size: 0.75rem; letter-spacing: 1px; }
+  .price { color: #e0e0e0; }
+  .price-note { color: #666; font-size: 0.7rem; display: block; }
+  .assumed { color: #888; font-size: 0.7rem; display: block; font-style: italic; }
+  .tbd { color: #555; font-style: italic; font-size: 0.8rem; }
+  .margin { color: #f0a500; font-size: 0.8rem; }
+  .margin.top { color: #00c9a7; font-size: 0.8rem; font-weight: bold; }
+  .category { background: #1a1a1a; border-radius: 4px; padding: 2px 8px; font-size: 0.7rem; color: #aaa; display: inline-block; }
+  .summary { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: #1a1a1a; border-radius: 6px; padding: 12px 20px; }
+  .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-value { font-size: 1.4rem; color: #00c9a7; font-weight: bold; }
+  .stat-note { font-size: 0.65rem; color: #555; margin-top: 2px; }
+  .toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .btn { background: #00c9a7; color: #0f0f0f; border: none; border-radius: 4px; padding: 7px 18px; font-size: 0.75rem; font-weight: bold; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+  .btn:hover { background: #00b096; }
+  .footer { display: flex; gap: 24px; align-items: flex-start; margin-top: 48px; flex-wrap: wrap; }
+  .card { background: #1a1a1a; border-radius: 6px; padding: 20px 24px; }
+  .card-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  pre { font-size: 0.82rem; color: #aaa; margin: 0; line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<h1>WPGlassCo — Inventory Log</h1>
+<p class="meta">Last updated: May 26, 2026</p>
+
+<div class="summary">
+  <div class="stat"><div class="stat-label">Total SKUs</div><div class="stat-value">26</div></div>
+  <div class="stat"><div class="stat-label">Total Units</div><div class="stat-value">129</div></div>
+  <div class="stat"><div class="stat-label">Inventory Cost</div><div class="stat-value">$444.00</div></div>
+  <div class="stat"><div class="stat-label">Retail Value</div><div class="stat-value">$647+</div><div class="stat-note">8 MSRPs pending</div></div>
+</div>
+
+<div class="toolbar">
+  <button class="btn" onclick="exportCSV()">Export CSV</button>
+</div>
+
+<table id="invTable">
+  <thead>
+    <tr>
+      <th>SKU</th><th>Product</th><th>Brand</th><th>Category</th>
+      <th>Cost</th><th>MSRP</th><th>Margin</th><th>Qty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="sku">WPC-A-174</td><td>5" Downstem</td><td class="brand">DHGate</td>
+      <td><span class="category">Add-Ons</span></td>
+      <td class="price">$1.50<span class="price-note">$15 / 10pk</span></td>
+      <td class="tbd">TBD</td><td class="tbd">—</td><td class="qty ok">9</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-A-184</td><td>4.5" Downstem</td><td class="brand">DHGate</td>
+      <td><span class="category">Add-Ons</span></td>
+      <td class="price">$2.00<span class="price-note">$10 / 5pk</span></td>
+      <td class="tbd">TBD</td><td class="tbd">—</td><td class="qty ok">3</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-I-185</td><td>Quartz Pearls</td><td class="brand">Amazon</td>
+      <td><span class="category">Add-Ons</span></td>
+      <td class="price">$0.06<span class="price-note">$6 / 100pk</span></td>
+      <td class="tbd">TBD</td><td class="tbd">—</td><td class="qty ok">100</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-B-335</td><td>V3 Slurper</td><td class="brand">Terporium</td>
+      <td><span class="category">Bangers &amp; Bowls</span></td>
+      <td class="price">$19.00</td><td class="price">$55.00</td><td class="margin">65%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-B-343</td><td>Fully Faceted Tower</td><td class="brand">Terporium</td>
+      <td><span class="category">Bangers &amp; Bowls</span></td>
+      <td class="price">$25.00</td><td class="price">$80.00</td><td class="margin">69%</td><td class="qty ok">2</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-B-353</td><td>Seamless Slurper</td><td class="brand">Terporium</td>
+      <td><span class="category">Bangers &amp; Bowls</span></td>
+      <td class="price">$19.00</td><td class="price">$70.00</td><td class="margin">73%</td><td class="qty low">1</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-B-479</td><td>45 Degree Slurper</td><td class="brand">Terporium</td>
+      <td><span class="category">Bangers &amp; Bowls</span></td>
+      <td class="price">$11.00</td><td class="tbd">TBD</td><td class="tbd">—</td><td class="qty out">OUT</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-B-563</td><td>Terp Slide</td><td class="brand">Terporium</td>
+      <td><span class="category">Bangers &amp; Bowls</span></td>
+      <td class="price">$12.00</td><td class="price">$30.00</td><td class="margin">60%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-C-005</td><td>Bubble Cap – Neo</td><td class="brand">Terporium</td>
+      <td><span class="category">Caps</span></td>
+      <td class="price">$5.50</td><td class="price">$15.00</td><td class="margin">63%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-C-007</td><td>Bubble Cap – Slyme</td><td class="brand">Terporium</td>
+      <td><span class="category">Caps</span></td>
+      <td class="price">$5.50</td><td class="price">$15.00</td><td class="margin">63%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-C-009</td><td>Encased Opal Marble</td><td class="brand">Terporium</td>
+      <td><span class="category">Caps</span></td>
+      <td class="price">$7.00</td><td class="price">$20.00</td><td class="margin">65%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-C-570</td><td>Lucid CFL w/ Opal Topper Cap</td><td class="brand">Terporium</td>
+      <td><span class="category">Caps</span></td>
+      <td class="price">$8.00</td><td class="price">$30.00</td><td class="margin">73%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-C-700</td><td>Bubble Cap – Lucid CFL</td><td class="brand">Terporium</td>
+      <td><span class="category">Caps</span></td>
+      <td class="price">$5.50</td><td class="price">$15.00</td><td class="margin">63%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-416</td><td>GRAV Helix Chillum</td><td class="brand">Vengence</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$0.00</td><td class="price">$26.00</td><td class="margin top">100%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-503</td><td>The Venturi</td><td class="brand">ML Glass</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$30.00</td><td class="tbd">TBD</td><td class="tbd">—</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-506</td><td>Donut Rig*</td><td class="brand">ML Glass</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$67.00</td><td class="tbd">TBD</td><td class="tbd">—</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-5SC</td><td>Annunaki Rig*</td><td class="brand">ML Glass</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$98.00</td><td class="tbd">TBD</td><td class="tbd">—</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-614</td><td>MJ Arsenal Vulkan Bubbler – Slate</td><td class="brand">Vengence</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$0.00</td><td class="price">$32.00</td><td class="margin top">100%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-926</td><td>NRK Water Pipe</td><td class="brand">T.A.G.</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$68.00</td><td class="price">$199.00</td><td class="margin">66%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-D-936</td><td>T.A.G. Super Straight Rig</td><td class="brand">T.A.G.</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$46.00</td><td class="tbd">TBD</td><td class="tbd">—</td><td class="qty low">1</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-D-989</td><td>Bellow Bubble Rig</td><td class="brand">T.A.G.</td>
+      <td><span class="category">Pieces</span></td>
+      <td class="price">$53.00</td><td class="price">$130.00</td><td class="margin">59%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr class="out-of-stock">
+      <td class="sku">WPC-I-049</td><td>Blue Swirl Valve Shroom Set</td><td class="brand">Terporium</td>
+      <td><span class="category">Inserts</span></td>
+      <td class="price">$1.00</td><td class="price">$20.00</td><td class="margin top">95%</td><td class="qty out">OUT</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-I-061</td><td>Zebra Pillar</td><td class="brand">Terporium</td>
+      <td><span class="category">Inserts</span></td>
+      <td class="price">$2.00</td>
+      <td class="price">$15.00<span class="assumed">assumed</span></td>
+      <td class="margin">87%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-I-074</td><td>Green Dichro Slurper Set</td><td class="brand">Terporium</td>
+      <td><span class="category">Inserts</span></td>
+      <td class="price">$13.00</td><td class="price">$35.00</td><td class="margin">63%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-I-081</td><td>Surface Enhanced Pillar</td><td class="brand">Terporium</td>
+      <td><span class="category">Inserts</span></td>
+      <td class="price">$2.00</td><td class="price">$15.00</td><td class="margin top">87%</td><td class="qty low">1</td>
+    </tr>
+    <tr>
+      <td class="sku">WPC-I-111</td><td>Hollow Vortex Pillar</td><td class="brand">Terporium</td>
+      <td><span class="category">Inserts</span></td>
+      <td class="price">$3.00</td><td class="price">$15.00</td><td class="margin">80%</td><td class="qty low">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  <div class="card" style="min-width:200px;">
+    <div class="card-label">Category Key</div>
+    <div style="font-size:0.82rem; line-height:2.1;">
+      <span style="color:#00c9a7; font-weight:bold;">A</span> — Add-Ons<br>
+      <span style="color:#00c9a7; font-weight:bold;">B</span> — Bangers &amp; Bowls<br>
+      <span style="color:#00c9a7; font-weight:bold;">C</span> — Caps<br>
+      <span style="color:#00c9a7; font-weight:bold;">D</span> — Pieces<br>
+      <span style="color:#00c9a7; font-weight:bold;">I</span> — Inserts
+    </div>
+  </div>
+  <div class="card" style="flex:1;">
+    <div class="card-label">Entry Template</div>
+    <pre>Sku: WPC-
+Product:
+Source:
+Cost:
+MSRP:
+Quantity:
+Category:</pre>
+    <button class="btn" style="margin-top:14px;" onclick="copyTemplate()">Copy Template</button>
+  </div>
+</div>
+
+<style>
+  .sales-log { max-width: 100%; margin-top: 48px; }
+  .sales-log h2 { font-size: 0.75rem; color: #00c9a7; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+  .sales-log table { font-size: 0.8rem; }
+  .sales-log thead tr { background: #1a1a1a; }
+  .sales-log th { color: #00c9a7; font-size: 0.65rem; }
+  .sale-items { color: #aaa; font-size: 0.72rem; line-height: 1.6; }
+  .sale-profit { color: #00c9a7; font-weight: bold; }
+  .sale-net { color: #f0a500; font-weight: bold; }
+  .sale-note { color: #555; font-size: 0.68rem; font-style: italic; }
+</style>
+
+<div class="sales-log">
+  <h2>Sales Log</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th><th>SKUs Sold</th><th>Platform / Customer</th><th>Cost</th><th>Sale Price</th><th>Shipping</th><th>Net Profit</th><th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>05/26/26</td>
+        <td class="sale-items">
+          WPC-B-335 V3 Slurper<br>
+          WPC-B-479 45° Slurper<br>
+          WPC-I-049 Blue Shroom Set<br>
+          WPC-D-989 Bellow Rig
+        </td>
+        <td>Glass Pass — Juan</td>
+        <td class="cost">$84.00</td>
+        <td class="price">$150.00</td>
+        <td class="cost">$8.00 USPS</td>
+        <td class="sale-net">$58.00</td>
+        <td class="sale-note">Shipped w/ order 021026</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+function copyTemplate() {
+  navigator.clipboard.writeText("Sku: WPC-\nProduct:\nSource:\nCost:\nMSRP:\nQuantity:\nCategory:");
+  const btn = event.target;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy Template', 1500);
+}
+function exportCSV() {
+  const table = document.getElementById('invTable');
+  const rows = [...table.querySelectorAll('tr')];
+  const csv = rows.map(r => [...r.querySelectorAll('th,td')].map(c => '"' + c.innerText.replace(/\n/g,' ').replace(/"/g,'""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'wpglassco_inventory.csv';
+  a.click();
+}
+</script>
+</body>
+</html>

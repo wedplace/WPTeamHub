@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WPGlassCo — Sales Log</title>
+<style>
+  body { background: #0f0f0f; color: #e0e0e0; font-family: 'DM Sans', sans-serif; padding: 32px; }
+  h1 { font-size: 1.4rem; color: #08E2A5; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  p.meta { font-size: 0.75rem; color: #666; margin-bottom: 24px; }
+  .summary { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: #1a1a1a; border-radius: 6px; padding: 12px 20px; }
+  .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-value { font-size: 1.4rem; color: #08E2A5; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { background: #1a1a1a; color: #08E2A5; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 1px; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #1e1e1e; vertical-align: top; }
+  tbody tr:hover { background: #161616; }
+  tbody tr.loss { opacity: 0.6; }
+  tbody tr.trade { border-left: 2px solid #CF75FF; }
+  tbody tr.return-customer { border-left: 2px solid #08E2A5; }
+  .sl-items { font-size: 0.75rem; color: #aaa; line-height: 1.7; }
+  .sl-price { color: #08E2A5; font-weight: bold; }
+  .sl-profit { color: #f0a500; font-weight: bold; }
+  .sl-loss { color: #ff4444; font-weight: bold; }
+  .sl-cost { color: #888; }
+  .sl-ship { color: #888; }
+  .sl-invoice { color: #555; font-size: 0.72rem; }
+  .sl-note { color: #555; font-size: 0.68rem; font-style: italic; }
+  .toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .btn { background: #08E2A5; color: #0f0f0f; border: none; border-radius: 4px; padding: 7px 18px; font-size: 0.75rem; font-weight: bold; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+  .btn:hover { background: #06c491; }
+</style>
+</head>
+<body>
+<h1>WPGlassCo — Sales Log</h1>
+<p class="meta">Last updated: May 27, 2026</p>
+<div class="summary">
+  <div class="stat"><div class="stat-label">Total Transactions</div><div class="stat-value" id="sl-count">—</div></div>
+  <div class="stat"><div class="stat-label">Total Revenue</div><div class="stat-value" id="sl-rev">—</div></div>
+  <div class="stat"><div class="stat-label">Total Cost</div><div class="stat-value" id="sl-cost">—</div></div>
+  <div class="stat"><div class="stat-label">Total Profit</div><div class="stat-value" id="sl-profit">—</div></div>
+  <div class="stat"><div class="stat-label">Total Shipping</div><div class="stat-value" id="sl-ship">—</div></div>
+</div>
+<div class="toolbar"><button class="btn" onclick="exportCSV()">Export CSV</button></div>
+<table id="slTable">
+  <thead>
+    <tr><th>Date</th><th>Items Sold</th><th>Platform / Customer</th><th>Cost</th><th>Sale Price</th><th>Shipping</th><th>Net Profit</th><th>Invoice</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="white-space:nowrap;">08/02/25</td><td class="sl-items">Slide Tower Set</td><td>Glass Pass — Graznoth42</td><td class="sl-cost">$27.00</td><td class="sl-price">$30.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$3.00</td><td class="sl-invoice">001</td><td class="sl-note">First sale; followed account</td></tr>
+    <tr><td style="white-space:nowrap;">08/31/25</td><td class="sl-items">Cosmo Full Setup</td><td>Marketplace</td><td class="sl-cost">$0.00</td><td class="sl-price">$45.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$45.00</td><td class="sl-invoice">002</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">09/02/25</td><td class="sl-items">Etched Control Tower</td><td>Glass Pass</td><td class="sl-cost">$23.00</td><td class="sl-price">$44.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$21.00</td><td class="sl-invoice">003</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">09/27/25</td><td class="sl-items">The Watcher Set</td><td>Marketplace</td><td class="sl-cost">$13.00</td><td class="sl-price">$30.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$17.00</td><td class="sl-invoice">004</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">10/15/25</td><td class="sl-items">Mini Rig and Wig Wag Full Set</td><td>Marketplace</td><td class="sl-cost">$0.00</td><td class="sl-price">$30.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$30.00</td><td class="sl-invoice">005</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">10/27/25</td><td class="sl-items">Clear Tornado Recycler</td><td>Glass Pass</td><td class="sl-cost">$32.00</td><td class="sl-price">$62.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$30.00</td><td class="sl-invoice">006</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">10/29/25</td><td class="sl-items">Adapter</td><td>Glass Pass</td><td class="sl-cost">$6.00</td><td class="sl-price">$10.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$4.00</td><td class="sl-invoice">007</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">11/19/25</td><td class="sl-items">10mm Rig Full Setup</td><td>eBay</td><td class="sl-cost">$22.00</td><td class="sl-price">$50.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$28.00</td><td class="sl-invoice">008</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">11/26/25</td><td class="sl-items">Trippy Banger w/ Clear Cap</td><td>eBay</td><td class="sl-cost">$12.00</td><td class="sl-price">$25.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$13.00</td><td class="sl-invoice">009</td><td class="sl-note"></td></tr>
+    <tr class="loss"><td style="white-space:nowrap;">11/26/25</td><td class="sl-items">Encore Bong + Blue Horn</td><td>eBay</td><td class="sl-cost">$50.00</td><td class="sl-price">$0.00</td><td class="sl-ship">USPS</td><td class="sl-loss">-$50.00</td><td class="sl-invoice">010</td><td class="sl-note">USPS lost package — took the L. Would've been $100 sale.</td></tr>
+    <tr><td style="white-space:nowrap;">12/05/25</td><td class="sl-items">Trippy Banger w/ Yellow Cap</td><td>eBay</td><td class="sl-cost">$12.00</td><td class="sl-price">$30.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$18.00</td><td class="sl-invoice">011</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">01/02/26</td><td class="sl-items">Weapon of Wax Destruction</td><td>Marketplace</td><td class="sl-cost">$59.00</td><td class="sl-price">$75.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$16.00</td><td class="sl-invoice">012</td><td class="sl-note">5 stars</td></tr>
+    <tr><td style="white-space:nowrap;">01/17/26</td><td class="sl-items">The Golden Serpent</td><td>Marketplace</td><td class="sl-cost">$55.00</td><td class="sl-price">$90.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$35.00</td><td class="sl-invoice">013</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">01/22/26</td><td class="sl-items">Fabcycler Top</td><td>Marketplace — Ed</td><td class="sl-cost">$45.00</td><td class="sl-price">$60.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$15.00</td><td class="sl-invoice">014</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">01/26/26</td><td class="sl-items">The Skyscraper</td><td>Marketplace</td><td class="sl-cost">$15.00</td><td class="sl-price">$50.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$35.00</td><td class="sl-invoice">015</td><td class="sl-note">Requested the Snake Banger</td></tr>
+    <tr><td style="white-space:nowrap;">01/29/26</td><td class="sl-items">Terp Funnel Banger</td><td>Marketplace</td><td class="sl-cost">$15.00</td><td class="sl-price">$40.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$25.00</td><td class="sl-invoice">016</td><td class="sl-note">Requested the XXL Tower</td></tr>
+    <tr><td style="white-space:nowrap;">02/05/26</td><td class="sl-items">Admiral Byrd</td><td>Marketplace</td><td class="sl-cost">$34.00</td><td class="sl-price">$70.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$33.90</td><td class="sl-invoice">017</td><td class="sl-note">3% CashApp fee ($2.10) — never using CashApp again</td></tr>
+    <tr class="trade"><td style="white-space:nowrap;">04/15/26</td><td class="sl-items">Carta Sport + The Bridge</td><td>Marketplace — Jayden, Banks Smoke Shop</td><td class="sl-cost">$190.00</td><td class="sl-price">$260.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$70.00</td><td class="sl-invoice">018</td><td class="sl-note">Traded for $300+ worth of dab — basically cash. First smoke shop connect.</td></tr>
+    <tr class="return-customer"><td style="white-space:nowrap;">04/15/26</td><td class="sl-items">Slyme Cap + Surface Enhanced Pillar + Slide Banger</td><td>Marketplace — Josh (return)</td><td class="sl-cost">$19.00</td><td class="sl-price">$50.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$31.00</td><td class="sl-invoice">019</td><td class="sl-note">Josh's 2nd purchase</td></tr>
+    <tr class="return-customer"><td style="white-space:nowrap;">05/04/26</td><td class="sl-items">Slide Banger + Opal Marble + Hollow Vortex + Ruby Pearl (free)</td><td>Marketplace — Josh (return)</td><td class="sl-cost">$22.00</td><td class="sl-price">$60.00</td><td class="sl-ship">Pickup</td><td class="sl-profit">$38.00</td><td class="sl-invoice">020</td><td class="sl-note">Josh's 3rd purchase — connected on socials, posted video reviews. IG: @pickedfreshly</td></tr>
+    <tr><td style="white-space:nowrap;">05/08/26</td><td class="sl-items">Seamless Slurper + Hollow Vortex Pillar + Neo Bubble Cap</td><td>Marketplace — Juan</td><td class="sl-cost">$27.50</td><td class="sl-price">$45.00</td><td class="sl-ship">UPS</td><td class="sl-profit">$17.50</td><td class="sl-invoice">021</td><td class="sl-note">Wrong address — returned, reshipped with order 023</td></tr>
+    <tr><td style="white-space:nowrap;">05/08/26</td><td class="sl-items">Slide Banger + Zebra Pillar + Lucid Bubble Cap</td><td>Glass Pass — Cameron</td><td class="sl-cost">$19.00</td><td class="sl-price">$45.00</td><td class="sl-ship">USPS</td><td class="sl-profit">$26.00</td><td class="sl-invoice">022</td><td class="sl-note"></td></tr>
+    <tr><td style="white-space:nowrap;">05/26/26</td><td class="sl-items">WPC-B-335 V3 Slurper<br>WPC-B-479 45° Slurper<br>WPC-I-049 Blue Shroom Set<br>WPC-D-989 Bellow Bubble Rig</td><td>Glass Pass — Juan</td><td class="sl-cost">$84.00</td><td class="sl-price">$150.00</td><td class="sl-ship">$8.00 USPS</td><td class="sl-profit">$58.00</td><td class="sl-invoice">023</td><td class="sl-note">Previously 022027. Includes reshipment of order 021 (wrong address). Bundled shipment.</td></tr>
+  </tbody>
+</table>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const rows = document.querySelectorAll('#slTable tbody tr');
+  let count=0, rev=0, cost=0, profit=0, ship=0;
+  rows.forEach(r => {
+    const c = r.querySelectorAll('td');
+    if (c.length < 7) return;
+    count++;
+    cost   += parseFloat(c[3].textContent.replace(/[^0-9.]/g,'')) || 0;
+    rev    += parseFloat(c[4].textContent.replace(/[^0-9.]/g,'')) || 0;
+    const sv = c[5].textContent.match(/\$?([\d.]+)/);
+    ship   += sv ? parseFloat(sv[1]) : 0;
+    profit += parseFloat(c[6].textContent.replace(/[^0-9.-]/g,'')) || 0;
+  });
+  document.getElementById('sl-count').textContent  = count;
+  document.getElementById('sl-rev').textContent    = '$'+rev.toFixed(2);
+  document.getElementById('sl-cost').textContent   = '$'+cost.toFixed(2);
+  document.getElementById('sl-profit').textContent = '$'+profit.toFixed(2);
+  document.getElementById('sl-ship').textContent   = '$'+ship.toFixed(2);
+});
+function exportCSV() {
+  const t = document.getElementById('slTable');
+  const csv = [...t.querySelectorAll('tr')].map(r=>[...r.querySelectorAll('th,td')].map(c=>'"'+c.innerText.replace(/\n/g,' | ').replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = 'wpglassco_saleslog.csv';
+  a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WPGlassCo — Curated Sets</title>
+<style>
+  body { background: #0f0f0f; color: #e0e0e0; font-family: 'DM Sans', sans-serif; padding: 32px; }
+  h1 { font-size: 1.4rem; color: #4ade80; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  p.meta { font-size: 0.75rem; color: #666; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead tr { background: #1a1a1a; color: #4ade80; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #1e1e1e; vertical-align: top; }
+  tbody tr:hover { background: #161616; }
+  tbody tr.sold { opacity: 0.45; }
+  .set-id { color: #888; font-size: 0.75rem; }
+  .set-name { font-weight: bold; color: #e0e0e0; }
+  .product-list { list-style: none; margin: 4px 0 0 0; padding: 0; }
+  .product-list li { font-size: 0.78rem; color: #aaa; padding: 2px 0; line-height: 1.5; }
+  .product-list li::before { content: "·"; margin-right: 6px; color: #444; }
+  .price { color: #e0e0e0; }
+  .tbd { color: #555; font-style: italic; font-size: 0.8rem; }
+  .margin { color: #f0a500; font-size: 0.8rem; }
+  .margin.top { color: #4ade80; font-weight: bold; font-size: 0.8rem; }
+  .type-badge { border-radius: 4px; padding: 3px 10px; font-size: 0.68rem; font-weight: bold; display: inline-block; }
+  .type-banger { background: #1c2e1c; color: #4ade80; }
+  .type-full { background: #1e1a2e; color: #c084fc; }
+  .status { border-radius: 4px; padding: 3px 10px; font-size: 0.68rem; font-weight: bold; display: inline-block; letter-spacing: 0.5px; }
+  .status-sold { background: #2a1a1a; color: #ff6b6b; }
+  .status-available { background: #1c2e1c; color: #4ade80; }
+  .status-tbd { background: #1a1a1a; color: #666; }
+  .status-out { background: #2a1a1a; color: #ff3030; }
+  .note { color: #555; font-size: 0.72rem; font-style: italic; margin-top: 4px; display: block; }
+  .summary { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat { background: #1a1a1a; border-radius: 6px; padding: 12px 20px; }
+  .stat-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+  .stat-value { font-size: 1.4rem; color: #4ade80; font-weight: bold; }
+  .stat-note { font-size: 0.65rem; color: #555; margin-top: 2px; }
+  .toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .btn { background: #4ade80; color: #0f0f0f; border: none; border-radius: 4px; padding: 7px 18px; font-size: 0.75rem; font-weight: bold; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+  .btn:hover { background: #22c55e; }
+  .footer { display: flex; gap: 24px; align-items: flex-start; margin-top: 48px; flex-wrap: wrap; }
+  .card { background: #1a1a1a; border-radius: 6px; padding: 20px 24px; }
+  .card-label { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  pre { font-size: 0.82rem; color: #aaa; margin: 0; line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<h1>WPGlassCo — Curated Sets</h1>
+<p class="meta">Last updated: May 27, 2026</p>
+
+<div class="summary">
+  <div class="stat"><div class="stat-label">Total Sets</div><div class="stat-value">10</div></div>
+  <div class="stat"><div class="stat-label">Available</div><div class="stat-value">2</div></div>
+  <div class="stat"><div class="stat-label">Total Cost</div><div class="stat-value">$273.50</div></div>
+  <div class="stat"><div class="stat-label">Revenue (sold)</div><div class="stat-value">$304.00</div></div>
+</div>
+
+<div class="toolbar">
+  <button class="btn" onclick="exportCSV()">Export CSV</button>
+</div>
+
+<table id="setsTable">
+  <thead>
+    <tr>
+      <th>SKU</th>
+      <th>Name</th>
+      <th>Products</th>
+      <th>Cost</th>
+      <th>Price</th>
+      <th>Margin</th>
+      <th>Type</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    <tr class="sold">
+      <td class="set-id">WPC-0AB</td>
+      <td class="set-name">Admiral Byrd</td>
+      <td><ul class="product-list"><li>Bird Rig</li><li>Funnel Banger</li></ul></td>
+      <td class="price">$34.00</td>
+      <td class="price">$70.00</td>
+      <td class="margin">51%</td>
+      <td><span class="type-badge type-full">Full Set</span></td>
+      <td><span class="status status-sold">SOLD</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-0GS</td>
+      <td class="set-name">Golden Serpent</td>
+      <td><ul class="product-list"><li>Yellow Dual Uptake Recycler</li><li>The Serpent (WPC-S2)</li></ul></td>
+      <td class="price">$55.00</td>
+      <td class="price">$90.00</td>
+      <td class="margin">39%</td>
+      <td><span class="type-badge type-full">Full Set</span></td>
+      <td><span class="status status-sold">SOLD</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-A1</td>
+      <td class="set-name">"The Anomaly"<br><span style="font-size:0.72rem;color:#666;font-weight:normal;">Terporium Set</span></td>
+      <td><ul class="product-list"><li>Neo Bubble Cap</li><li>Hollow Pillar</li><li>Seamless Slurper</li></ul></td>
+      <td class="price">$27.50</td>
+      <td class="price">$50.00</td>
+      <td class="margin">45%</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-sold">SOLD</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-D1</td>
+      <td class="set-name">"The Dreamwalker"<br><span style="font-size:0.72rem;color:#666;font-weight:normal;">Terporium Set</span></td>
+      <td><ul class="product-list"><li>Lucid Bubble Cap</li><li>V3 Slurper</li><li>Zebra Pillar</li></ul></td>
+      <td class="price">$26.50</td>
+      <td class="tbd">TBD</td>
+      <td class="tbd">—</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-out">SOLD OUT</span><span class="note">Component sold individually</span></td>
+    </tr>
+
+    <tr>
+      <td class="set-id">WPC-F1</td>
+      <td class="set-name">"The Fallout"<br><span style="font-size:0.72rem;color:#666;font-weight:normal;">Terporium Set</span></td>
+      <td><ul class="product-list"><li>Fully Faceted Tower</li><li>Green Dichro Set</li></ul></td>
+      <td class="price">$38.00</td>
+      <td class="tbd">TBD</td>
+      <td class="tbd">—</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-available">AVAILABLE</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-M1</td>
+      <td class="set-name">"The Mirage"<br><span style="font-size:0.72rem;color:#666;font-weight:normal;">Terporium Set</span></td>
+      <td><ul class="product-list"><li>Opal CFL Cap</li><li>Slide Banger</li><li>Surface Enhanced Pillar</li></ul></td>
+      <td class="price">$19.50</td>
+      <td class="tbd">—</td>
+      <td class="tbd">—</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-out">SOLD OUT</span><span class="note">Slide sold in separate set</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-S1</td>
+      <td class="set-name">The Skyscraper</td>
+      <td><ul class="product-list"><li>XXXL Terp Slurper</li><li>Clear Marble</li></ul></td>
+      <td class="price">$15.00</td>
+      <td class="price">$50.00</td>
+      <td class="margin top">70%</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-sold">SOLD</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-S2</td>
+      <td class="set-name">The Serpent</td>
+      <td><ul class="product-list"><li>Snake Banger</li><li>Dichro Marble</li><li>Pearls</li></ul></td>
+      <td class="price">$15.00</td>
+      <td class="price">—</td>
+      <td class="tbd">—</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-sold">SOLD</span><span class="note">Bundled in Golden Serpent (WPC-0GS) — sold for $90</span></td>
+    </tr>
+
+    <tr>
+      <td class="set-id">WPC-U1</td>
+      <td class="set-name">"The Undertow"<br><span style="font-size:0.72rem;color:#666;font-weight:normal;">Terporium Set</span></td>
+      <td><ul class="product-list"><li>Blue Valve Set</li><li>Seamless Slurper</li></ul></td>
+      <td class="price">$20.00</td>
+      <td class="tbd">TBD</td>
+      <td class="tbd">—</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-available">AVAILABLE</span></td>
+    </tr>
+
+    <tr class="sold">
+      <td class="set-id">WPC-W1</td>
+      <td class="set-name">The Watcher</td>
+      <td><ul class="product-list"><li>Eyeball Marble</li><li>Quartz Charmer</li><li>Ruby Pearls</li></ul></td>
+      <td class="price">$23.00</td>
+      <td class="price">$44.00</td>
+      <td class="margin">48%</td>
+      <td><span class="type-badge type-banger">Banger Set</span></td>
+      <td><span class="status status-sold">SOLD</span></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div class="footer">
+  <div class="card" style="flex:1; max-width:380px;">
+    <div class="card-label">Entry Template</div>
+    <pre>SETS-
+Name:
+SKU- WPC-
+Products-
+  -
+  -
+  -
+Total Cost-
+MSRP-
+Type: Banger Set / Full Set</pre>
+    <button class="btn" style="margin-top:14px;" onclick="copyTemplate()">Copy Template</button>
+  </div>
+  <div class="card" style="min-width:180px;">
+    <div class="card-label">Set Types</div>
+    <div style="font-size:0.82rem; line-height:2.6;">
+      <span class="type-badge type-banger">Banger Set</span><br>
+      <span class="type-badge type-full">Full Set</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyTemplate() {
+  const t = `SETS-\nName:\nSKU- WPC-\nProducts-\n  -\n  -\n  -\nTotal Cost-\nMSRP-\nType: Banger Set / Full Set`;
+  navigator.clipboard.writeText(t);
+  const btn = event.target;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy Template', 1500);
+}
+function exportCSV() {
+  const table = document.getElementById('setsTable');
+  const rows = [...table.querySelectorAll('tr')].filter(r => !r.querySelector('[colspan]'));
+  if (rows.length <= 1) { alert('No sets to export yet.'); return; }
+  const csv = rows.map(r => [...r.querySelectorAll('th,td')].map(c => '"' + c.innerText.replace(/\n/g,' | ').replace(/"/g,'""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'wpglassco_sets.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
