@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WPGlassCo Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #08E2A5;
+    --teal-dim: #08E2A520;
+    --teal-border: #08E2A540;
+    --purple: #CF75FF;
+    --purple-dim: #CF75FF15;
+    --purple-border: #CF75FF40;
+    --pink: #F002EC;
+    --pink-dim: #F002EC15;
+    --bg: #000;
+    --surface: #0f0f0f;
+    --surface2: #161616;
+    --surface3: #1e1e1e;
+    --border: #222;
+    --border2: #2a2a2a;
+    --text: #fff;
+    --text2: #aaa;
+    --text3: #555;
+    --red: #ff4444;
+    --green: #08E2A5;
+    --font-main: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { background: var(--bg); }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 5rem;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 1.25rem;
+  }
+  .logo { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
+  .logo span { color: var(--teal); }
+  .live { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal); font-family: var(--font-mono); }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* SECTIONS / TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    font-family: var(--font-main);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border2);
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tab.active { background: var(--teal); color: #000; border-color: var(--teal); font-weight: 700; }
+  .tab:hover:not(.active) { border-color: var(--border); color: var(--text2); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* STAT GRID */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .stat { background: var(--surface); border-radius: var(--radius); padding: 0.85rem 1rem; border: 0.5px solid var(--border); }
+  .stat.full { grid-column: 1/-1; }
+  .stat-l { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-family: var(--font-mono); }
+  .stat-v { font-size: 22px; font-weight: 700; color: var(--text); }
+  .stat-v.teal { color: var(--teal); }
+  .stat-v.red { color: var(--red); }
+
+  /* P&L */
+  .pnl-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 1rem; margin-bottom: 8px; }
+  .pnl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
+  .pnl-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); }
+  .pnl-net { font-size: 20px; font-weight: 700; }
+  .pnl-net.pos { color: var(--teal); }
+  .pnl-net.neg { color: var(--red); }
+  .pnl-row { display: grid; grid-template-columns: 1fr 0.5px 1fr 0.5px 1fr; gap: 0; }
+  .pnl-div { background: var(--border); }
+  .pnl-item { padding: 0.5rem 0.75rem; text-align: center; }
+  .pnl-item:first-child { padding-left: 0; text-align: left; }
+  .pnl-item:last-child { padding-right: 0; text-align: right; }
+  .pnl-l { font-size: 10px; color: var(--text3); margin-bottom: 3px; font-family: var(--font-mono); }
+  .pnl-v { font-size: 15px; font-weight: 600; }
+  .pnl-v.g { color: var(--teal); }
+  .pnl-v.r { color: var(--red); }
+  .pnl-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 0.5px solid var(--border); }
+  .pnl-input-group label { font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 5px; }
+  .pnl-input-group input {
+    width: 100%; background: var(--surface2); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 8px 10px; color: var(--text);
+    font-family: var(--font-mono); font-size: 13px; outline: none;
+    transition: border-color 0.15s;
+  }
+  .pnl-input-group input:focus { border-color: var(--teal); }
+
+  /* QUICK REF */
+  .qr-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); border-left: 2px solid var(--purple); padding: 1rem; margin-bottom: 8px; }
+  .qr-title { font-size: 10px; color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
+  .qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .qr-item { background: var(--surface2); border-radius: var(--radius-sm); padding: 0.6rem 0.75rem; }
+  .qr-l { font-size: 10px; color: var(--text3); font-family: var(--font-mono); margin-bottom: 3px; }
+  .qr-v { font-size: 12px; color: var(--text); font-weight: 500; word-break: break-all; }
+  .qr-link { font-size: 12px; color: var(--teal); text-decoration: none; font-weight: 500; }
+  .qr-link:hover { text-decoration: underline; }
+
+  /* CARD LIST */
+  .card-list { display: flex; flex-direction: column; gap: 6px; }
+  .card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 0.5px solid var(--border);
+    padding: 1rem; display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: inherit;
+    transition: background 0.15s, border-color 0.15s;
+    cursor: pointer;
+  }
+  .card:hover { background: var(--surface2); border-color: var(--border2); }
+  .card.teal-accent { border-left: 2px solid var(--teal); }
+  .card-ico { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+  .card-ico.teal { color: var(--teal); }
+  .card-ico.dim { color: var(--text3); }
+  .card-ico.purple { color: var(--purple); }
+  .card-body { flex: 1; min-width: 0; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .card-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
+  .card-arr { color: var(--text3); font-size: 16px; flex-shrink: 0; }
+  .tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+  .tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .tag.m { background: var(--teal-dim); color: var(--teal); border: 0.5px solid var(--teal-border); }
+  .tag.p { background: var(--purple-dim); color: var(--purple); border: 0.5px solid var(--purple-border); }
+  .tag.pk { background: var(--pink-dim); color: var(--pink); border: 0.5px solid #F002EC40; }
+
+  /* SECTION LABEL */
+  .sec-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin: 1.25rem 0 0.6rem; }
+
+  /* CONTACTS PAGE */
+  .contact-group { margin-bottom: 1rem; }
+  .contact-group-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 0.5px solid var(--border); }
+  .contact-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 0.85rem 1rem; margin-bottom: 6px; }
+  .contact-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .contact-detail { font-size: 11px; color: var(--text3); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+  .contact-link { color: var(--teal); text-decoration: none; font-size: 11px; }
+  .contact-link:hover { text-decoration: underline; }
+
+  /* IDEAS PAGE */
+  .ideas-note { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 1rem; margin-bottom: 6px; }
+  .ideas-note textarea {
+    width: 100%; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: var(--font-main); font-size: 13px;
+    line-height: 1.6; resize: none; min-height: 80px;
+  }
+  .ideas-note textarea::placeholder { color: var(--text3); }
+  .ideas-note-meta { font-size: 10px; color: var(--text3); font-family: var(--font-mono); margin-top: 6px; padding-top: 6px; border-top: 0.5px solid var(--border); }
+  .add-btn {
+    width: 100%; background: transparent; border: 0.5px dashed var(--border2);
+    border-radius: var(--radius); padding: 0.85rem; color: var(--text3);
+    font-family: var(--font-main); font-size: 13px; cursor: pointer;
+    transition: all 0.15s; margin-top: 6px;
+  }
+  .add-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* TODO PAGE */
+  .todo-input-row { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .todo-input {
+    flex: 1; background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text);
+    font-family: var(--font-main); font-size: 13px; outline: none;
+    transition: border-color 0.15s;
+  }
+  .todo-input:focus { border-color: var(--teal); }
+  .todo-add-btn {
+    background: var(--teal); border: none; border-radius: var(--radius-sm);
+    padding: 10px 16px; color: #000; font-family: var(--font-main);
+    font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .todo-add-btn:hover { opacity: 0.85; }
+  .todo-item {
+    background: var(--surface); border-radius: var(--radius);
+    border: 0.5px solid var(--border); padding: 0.85rem 1rem;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+    transition: opacity 0.2s;
+  }
+  .todo-item.done { opacity: 0.4; }
+  .todo-item.done .todo-text { text-decoration: line-through; }
+  .todo-check {
+    width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border2);
+    background: transparent; cursor: pointer; flex-shrink: 0; display: flex;
+    align-items: center; justify-content: center; transition: all 0.15s; font-size: 10px;
+  }
+  .todo-check.checked { background: var(--teal); border-color: var(--teal); color: #000; }
+  .todo-text { flex: 1; font-size: 13px; color: var(--text); }
+  .todo-del { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 16px; padding: 0 4px; transition: color 0.15s; }
+  .todo-del:hover { color: var(--red); }
+  .todo-status { font-size: 10px; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+  .todo-status.active { background: var(--teal-dim); color: var(--teal); }
+  .todo-status.pending { background: var(--purple-dim); color: var(--purple); }
+
+  /* CALENDAR NOTE */
+  .cal-embed-note {
+    background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border);
+    border-left: 2px solid var(--teal); padding: 1rem; margin-bottom: 1rem;
+  }
+  .cal-embed-note p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .cal-embed-note a { color: var(--teal); text-decoration: none; }
+  .cal-embed-note a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-align: center; }
+
+  /* FORMS */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group.full { grid-column: 1/-1; }
+  .form-group label { font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--surface2); border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 9px 12px; color: var(--text);
+    font-family: var(--font-main); font-size: 13px; outline: none;
+    transition: border-color 0.15s; width: 100%;
+  }
+  .form-group select { appearance: none; }
+  .form-group textarea { resize: vertical; line-height: 1.5; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); }
+
+
+  .page.active > * { animation: fadeUp 0.2s ease forwards; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">WP<span>Glass</span>Co</div>
+    <div class="live"><span class="live-dot"></span>hub</div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" onclick="switchTab('dashboard')" role="tab">Dashboard</button>
+    <button class="tab" onclick="switchTab('todo')" role="tab">To-Do</button>
+    <button class="tab" onclick="switchTab('calendar')" role="tab">Calendar</button>
+    <button class="tab" onclick="switchTab('files')" role="tab">Files</button>
+    <button class="tab" onclick="switchTab('contacts')" role="tab">Contacts</button>
+    <button class="tab" onclick="switchTab('brand')" role="tab">Brand</button>
+    <button class="tab" onclick="switchTab('ideas')" role="tab">Ideas</button>
+    <button class="tab" onclick="switchTab('log')" role="tab">+ Log</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-l">Last invoice</div>
+        <div class="stat-v teal">#023</div>
+      </div>
+      <div class="stat">
+        <div class="stat-l">Active SKUs</div>
+        <div class="stat-v">232</div>
+      </div>
+    </div>
+
+    <div class="pnl-card">
+      <div class="pnl-header">
+        <div class="pnl-title">P&L — all time <span id="pnl-loading" style="font-size:10px;color:var(--text3);margin-left:6px">loading...</span></div>
+        <div class="pnl-net pos" id="pnl-net">—</div>
+      </div>
+      <div class="pnl-row">
+        <div class="pnl-item">
+          <div class="pnl-l">Revenue</div>
+          <div class="pnl-v g" id="pnl-rev-display">—</div>
+        </div>
+        <div class="pnl-div"></div>
+        <div class="pnl-item">
+          <div class="pnl-l">Cost</div>
+          <div class="pnl-v r" id="pnl-exp-display">—</div>
+        </div>
+        <div class="pnl-div"></div>
+        <div class="pnl-item">
+          <div class="pnl-l">Profit</div>
+          <div class="pnl-v g" id="pnl-net-display">—</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)" id="pnl-txcount">— transactions</span>
+        <a href="saleslog.html" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;">full log ↗</a>
+      </div>
+    </div>
+
+    <div class="qr-card">
+      <div class="qr-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Quick ref
+      </div>
+      <div class="qr-grid">
+        <div class="qr-item">
+          <div class="qr-l">Email (business)</div>
+          <div class="qr-v">elevate@wpglassco.com</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-l">Email (personal)</div>
+          <div class="qr-v">—</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-l">Relay</div>
+          <div class="qr-v">····xxxx</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-l">PayPal</div>
+          <div class="qr-v">elevate@wpglassco.com</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-l">EIN</div>
+          <div class="qr-v">XX-XXXXXXX</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-l">Comptroller #</div>
+          <div class="qr-v">XX-XXXXXXXXX</div>
+        </div>
+        <div class="qr-item" style="grid-column:1/-1">
+          <div class="qr-l">Website</div>
+          <a class="qr-link" href="https://wpglassco.com" target="_blank">wpglassco.com ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Live data</div>
+    <div class="card-list">
+      <a class="card teal-accent" href="saleslog.html" target="_blank">
+        <div class="card-ico teal">📊</div>
+        <div class="card-body">
+          <div class="card-title">SalesLog</div>
+          <div class="card-desc">Live sales data</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+      <a class="card" href="inventory.html" target="_blank">
+        <div class="card-ico teal">📦</div>
+        <div class="card-body">
+          <div class="card-title">Inventory</div>
+          <div class="card-desc">Current stock</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+      <a class="card" href="prices.html" target="_blank">
+        <div class="card-ico teal">💲</div>
+        <div class="card-body">
+          <div class="card-title">Prices</div>
+          <div class="card-desc">Margins & pricing</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+      <a class="card" href="sets.html" target="_blank">
+        <div class="card-ico dim">🎯</div>
+        <div class="card-body">
+          <div class="card-title">Sets</div>
+          <div class="card-desc">Banger & full sets</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- TO-DO -->
+  <div class="page" id="page-todo">
+    <div class="todo-input-row">
+      <input class="todo-input" id="todo-input" type="text" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()">
+      <button class="todo-add-btn" onclick="addTodo()">+ Add</button>
+    </div>
+    <div class="card-list" id="todo-list"></div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="page" id="page-calendar">
+    <div class="cal-embed-note">
+      <p>Link your shared Google Calendar below. Create one at <a href="https://calendar.google.com" target="_blank">calendar.google.com</a>, share it with Chels, then paste the embed URL or direct link here.</p>
+    </div>
+    <div class="card-list">
+      <a class="card teal-accent" href="https://calendar.google.com" target="_blank">
+        <div class="card-ico teal">📅</div>
+        <div class="card-body">
+          <div class="card-title">Open Google Calendar</div>
+          <div class="card-desc">Orders · drops · outreach · deadlines</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+    </div>
+    <div class="sec-label">Replace the link above with your shared calendar URL</div>
+  </div>
+
+  <!-- FILES -->
+  <div class="page" id="page-files">
+    <div class="sec-label">Invoices & Orders</div>
+    <div class="card-list">
+      <a class="card teal-accent" href="saleslog.html" target="_blank">
+        <div class="card-ico teal">🧾</div>
+        <div class="card-body">
+          <div class="card-title">Invoices / SalesLog</div>
+          <div class="card-desc">All transactions</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+    </div>
+
+    <div class="sec-label">Supplier & Business</div>
+    <div class="card-list">
+      <a class="card" href="inventory.html" target="_blank">
+        <div class="card-ico dim">📋</div>
+        <div class="card-body">
+          <div class="card-title">Inventory</div>
+          <div class="card-desc">All SKUs, stock, costs</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+      <a class="card" href="prices.html" target="_blank">
+        <div class="card-ico dim">📝</div>
+        <div class="card-body">
+          <div class="card-title">Prices & Margins</div>
+          <div class="card-desc">Current pricing, profit per item</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+    </div>
+
+    <div class="sec-label">Brand Assets</div>
+    <div class="card-list">
+      <a class="card" href="sets.html" target="_blank">
+        <div class="card-ico purple">🎨</div>
+        <div class="card-body">
+          <div class="card-title">Sets</div>
+          <div class="card-desc">Curated banger & full sets</div>
+        </div>
+        <div class="card-arr">↗</div>
+      </a>
+    </div>
+
+    <div class="sec-label">Outreach</div>
+    <div class="card-list">
+    
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="page" id="page-contacts">
+
+    <div class="contact-group">
+      <div class="contact-group-label">Suppliers</div>
+      <div class="contact-item">
+        <div class="contact-name">Ruby Pearl Co.</div>
+        <div class="contact-detail">Inserts & pearls</div>
+        <a class="contact-link" href="#" target="_blank">rubyearlco.com ↗</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">Terporium</div>
+        <div class="contact-detail">Terp slurper sets</div>
+        <a class="contact-link" href="#" target="_blank">terporium.com ↗</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">Focus V</div>
+        <div class="contact-detail">E-rigs & accessories</div>
+        <a class="contact-link" href="#" target="_blank">focusv.com ↗</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">SPS Wholesale</div>
+        <div class="contact-detail">General wholesale</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">ZeeVapor</div>
+        <div class="contact-detail">General wholesale</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">ML Glass / YAR1 / T.A.G.</div>
+        <div class="contact-detail">Glass sourcing</div>
+      </div>
+    </div>
+
+    <div class="contact-group">
+      <div class="contact-group-label">Network</div>
+      <div class="contact-item">
+        <div class="contact-name">Josh (@pickedfreshly)</div>
+        <div class="contact-detail">3x repeat buyer · video reviews · ambassador candidate</div>
+        <a class="contact-link" href="https://instagram.com/pickedfreshly" target="_blank">@pickedfreshly ↗</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-name">Eric Kahn</div>
+        <div class="contact-detail">YouTuber · target collab</div>
+      </div>
+    </div>
+
+    <div class="contact-group">
+      <div class="contact-group-label">Platforms</div>
+      <div class="card-list">
+        <a class="card" href="https://wpglassco.com" target="_blank">
+          <div class="card-body"><div class="card-title">Squarespace</div><div class="card-desc">wpglassco.com dashboard</div></div>
+          <div class="card-arr">↗</div>
+        </a>
+        <a class="card" href="https://github.com" target="_blank">
+          <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">Catalog · quizzes · hub repo</div></div>
+          <div class="card-arr">↗</div>
+        </a>
+        <a class="card" href="https://paypal.com" target="_blank">
+          <div class="card-body"><div class="card-title">PayPal</div><div class="card-desc">Invoicing & payments</div></div>
+          <div class="card-arr">↗</div>
+        </a>
+        <a class="card" href="https://relayfi.com" target="_blank">
+          <div class="card-body"><div class="card-title">Relay</div><div class="card-desc">Business banking</div></div>
+          <div class="card-arr">↗</div>
+        </a>
+        <a class="card" href="https://instagram.com/wp.curations" target="_blank">
+          <div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">@wp.curations</div></div>
+          <div class="card-arr">↗</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BRAND -->
+  <div class="page" id="page-brand">
+    <div class="sec-label">Colors</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1rem">
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#08E2A5;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#08E2A5</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#0AF1C8;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#0AF1C8</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#CF75FF;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#CF75FF</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#F002EC;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#F002EC</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#74F778;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#74F778</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#B038F4;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#B038F4</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#FFB8E6;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#FFB8E6</div>
+      </div>
+      <div style="text-align:center">
+        <div style="height:40px;border-radius:8px;background:#5DD445;margin-bottom:4px"></div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#5DD445</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Fonts</div>
+    <div class="card-list">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Display / Graffiti</div>
+          <div class="card-desc">Lost in South · Hyperwave 2 · Yakin · Quackerhack</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Script</div>
+          <div class="card-desc">Kravo (italic)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Clean Sans</div>
+          <div class="card-desc">Montserrat · Univers · Dongle</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">Mono / Caps</div>
+          <div class="card-desc">Computer Says No · Laquonic</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Voice</div>
+    <div class="card" style="cursor:default">
+      <div class="card-body">
+        <div class="card-desc" style="color:var(--text2);line-height:1.7">Casual. Confident. Culture-native. Knows concentrates deeply. Doesn't talk down. Short sentences. Never corporate. Knowledgeable plug energy — not a sales rep.</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Canva brand kit</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Brand Kit ID</div>
+        <div class="card-desc" style="font-family:var(--font-mono)">kAHE_YpsUM0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDEAS -->
+  <div class="page" id="page-ideas">
+    <div id="ideas-list"></div>
+    <button class="add-btn" onclick="addIdea()">+ New idea</button>
+  </div>
+
+  <!-- LOG -->
+  <div class="page" id="page-log">
+
+    <div class="tabs" style="margin-bottom:1rem;" role="tablist">
+      <button class="tab active" id="log-tab-sale" onclick="switchLogTab('sale')" role="tab">Sale</button>
+      <button class="tab" id="log-tab-inventory" onclick="switchLogTab('inventory')" role="tab">Inventory</button>
+      <button class="tab" id="log-tab-prices" onclick="switchLogTab('prices')" role="tab">Prices</button>
+    </div>
+
+    <!-- SALE FORM -->
+    <div id="log-sale">
+      <div class="card" style="cursor:default;margin-bottom:8px;">
+        <div class="card-body">
+          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Fill out the sale. Hit Generate — it downloads an updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">saleslog.html</code> ready to upload to GitHub.</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Date</label><input type="date" id="s-date"></div>
+            <div class="form-group"><label>Invoice #</label><input type="text" id="s-invoice" placeholder="024"></div>
+            <div class="form-group full"><label>Items Sold</label><textarea id="s-items" placeholder="WPC-B-335 V3 Slurper&#10;WPC-I-074 Green Dichro Set" rows="3"></textarea></div>
+            <div class="form-group"><label>Platform / Customer</label><input type="text" id="s-platform" placeholder="Glass Pass — Juan"></div>
+            <div class="form-group"><label>Cost ($)</label><input type="number" id="s-cost" placeholder="0.00" step="0.01"></div>
+            <div class="form-group"><label>Sale Price ($)</label><input type="number" id="s-price" placeholder="0.00" step="0.01"></div>
+            <div class="form-group"><label>Shipping</label><input type="text" id="s-ship" placeholder="$8.00 USPS"></div>
+            <div class="form-group full"><label>Notes</label><input type="text" id="s-notes" placeholder="Optional"></div>
+          </div>
+          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateSaleLog()">Generate saleslog.html ↓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTORY FORM -->
+    <div id="log-inventory" style="display:none">
+      <div class="card" style="cursor:default;margin-bottom:8px;">
+        <div class="card-body">
+          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new SKU. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">inventory.html</code> with the new row appended.</div>
+          <div class="form-grid">
+            <div class="form-group"><label>SKU</label><input type="text" id="i-sku" placeholder="WPC-B-400"></div>
+            <div class="form-group"><label>Product Name</label><input type="text" id="i-product" placeholder="Seamless Slurper"></div>
+            <div class="form-group"><label>Brand / Source</label><input type="text" id="i-brand" placeholder="Terporium"></div>
+            <div class="form-group"><label>Category</label>
+              <select id="i-category">
+                <option value="Add-Ons">Add-Ons (A)</option>
+                <option value="Bangers &amp; Bowls">Bangers & Bowls (B)</option>
+                <option value="Caps">Caps (C)</option>
+                <option value="Pieces">Pieces (D)</option>
+                <option value="Inserts">Inserts (I)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Cost ($)</label><input type="number" id="i-cost" placeholder="0.00" step="0.01"></div>
+            <div class="form-group"><label>MSRP ($)</label><input type="number" id="i-msrp" placeholder="0.00" step="0.01"></div>
+            <div class="form-group"><label>Quantity</label><input type="number" id="i-qty" placeholder="1" min="1"></div>
+          </div>
+          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateInventory()">Generate inventory.html ↓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICES FORM -->
+    <div id="log-prices" style="display:none">
+      <div class="card" style="cursor:default;margin-bottom:8px;">
+        <div class="card-body">
+          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new item to the price sheet. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">prices.html</code> with the new row.</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Product Name</label><input type="text" id="p-product" placeholder="Seamless Slurper"></div>
+            <div class="form-group"><label>Brand / Source</label><input type="text" id="p-brand" placeholder="Terporium"></div>
+            <div class="form-group"><label>Section</label>
+              <select id="p-section">
+                <option value="flower">Flower Pieces & Accessories</option>
+                <option value="rigs">Concentrates — Rigs</option>
+                <option value="bangers">Concentrates — Bangers & Bowls</option>
+                <option value="inserts">Concentrates — Inserts & Caps</option>
+                <option value="banger-sets">Banger Sets</option>
+                <option value="full-sets">Full Sets</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Price ($)</label><input type="number" id="p-price" placeholder="0.00" step="0.01"></div>
+            <div class="form-group"><label>Cost ($)</label><input type="number" id="p-cost" placeholder="0.00" step="0.01"></div>
+          </div>
+          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generatePrices()">Generate prices.html ↓</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">wpglassco.com · internal use only · sam & chels</div>
+
+</div>
+
+<script>
+  // TAB SWITCHING
+  function switchTab(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // P&L — live fetch from saleslog.html
+  async function loadPnl() {
+    try {
+      const res = await fetch('saleslog.html');
+      const html = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const rows = doc.querySelectorAll('#slTable tbody tr');
+      let count = 0, rev = 0, cost = 0, profit = 0;
+      rows.forEach(r => {
+        const cells = r.querySelectorAll('td');
+        if (cells.length < 7) return;
+        count++;
+        cost   += parseFloat(cells[3].textContent.replace(/[^0-9.]/g, '')) || 0;
+        rev    += parseFloat(cells[4].textContent.replace(/[^0-9.]/g, '')) || 0;
+        profit += parseFloat(cells[6].textContent.replace(/[^0-9.-]/g, '')) || 0;
+      });
+      const net = profit;
+      document.getElementById('pnl-rev-display').textContent = '$' + rev.toFixed(2);
+      document.getElementById('pnl-exp-display').textContent = '$' + cost.toFixed(2);
+      document.getElementById('pnl-net-display').textContent = (net >= 0 ? '+' : '') + '$' + net.toFixed(2);
+      document.getElementById('pnl-net').textContent = (net >= 0 ? '+' : '') + '$' + net.toFixed(2);
+      document.getElementById('pnl-net').className = 'pnl-net ' + (net >= 0 ? 'pos' : 'neg');
+      document.getElementById('pnl-net-display').className = 'pnl-v ' + (net >= 0 ? 'g' : 'r');
+      document.getElementById('pnl-txcount').textContent = count + ' transactions';
+      document.getElementById('pnl-loading').textContent = '';
+    } catch(e) {
+      document.getElementById('pnl-loading').textContent = 'offline';
+    }
+  }
+  loadPnl();
+
+  // TO-DO
+  let todos = JSON.parse(localStorage.getItem('wpgc-todos') || '[]');
+  function saveTodos() { localStorage.setItem('wpgc-todos', JSON.stringify(todos)); }
+  function renderTodos() {
+    const list = document.getElementById('todo-list');
+    list.innerHTML = '';
+    todos.forEach((t, i) => {
+      const el = document.createElement('div');
+      el.className = 'todo-item' + (t.done ? ' done' : '');
+      el.innerHTML = `
+        <div class="todo-check ${t.done ? 'checked' : ''}" onclick="toggleTodo(${i})">${t.done ? '✓' : ''}</div>
+        <div class="todo-text">${t.text}</div>
+        <span class="todo-status ${t.done ? '' : 'active'}">${t.done ? 'done' : 'active'}</span>
+        <button class="todo-del" onclick="deleteTodo(${i})">×</button>
+      `;
+      list.appendChild(el);
+    });
+  }
+  function addTodo() {
+    const inp = document.getElementById('todo-input');
+    if (!inp.value.trim()) return;
+    todos.unshift({ text: inp.value.trim(), done: false });
+    inp.value = '';
+    saveTodos(); renderTodos();
+  }
+  function toggleTodo(i) { todos[i].done = !todos[i].done; saveTodos(); renderTodos(); }
+  function deleteTodo(i) { todos.splice(i, 1); saveTodos(); renderTodos(); }
+  renderTodos();
+
+  // IDEAS
+  let ideas = JSON.parse(localStorage.getItem('wpgc-ideas') || '[]');
+  function saveIdeas() { localStorage.setItem('wpgc-ideas', JSON.stringify(ideas)); }
+  function renderIdeas() {
+    const list = document.getElementById('ideas-list');
+    list.innerHTML = '';
+    ideas.forEach((idea, i) => {
+      const el = document.createElement('div');
+      el.className = 'ideas-note';
+      el.innerHTML = `
+        <textarea placeholder="Write something..." oninput="updateIdea(${i}, this.value)">${idea.text}</textarea>
+        <div class="ideas-note-meta">${idea.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteIdea(${i})">delete</span></div>
+      `;
+      list.appendChild(el);
+    });
+  }
+  function addIdea() {
+    ideas.unshift({ text: '', date: new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) });
+    saveIdeas(); renderIdeas();
+    document.querySelector('.ideas-note textarea').focus();
+  }
+  function updateIdea(i, val) { ideas[i].text = val; saveIdeas(); }
+  function deleteIdea(i) { ideas.splice(i, 1); saveIdeas(); renderIdeas(); }
+  renderIdeas();
+
+  // LOG TAB SWITCHING
+  function switchLogTab(name) {
+    ['sale','inventory','prices'].forEach(t => {
+      document.getElementById('log-' + t).style.display = t === name ? 'block' : 'none';
+      document.getElementById('log-tab-' + t).classList.toggle('active', t === name);
+    });
+  }
+
+  // HELPERS
+  function dlFile(filename, content) {
+    const a = document.createElement('a');
+    a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(content);
+    a.download = filename;
+    a.click();
+  }
+  function gval(id) { return document.getElementById(id).value.trim(); }
+  function fmtDate(d) {
+    if (!d) return new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'});
+    const [y,m,day] = d.split('-');
+    return `${m}/${day}/${y.slice(2)}`;
+  }
+
+  // GENERATE SALESLOG
+  async function generateSaleLog() {
+    const date = fmtDate(gval('s-date'));
+    const invoice = gval('s-invoice') || '—';
+    const items = gval('s-items').replace(/\n/g,'<br>') || '—';
+    const platform = gval('s-platform') || '—';
+    const cost = parseFloat(gval('s-cost')) || 0;
+    const price = parseFloat(gval('s-price')) || 0;
+    const ship = gval('s-ship') || '—';
+    const notes = gval('s-notes');
+    const shipAmt = parseFloat((ship.match(/[\d.]+/) || [0])[0]) || 0;
+    const profit = price - cost - shipAmt;
+    const newRow = `\n    <tr>\n      <td style="white-space:nowrap;">${date}</td>\n      <td class="sl-items">${items}</td>\n      <td>${platform}</td>\n      <td class="sl-cost">$${cost.toFixed(2)}</td>\n      <td class="sl-price">$${price.toFixed(2)}</td>\n      <td class="sl-ship">${ship}</td>\n      <td class="${profit>=0?'sl-profit':'sl-loss'}">$${profit.toFixed(2)}</td>\n      <td class="sl-invoice">${invoice}</td>\n      <td class="sl-note">${notes}</td>\n    </tr>`;
+    try {
+      const res = await fetch('saleslog.html');
+      let html = await res.text();
+      html = html.replace('</tbody>', newRow + '\n  </tbody>');
+      dlFile('saleslog.html', html);
+    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
+  }
+
+  // GENERATE INVENTORY
+  async function generateInventory() {
+    const sku = gval('i-sku') || 'WPC-X-000';
+    const product = gval('i-product') || '—';
+    const brand = gval('i-brand') || '—';
+    const category = gval('i-category');
+    const cost = parseFloat(gval('i-cost')) || 0;
+    const msrp = parseFloat(gval('i-msrp')) || 0;
+    const qty = parseInt(gval('i-qty')) || 1;
+    const margin = msrp > 0 ? Math.round((msrp - cost) / msrp * 100) : 0;
+    const mClass = margin >= 87 ? 'margin top' : 'margin';
+    const qtyClass = qty > 1 ? 'ok' : 'low';
+    const msrpCell = msrp > 0 ? `<td class="price">$${msrp.toFixed(2)}</td>` : `<td class="tbd">TBD</td>`;
+    const marginCell = msrp > 0 ? `<td class="${mClass}">${margin}%</td>` : `<td class="tbd">—</td>`;
+    const newRow = `\n    <tr>\n      <td class="sku">${sku}</td><td>${product}</td><td class="brand">${brand}</td>\n      <td><span class="category">${category}</span></td>\n      <td class="price">$${cost.toFixed(2)}</td>${msrpCell}${marginCell}\n      <td class="qty ${qtyClass}">${qty}</td>\n    </tr>`;
+    try {
+      const res = await fetch('inventory.html');
+      let html = await res.text();
+      html = html.replace('</tbody>', newRow + '\n  </tbody>');
+      dlFile('inventory.html', html);
+    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
+  }
+
+  // GENERATE PRICES
+  async function generatePrices() {
+    const product = gval('p-product') || '—';
+    const brand = gval('p-brand') || '—';
+    const price = parseFloat(gval('p-price')) || 0;
+    const cost = parseFloat(gval('p-cost')) || 0;
+    const profit = price - cost;
+    const margin = price > 0 ? Math.round((profit / price) * 100) : 0;
+    const mClass = margin >= 75 ? 'margin-high' : margin >= 50 ? 'margin-mid' : 'margin-low';
+    const section = gval('p-section');
+    const sectionLabels = {
+      'flower':'Flower Pieces','rigs':'Concentrates &amp; Accessories — Rigs',
+      'bangers':'Concentrates &amp; Accessories — Bangers','inserts':'Concentrates &amp; Accessories — Inserts',
+      'banger-sets':'Banger Sets','full-sets':'Full Sets'
+    };
+    const newRow = `\n      <tr>\n        <td><span class="item-name">${product}</span><span class="item-cat">${brand}</span></td>\n        <td class="price">$${price.toFixed(2)}</td><td class="cost">$${cost.toFixed(2)}</td>\n        <td class="profit">$${profit.toFixed(2)}</td>\n        <td><span class="margin-pill ${mClass}">${margin}%</span></td>\n      </tr>`;
+    try {
+      const res = await fetch('prices.html');
+      let html = await res.text();
+      const label = sectionLabels[section];
+      const labelIdx = html.indexOf(label);
+      const insertIdx = html.indexOf('class="totals-row"', labelIdx);
+      if (insertIdx === -1) { alert('Section not found in prices.html.'); return; }
+      const rowStart = html.lastIndexOf('<tr', insertIdx);
+      html = html.slice(0, rowStart) + newRow + '\n      ' + html.slice(rowStart);
+      dlFile('prices.html', html);
+    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
+  }
+
+</script>
+</body>
+</html>
