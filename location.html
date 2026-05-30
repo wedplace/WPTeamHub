@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>weedplace. — storefront prompt builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --mint: #08E2A5;
+    --teal: #2DE2D2;
+    --cyan: #0AF1C8;
+    --lime: #74F778;
+    --green: #5DD445;
+    --purple: #CF75FF;
+    --magenta: #F002EC;
+    --pink: #FFB8E6;
+    --black: #000000;
+    --dark: #080808;
+    --card: #111111;
+    --border: #1e1e1e;
+  }
+
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(8,226,165,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(8,226,165,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .glow-orb.a { width: 400px; height: 400px; background: rgba(8,226,165,0.12); top: -100px; left: -100px; }
+  .glow-orb.b { width: 300px; height: 300px; background: rgba(207,117,255,0.1); bottom: 0; right: -80px; animation-delay: -4s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0); }
+    to { transform: translate(30px, 20px); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .logo .weed { color: var(--lime); }
+  .logo .place { color: var(--teal); }
+  .logo .dot { color: var(--magenta); }
+
+  .logo-glow {
+    text-shadow:
+      0 0 20px rgba(116,247,120,0.5),
+      0 0 60px rgba(45,226,210,0.3);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--mint), var(--purple));
+    margin: 20px auto 0;
+    border-radius: 2px;
+  }
+
+  /* progress */
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 4px;
+    height: 3px;
+    margin-bottom: 36px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--mint), var(--teal), var(--purple));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* step */
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp 0.35s ease forwards; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .step-question {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 28px;
+    line-height: 1.3;
+  }
+
+  /* options grid */
+  .options {
+    display: grid;
+    gap: 10px;
+  }
+  .options.cols-2 { grid-template-columns: 1fr 1fr; }
+  .options.cols-1 { grid-template-columns: 1fr; }
+
+  .option {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .option:hover {
+    border-color: var(--teal);
+    color: #fff;
+    background: rgba(45,226,210,0.05);
+  }
+
+  .option.selected {
+    border-color: var(--mint);
+    background: rgba(8,226,165,0.08);
+    color: #fff;
+  }
+
+  .option.selected .opt-title { color: var(--mint); }
+
+  .option .opt-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #fff;
+    transition: color 0.2s;
+  }
+
+  .option .opt-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* multi-select note */
+  .multi-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  /* text area */
+  .extra-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    resize: none;
+    min-height: 100px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .extra-input:focus { border-color: var(--teal); }
+  .extra-input::placeholder { color: rgba(255,255,255,0.25); }
+
+  /* nav buttons */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  .btn-back {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.4);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-back:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+  .btn-back:disabled { opacity: 0.2; cursor: default; }
+
+  .btn-next {
+    background: linear-gradient(135deg, var(--mint), var(--teal));
+    border: none;
+    color: #000;
+    padding: 13px 32px;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-next:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .btn-next:active { transform: translateY(0); }
+
+  /* result */
+  .result { display: none; }
+  .result.active { display: block; animation: fadeUp 0.35s ease forwards; }
+
+  .result-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 12px;
+  }
+
+  .result-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+
+  .prompt-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+    white-space: pre-wrap;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .prompt-highlight { color: var(--mint); font-weight: 600; }
+
+  .btn-copy {
+    width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--magenta));
+    border: none;
+    color: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-copy:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .btn-copy.copied { background: linear-gradient(135deg, var(--mint), var(--green)); color: #000; }
+
+  .btn-restart {
+    width: 100%;
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.4);
+    padding: 13px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-restart:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+  .tip {
+    margin-top: 24px;
+    background: rgba(8,226,165,0.06);
+    border: 1px solid rgba(8,226,165,0.15);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .tip strong { color: var(--mint); }
+</style>
+</head>
+<body>
+
+<div class="glow-orb a"></div>
+<div class="glow-orb b"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo logo-glow">
+      <span class="weed">weed</span><span class="place">place</span><span class="dot">.</span>
+    </div>
+    <div class="subtitle">storefront image prompt builder</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step active" data-step="1">
+    <div class="step-label">Step 1 of 7</div>
+    <div class="step-question">What's the building exterior made of?</div>
+    <div class="options cols-2" data-name="building" data-multi="false">
+      <button class="option" data-value="dark painted brick exterior">
+        <div class="opt-title">Dark painted brick</div>
+        <div class="opt-sub">Raw, textured, old-city</div>
+      </button>
+      <button class="option" data-value="polished dark concrete and glass facade">
+        <div class="opt-title">Concrete + glass</div>
+        <div class="opt-sub">Modern, sleek, minimal</div>
+      </button>
+      <button class="option" data-value="dark wood paneling and stone exterior">
+        <div class="opt-title">Wood + stone</div>
+        <div class="opt-sub">Warm, natural, craft</div>
+      </button>
+      <button class="option" data-value="matte black metal facade with industrial detailing">
+        <div class="opt-title">Matte black metal</div>
+        <div class="opt-sub">Edgy, boutique, sharp</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" disabled>Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step" data-step="2">
+    <div class="step-label">Step 2 of 7</div>
+    <div class="step-question">What's the street vibe around it?</div>
+    <div class="options cols-1" data-name="street" data-multi="false">
+      <button class="option" data-value="busy downtown city block with tall buildings around it">
+        <div class="opt-title">Busy downtown</div>
+        <div class="opt-sub">Tall buildings, city energy, foot traffic</div>
+      </button>
+      <button class="option" data-value="quieter neighborhood side street, more intimate block">
+        <div class="opt-title">Quiet side street</div>
+        <div class="opt-sub">More personal, local feel</div>
+      </button>
+      <button class="option" data-value="arts district with murals and creative shops nearby">
+        <div class="opt-title">Arts district</div>
+        <div class="opt-sub">Murals, galleries, creative block</div>
+      </button>
+      <button class="option" data-value="standalone corner lot at an urban intersection">
+        <div class="opt-title">Corner lot</div>
+        <div class="opt-sub">Visible from multiple angles, prominent</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step" data-step="3">
+    <div class="step-label">Step 3 of 7</div>
+    <div class="step-question">What's visible through the windows?</div>
+    <p class="multi-note">Pick all that apply</p>
+    <div class="options cols-1" data-name="windows" data-multi="true">
+      <button class="option" data-value="people lounging on dark couches with soft smoke in the air">People lounging with smoke</button>
+      <button class="option" data-value="backlit shelves displaying glass bongs and smoking pieces">Glass pieces on backlit shelves</button>
+      <button class="option" data-value="neon sign of a glowing bong or smoking piece in the window">Neon smoking piece sign</button>
+      <button class="option" data-value="merch and apparel displayed on racks">Merch + apparel racks</button>
+      <button class="option" data-value="a service counter with staff and display cases">Service counter / budtenders</button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step" data-step="4">
+    <div class="step-label">Step 4 of 7</div>
+    <div class="step-question">How big does the building feel?</div>
+    <div class="options cols-1" data-name="size" data-multi="false">
+      <button class="option" data-value="single story wide storefront, sprawling and inviting">
+        <div class="opt-title">Single story, wide</div>
+        <div class="opt-sub">Horizontal, approachable</div>
+      </button>
+      <button class="option" data-value="two to three story building, shop on the ground floor">
+        <div class="opt-title">2–3 stories</div>
+        <div class="opt-sub">Has presence but not massive</div>
+      </button>
+      <button class="option" data-value="large multi-story building with a commanding city presence">
+        <div class="opt-title">Large + commanding</div>
+        <div class="opt-sub">Statement building, you can't miss it</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step" data-step="5">
+    <div class="step-label">Step 5 of 7</div>
+    <div class="step-question">What's the lighting situation?</div>
+    <div class="options cols-1" data-name="lighting" data-multi="false">
+      <button class="option" data-value="early evening blue hour, sky still has deep blue color, just after sunset">
+        <div class="opt-title">Blue hour</div>
+        <div class="opt-sub">Just after sunset, sky still glowing</div>
+      </button>
+      <button class="option" data-value="deep night, pitch black sky, pure neon glow from the storefront">
+        <div class="opt-title">Deep night, pure neon</div>
+        <div class="opt-sub">Maximum contrast, neon pops hard</div>
+      </button>
+      <button class="option" data-value="rainy night with wet pavement reflecting all the neon colors">
+        <div class="opt-title">Rainy night</div>
+        <div class="opt-sub">Reflections on wet streets, cinematic</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step" data-step="6">
+    <div class="step-label">Step 6 of 7</div>
+    <div class="step-question">Any people on the sidewalk?</div>
+    <div class="options cols-1" data-name="people" data-multi="false">
+      <button class="option" data-value="no people outside, clean empty street shot">No people — clean architectural shot</button>
+      <button class="option" data-value="a few people hanging outside casually">A few people hanging outside</button>
+      <button class="option" data-value="small crowd or line forming at the entrance">Small crowd at the entrance</button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 7 -->
+  <div class="step" data-step="7">
+    <div class="step-label">Step 7 of 7</div>
+    <div class="step-question">Anything else you want to add?</div>
+    <textarea class="extra-input" id="extraInput" placeholder="e.g. a specific color I want more of, something on the sign, a city or bar that inspired the vibe, anything specific about the logo placement..."></textarea>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="buildPrompt()">Build my prompt →</button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result" id="result">
+    <div class="result-label">Your prompt is ready</div>
+    <div class="result-title">Paste this into Ideogram or Midjourney</div>
+    <div class="prompt-box" id="promptOutput"></div>
+    <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">Copy prompt to clipboard</button>
+    <button class="btn-restart" onclick="restart()">Start over</button>
+    <div class="tip">
+      <strong>Ideogram tip:</strong> Use "Realistic" style. Upload the weedplace. logo as a reference image for color matching. If the building looks grungy, add "well-maintained, clean facade" to the prompt.<br><br>
+      <strong>Midjourney tip:</strong> Add <strong>--style raw --ar 3:2</strong> at the end for a cinematic feel.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const totalSteps = 7;
+  let currentStep = 1;
+  const answers = {};
+
+  function updateProgress() {
+    const pct = ((currentStep - 1) / totalSteps) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function getStep(n) {
+    return document.querySelector(`.step[data-step="${n}"]`);
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps) {
+      getStep(currentStep).classList.remove('active');
+      currentStep++;
+      getStep(currentStep).classList.add('active');
+      updateProgress();
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      getStep(currentStep).classList.remove('active');
+      currentStep--;
+      getStep(currentStep).classList.add('active');
+      updateProgress();
+    }
+  }
+
+  // option selection
+  document.querySelectorAll('.options').forEach(group => {
+    const multi = group.dataset.multi === 'true';
+    group.querySelectorAll('.option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!multi) {
+          group.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          answers[group.dataset.name] = btn.dataset.value;
+        } else {
+          btn.classList.toggle('selected');
+          const selected = [...group.querySelectorAll('.option.selected')].map(b => b.dataset.value);
+          answers[group.dataset.name] = selected;
+        }
+      });
+    });
+  });
+
+  function buildPrompt() {
+    answers['extra'] = document.getElementById('extraInput').value.trim();
+
+    const building = answers.building || 'dark brick exterior';
+    const street = answers.street || 'city street';
+    const windows = Array.isArray(answers.windows) && answers.windows.length
+      ? answers.windows.join(', ')
+      : 'neon signs and lounge seating visible inside';
+    const size = answers.size || 'two story building';
+    const lighting = answers.lighting || 'night scene';
+    const people = answers.people || 'a few people outside';
+    const extra = answers.extra ? ' ' + answers.extra + '.' : '';
+
+    const prompt = `Night exterior of a premium independent lounge and retail shop called "weedplace." — ${size} with a ${building}, located on a ${street}. Large storefront windows reveal: ${windows}. Above the entrance, a neon sign reads "weedplace." in lime green and cyan lettering with a magenta dot, soft neon glow halo behind it. ${lighting.charAt(0).toUpperCase() + lighting.slice(1)}. ${people.charAt(0).toUpperCase() + people.slice(1)}. The vibe is exciting, premium, and independent — not corporate, not a headshop. Feels like a high-end cocktail bar or creative studio that sells glass. Cinematic composition, photorealistic, 4K detail.${extra}`;
+
+    document.getElementById('promptOutput').textContent = prompt;
+
+    getStep(currentStep).classList.remove('active');
+    document.getElementById('result').classList.add('active');
+    document.getElementById('progressBar').style.width = '100%';
+  }
+
+  function copyPrompt() {
+    const text = document.getElementById('promptOutput').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy prompt to clipboard';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  function restart() {
+    document.getElementById('result').classList.remove('active');
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    document.getElementById('extraInput').value = '';
+    Object.keys(answers).forEach(k => delete answers[k]);
+    currentStep = 1;
+    getStep(1).classList.add('active');
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>

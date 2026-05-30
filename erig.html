@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>weedplace. — e-rig concept builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --mint: #08E2A5;
+    --teal: #2DE2D2;
+    --cyan: #0AF1C8;
+    --lime: #74F778;
+    --green: #5DD445;
+    --purple: #CF75FF;
+    --magenta: #F002EC;
+    --pink: #FFB8E6;
+    --black: #000000;
+    --dark: #080808;
+    --card: #0f0f0f;
+    --card2: #141414;
+    --border: #1e1e1e;
+    --border2: #2a2a2a;
+  }
+
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(8,226,165,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(8,226,165,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
+  .glow-orb.a { width: 500px; height: 500px; background: rgba(8,226,165,0.08); top: -150px; left: -150px; }
+  .glow-orb.b { width: 350px; height: 350px; background: rgba(207,117,255,0.08); bottom: -80px; right: -80px; }
+  .glow-orb.c { width: 250px; height: 250px; background: rgba(240,2,236,0.05); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 100px;
+  }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 52px; }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(8,226,165,0.4), 0 0 80px rgba(45,226,210,0.2);
+  }
+  .logo .weed { color: var(--lime); }
+  .logo .place { color: var(--teal); }
+  .logo .dot { color: var(--magenta); }
+
+  .header-tag {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(207,117,255,0.1);
+    border: 1px solid rgba(207,117,255,0.25);
+    color: var(--purple);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+
+  .divider {
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, var(--mint), var(--purple), var(--magenta));
+    margin: 18px auto 0;
+    border-radius: 2px;
+  }
+
+  /* PROGRESS */
+  .progress-wrap { margin-bottom: 40px; }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
+  .progress-count { font-size: 12px; color: var(--mint); font-weight: 600; }
+  .progress-bar-wrap { background: var(--border); border-radius: 4px; height: 3px; overflow: hidden; }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--mint), var(--teal), var(--purple), var(--magenta));
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* STEP */
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .step-question {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .multi-note {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 14px;
+  }
+
+  /* OPTIONS */
+  .options { display: grid; gap: 10px; }
+  .options.cols-2 { grid-template-columns: 1fr 1fr; }
+  .options.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .options.cols-1 { grid-template-columns: 1fr; }
+
+  @media (max-width: 500px) {
+    .options.cols-2, .options.cols-3 { grid-template-columns: 1fr 1fr; }
+  }
+
+  .option {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    text-align: left;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    width: 100%;
+  }
+  .option:hover {
+    border-color: rgba(45,226,210,0.5);
+    background: rgba(45,226,210,0.04);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .option.selected {
+    border-color: var(--mint);
+    background: rgba(8,226,165,0.07);
+    color: #fff;
+  }
+  .option .opt-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .option .opt-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 3px;
+    transition: color 0.2s;
+  }
+  .option.selected .opt-title { color: var(--mint); }
+  .option .opt-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.5;
+  }
+
+  /* color swatch options */
+  .color-swatch {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* RANGE */
+  .range-wrap { padding: 4px 0 8px; }
+  .range-labels { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 10px; }
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 10px rgba(8,226,165,0.5);
+    cursor: pointer;
+  }
+  .range-val {
+    text-align: center;
+    font-size: 13px;
+    color: var(--mint);
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  /* TEXTAREA */
+  .extra-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    resize: none;
+    min-height: 110px;
+    transition: border-color 0.2s;
+    outline: none;
+    line-height: 1.6;
+  }
+  .extra-input:focus { border-color: var(--teal); }
+  .extra-input::placeholder { color: rgba(255,255,255,0.2); }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+    gap: 12px;
+  }
+  .btn-back {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.35);
+    padding: 13px 26px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-back:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+  .btn-back:disabled { opacity: 0.15; cursor: default; }
+  .btn-next {
+    flex: 1;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--teal) 100%);
+    border: none;
+    color: #000;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-next:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .btn-next:active { transform: translateY(0); }
+
+  /* RESULT */
+  .result { display: none; }
+  .result.active { display: block; animation: fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+  .result-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 12px;
+  }
+  .result-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .result-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .brief-sections { display: grid; gap: 12px; margin-bottom: 24px; }
+
+  .brief-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  .brief-card-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .brief-card-value {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+  }
+
+  .full-brief {
+    background: var(--card2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+  }
+
+  .brief-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 14px;
+  }
+
+  .btn-copy {
+    width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--magenta));
+    border: none;
+    color: #fff;
+    padding: 17px;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn-copy:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .btn-copy.copied { background: linear-gradient(135deg, var(--mint), var(--green)); color: #000; }
+
+  .btn-dl {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: rgba(255,255,255,0.5);
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn-dl:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+  .btn-restart {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.3);
+    padding: 13px;
+    border-radius: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-restart:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+
+  .tip {
+    margin-top: 28px;
+    background: rgba(8,226,165,0.05);
+    border: 1px solid rgba(8,226,165,0.12);
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+  }
+  .tip strong { color: var(--mint); }
+</style>
+</head>
+<body>
+
+<div class="glow-orb a"></div>
+<div class="glow-orb b"></div>
+<div class="glow-orb c"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo"><span class="weed">weed</span><span class="place">place</span><span class="dot">.</span></div>
+    <div class="header-tag">e-rig concept builder</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">build your rig</span>
+      <span class="progress-count" id="progressCount">1 / 11</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+  </div>
+
+  <!-- STEP 1: Form Factor -->
+  <div class="step active" data-step="1">
+    <div class="step-eyebrow">Form factor</div>
+    <div class="step-question">What's the overall shape?</div>
+    <div class="step-desc">Sets the silhouette and how it sits in the hand.</div>
+    <div class="options cols-2" data-name="form" data-multi="false">
+      <button class="option" data-value="traditional upright tower — tall, vertical, classic rig silhouette">
+        <span class="opt-icon">🗼</span>
+        <div class="opt-title">Upright tower</div>
+        <div class="opt-sub">Tall, vertical, classic rig silhouette</div>
+      </button>
+      <button class="option" data-value="compact puck or cylinder — low profile, wide base, portable">
+        <span class="opt-icon">🥏</span>
+        <div class="opt-title">Compact puck</div>
+        <div class="opt-sub">Low profile, wide base, portable</div>
+      </button>
+      <button class="option" data-value="pistol grip or handled form — ergonomic grip integrated into the body">
+        <span class="opt-icon">🔫</span>
+        <div class="opt-title">Pistol / handle grip</div>
+        <div class="opt-sub">Grip built into the body</div>
+      </button>
+      <button class="option" data-value="box mod style — rectangular, device-like, techy form factor">
+        <span class="opt-icon">📦</span>
+        <div class="opt-title">Box mod style</div>
+        <div class="opt-sub">Rectangular, device-like, techy</div>
+      </button>
+      <button class="option" data-value="sculptural or organic form — freeform, artistic, non-geometric shape">
+        <span class="opt-icon">🌊</span>
+        <div class="opt-title">Sculptural / organic</div>
+        <div class="opt-sub">Freeform, artistic, non-geometric</div>
+      </button>
+      <button class="option" data-value="hybrid — base unit with detachable glass top section">
+        <span class="opt-icon">🔗</span>
+        <div class="opt-title">Hybrid / modular</div>
+        <div class="opt-sub">Base unit + detachable glass top</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" disabled>← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Size & Ergonomics -->
+  <div class="step" data-step="2">
+    <div class="step-eyebrow">Size & ergonomics</div>
+    <div class="step-question">How should it feel in the hand?</div>
+    <div class="step-desc">Think about how you actually hold and use it during a session.</div>
+    <div class="options cols-1" data-name="ergonomics" data-multi="false">
+      <button class="option" data-value="ultra-portable — pocket-sized, under 5 inches, one-hand use anywhere">
+        <div class="opt-title">Ultra-portable</div>
+        <div class="opt-sub">Pocket-sized, under 5", one-hand use anywhere</div>
+      </button>
+      <button class="option" data-value="desktop-portable — 5 to 7 inches, balanced for tabletop but still easy to hand-hold">
+        <div class="opt-title">Desktop-portable</div>
+        <div class="opt-sub">5–7", great on a table but comfortable handheld</div>
+      </button>
+      <button class="option" data-value="full desktop — 8 inches or taller, built to sit on a surface, premium feel">
+        <div class="opt-title">Full desktop</div>
+        <div class="opt-sub">8"+ tall, built to sit on a surface, premium presence</div>
+      </button>
+    </div>
+    <div class="step-desc" style="margin-top:20px; margin-bottom:0">Grip comfort priority:</div>
+    <div class="options cols-1" style="margin-top:12px" data-name="grip" data-multi="false">
+      <button class="option" data-value="textured grip zone — rubberized or knurled section for secure hold">Textured grip zone (rubberized / knurled)</button>
+      <button class="option" data-value="smooth body — clean lines, no grip texture, aesthetic over tactile">Smooth body — clean aesthetic priority</button>
+      <button class="option" data-value="contoured ergonomic curves — shaped to follow the palm naturally">Contoured ergonomic curves</button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Glass Style & Function -->
+  <div class="step" data-step="3">
+    <div class="step-eyebrow">Glass & function</div>
+    <div class="step-question">What's the water path doing?</div>
+    <div class="step-desc">How vapor travels through the glass affects flavor, smoothness, and visual appeal.</div>
+    <div class="options cols-2" data-name="function" data-multi="false">
+      <button class="option" data-value="recycler — continuous water loop, smooth hits, visually satisfying water movement">
+        <span class="opt-icon">♻️</span>
+        <div class="opt-title">Recycler</div>
+        <div class="opt-sub">Continuous loop, ultra smooth, great to watch</div>
+      </button>
+      <button class="option" data-value="inline percolator — horizontal water chamber, clean diffusion">
+        <span class="opt-icon">➡️</span>
+        <div class="opt-title">Inline perc</div>
+        <div class="opt-sub">Horizontal chamber, clean diffusion</div>
+      </button>
+      <button class="option" data-value="single chamber straight — simple direct path, maximum flavor, easy clean">
+        <span class="opt-icon">⬆️</span>
+        <div class="opt-title">Straight single chamber</div>
+        <div class="opt-sub">Direct path, max flavor, easy clean</div>
+      </button>
+      <button class="option" data-value="dual chamber — two-stage filtration, extra smooth, larger hits">
+        <span class="opt-icon">⚡</span>
+        <div class="opt-title">Dual chamber</div>
+        <div class="opt-sub">Two-stage filtration, extra smooth</div>
+      </button>
+      <button class="option" data-value="incycler — internal recycler loop, compact but highly functional">
+        <span class="opt-icon">🌀</span>
+        <div class="opt-title">Incycler</div>
+        <div class="opt-sub">Internal loop, compact and highly functional</div>
+      </button>
+      <button class="option" data-value="showerhead percolator — diffused downstem, balanced airflow">
+        <span class="opt-icon">🚿</span>
+        <div class="opt-title">Showerhead perc</div>
+        <div class="opt-sub">Diffused, balanced airflow</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Heating & Atomizer -->
+  <div class="step" data-step="4">
+    <div class="step-eyebrow">Heating & atomizer</div>
+    <div class="step-question">How does it heat the concentrate?</div>
+    <div class="step-desc">The atomizer is the heart of the rig — flavor, efficiency, and ease of use all depend on it.</div>
+    <div class="options cols-1" data-name="atomizer" data-multi="false">
+      <button class="option" data-value="induction heated quartz cup — no coil contact, pure flavor, premium tier">
+        <div class="opt-title">Induction heated quartz cup</div>
+        <div class="opt-sub">No coil contact, purest flavor, high-end tier (Puffco Peak Pro style)</div>
+      </button>
+      <button class="option" data-value="coil-heated ceramic chamber — fast heat, good flavor, reliable and replaceable">
+        <div class="opt-title">Coil-heated ceramic chamber</div>
+        <div class="opt-sub">Fast heat, consistent flavor, easy swap</div>
+      </button>
+      <button class="option" data-value="e-nail style flat coil with 25mm banger — traditional feel with electronic precision">
+        <div class="opt-title">E-nail with 25mm banger</div>
+        <div class="opt-sub">Traditional banger feel, electronic temp control</div>
+      </button>
+      <button class="option" data-value="3D chamber — raised walls for full vaporization, less pooling, high efficiency">
+        <div class="opt-title">3D chamber</div>
+        <div class="opt-sub">Raised walls, full vaporization, minimal waste (Focus V style)</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Temp Control -->
+  <div class="step" data-step="5">
+    <div class="step-eyebrow">Temperature control</div>
+    <div class="step-question">How precise should temp control be?</div>
+    <div class="step-desc">From simple presets to exact degree dialing — what fits the user?</div>
+    <div class="options cols-1" data-name="temp" data-multi="false">
+      <button class="option" data-value="3 to 4 preset heat levels — simple, fast, foolproof for casual use">
+        <div class="opt-title">Preset levels (3–4 modes)</div>
+        <div class="opt-sub">Simple, fast, great for casual use</div>
+      </button>
+      <button class="option" data-value="precise degree-by-degree control via device buttons — full dialing without needing a phone">
+        <div class="opt-title">Precise on-device control</div>
+        <div class="opt-sub">Exact degrees via buttons, no app required</div>
+      </button>
+      <button class="option" data-value="app-controlled exact temperature with custom session profiles and boost mode">
+        <div class="opt-title">App-controlled with profiles</div>
+        <div class="opt-sub">Custom sessions, boost mode, full data via phone</div>
+      </button>
+      <button class="option" data-value="hybrid — presets on device plus full app control when you want it">
+        <div class="opt-title">Hybrid — presets + optional app</div>
+        <div class="opt-sub">Quick use standalone, deep control when you want it</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 6: App Connectivity -->
+  <div class="step" data-step="6">
+    <div class="step-eyebrow">App connectivity</div>
+    <div class="step-question">What does the app actually do?</div>
+    <div class="step-desc">Pick everything you want the companion app to handle.</div>
+    <p class="multi-note">Select all that apply</p>
+    <div class="options cols-1" data-name="app" data-multi="true">
+      <button class="option" data-value="precise temperature setting to exact degree">Precise temp setting (exact degree)</button>
+      <button class="option" data-value="custom session profiles — save and recall named heat curves">Custom session profiles / save presets</button>
+      <button class="option" data-value="real-time session timer and heat curve visualization">Real-time session timer + heat curve display</button>
+      <button class="option" data-value="LED color customization for device lighting">LED color customization</button>
+      <button class="option" data-value="haptic feedback and notification control">Haptic + notification control</button>
+      <button class="option" data-value="firmware OTA updates pushed through the app">OTA firmware updates</button>
+      <button class="option" data-value="usage analytics — session history, temps, frequency">Usage analytics / session history</button>
+      <button class="option" data-value="social / community features — share session profiles">Social / share session profiles</button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 7: Hot Knife -->
+  <div class="step" data-step="7">
+    <div class="step-eyebrow">Paired hot knife</div>
+    <div class="step-question">How should the hot knife integrate?</div>
+    <div class="step-desc">The hot knife is a key differentiator — how it pairs with the rig matters for both function and design.</div>
+    <div class="options cols-1" data-name="hotknife" data-multi="false">
+      <button class="option" data-value="magnetic docking port built into the rig body — charges and stores the knife on the device">
+        <div class="opt-title">Magnetic dock on the rig</div>
+        <div class="opt-sub">Knife snaps onto the body, charges in place — fully integrated</div>
+      </button>
+      <button class="option" data-value="wireless charging pad in the base — knife lays flat on the base to charge">
+        <div class="opt-title">Charging base pad</div>
+        <div class="opt-sub">Knife rests on the base to charge, stays nearby</div>
+      </button>
+      <button class="option" data-value="standalone knife with matching design language — same aesthetic, charges separately via USB-C">
+        <div class="opt-title">Matched standalone knife</div>
+        <div class="opt-sub">Same look and feel, charges via USB-C separately</div>
+      </button>
+      <button class="option" data-value="knife stored in a compartment in the base of the rig — hidden, clean, all-in-one unit">
+        <div class="opt-title">Hidden base compartment</div>
+        <div class="opt-sub">Stored inside the base — clean, all-in-one design</div>
+      </button>
+    </div>
+    <div class="step-desc" style="margin-top:20px; margin-bottom:12px">Knife tip style:</div>
+    <div class="options cols-3" data-name="knife_tip" data-multi="false">
+      <button class="option" data-value="flat paddle tip — scoops and loads in one motion">
+        <div class="opt-title">Flat paddle</div>
+        <div class="opt-sub">Scoop + load in one</div>
+      </button>
+      <button class="option" data-value="pointed needle tip — precise dabbing, minimal waste">
+        <div class="opt-title">Needle point</div>
+        <div class="opt-sub">Precise, minimal waste</div>
+      </button>
+      <button class="option" data-value="spoon tip — cradles concentrate, good for sugar and crumble">
+        <div class="opt-title">Spoon</div>
+        <div class="opt-sub">Good for sugar + crumble</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: Materials & Finish -->
+  <div class="step" data-step="8">
+    <div class="step-eyebrow">Materials & finish</div>
+    <div class="step-question">What's the body made of and how does it look?</div>
+    <p class="multi-note">Select all that apply</p>
+    <div class="options cols-2" data-name="material" data-multi="true">
+      <button class="option" data-value="anodized aluminum body — lightweight, durable, premium feel">
+        <div class="opt-title">Anodized aluminum</div>
+        <div class="opt-sub">Light, durable, premium</div>
+      </button>
+      <button class="option" data-value="matte soft-touch coating — tactile, grippy, hides fingerprints">
+        <div class="opt-title">Matte soft-touch</div>
+        <div class="opt-sub">Tactile, hides fingerprints</div>
+      </button>
+      <button class="option" data-value="polished stainless steel accents — contrast trim pieces">
+        <div class="opt-title">Polished steel accents</div>
+        <div class="opt-sub">High contrast trim</div>
+      </button>
+      <button class="option" data-value="borosilicate glass top section — visible water path, clean aesthetic">
+        <div class="opt-title">Borosilicate glass top</div>
+        <div class="opt-sub">Visible water path, clean look</div>
+      </button>
+      <button class="option" data-value="silicone base and grip zones — drop protection, comfortable hold">
+        <div class="opt-title">Silicone base / grip</div>
+        <div class="opt-sub">Drop protection, comfy</div>
+      </button>
+      <button class="option" data-value="resin or acrylic inserts — color pop, unique character">
+        <div class="opt-title">Resin / acrylic inserts</div>
+        <div class="opt-sub">Color pop, unique character</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 9: Color & Aesthetic -->
+  <div class="step" data-step="9">
+    <div class="step-eyebrow">Color & aesthetic</div>
+    <div class="step-question">What's the visual identity?</div>
+    <div class="step-desc">Pick a color direction for the device body.</div>
+    <div class="options cols-2" data-name="colorway" data-multi="false">
+      <button class="option" data-value="all matte black — stealth, minimal, lets the glass do the talking">
+        <span style="display:block; width:100%; height:36px; background:#111; border-radius:8px; margin-bottom:10px; border:1px solid #333;"></span>
+        <div class="opt-title">All matte black</div>
+        <div class="opt-sub">Stealth, lets the glass speak</div>
+      </button>
+      <button class="option" data-value="black with mint and teal accents — WP brand colorway">
+        <span style="display:block; width:100%; height:36px; background:linear-gradient(90deg,#111 60%,#08E2A5 100%); border-radius:8px; margin-bottom:10px;"></span>
+        <div class="opt-title">Black + mint/teal</div>
+        <div class="opt-sub">WP brand colorway</div>
+      </button>
+      <button class="option" data-value="black with purple and magenta accent lighting — bold, neon energy">
+        <span style="display:block; width:100%; height:36px; background:linear-gradient(90deg,#111 60%,#CF75FF 100%); border-radius:8px; margin-bottom:10px;"></span>
+        <div class="opt-title">Black + purple/magenta</div>
+        <div class="opt-sub">Bold neon energy</div>
+      </button>
+      <button class="option" data-value="frosted or clear with internal LED lighting visible through the body">
+        <span style="display:block; width:100%; height:36px; background:linear-gradient(90deg,rgba(255,255,255,0.1),rgba(8,226,165,0.3),rgba(207,117,255,0.3)); border-radius:8px; margin-bottom:10px; border:1px solid #333;"></span>
+        <div class="opt-title">Frosted / translucent</div>
+        <div class="opt-sub">See-through with internal LEDs</div>
+      </button>
+      <button class="option" data-value="deep forest green with gold hardware accents — elevated, premium">
+        <span style="display:block; width:100%; height:36px; background:linear-gradient(90deg,#1a3a2a 60%,#c9a84c 100%); border-radius:8px; margin-bottom:10px;"></span>
+        <div class="opt-title">Forest green + gold</div>
+        <div class="opt-sub">Elevated, premium</div>
+      </button>
+      <button class="option" data-value="brushed silver or titanium colorway — clean, industrial, premium">
+        <span style="display:block; width:100%; height:36px; background:linear-gradient(90deg,#555,#aaa); border-radius:8px; margin-bottom:10px;"></span>
+        <div class="opt-title">Brushed silver / titanium</div>
+        <div class="opt-sub">Clean, industrial, premium</div>
+      </button>
+    </div>
+    <div class="step-desc" style="margin-top:20px; margin-bottom:12px">LED lighting on the device:</div>
+    <div class="options cols-1" data-name="led" data-multi="false">
+      <button class="option" data-value="no LEDs — clean, minimalist, no gimmicks">No LEDs — minimalist</button>
+      <button class="option" data-value="subtle underglow or base ring light — ambient, not distracting">Subtle underglow / base ring</button>
+      <button class="option" data-value="full RGB with app-controlled color — expressive, customizable">Full RGB, app-controlled color</button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 10: Power & Battery -->
+  <div class="step" data-step="10">
+    <div class="step-eyebrow">Power & battery</div>
+    <div class="step-question">How does it charge and how long should it last?</div>
+    <div class="options cols-1" data-name="power" data-multi="false">
+      <button class="option" data-value="USB-C charging, 30 plus sessions per charge, fast charge in under 90 minutes">
+        <div class="opt-title">USB-C, 30+ sessions</div>
+        <div class="opt-sub">Fast charge, solid daily driver battery</div>
+      </button>
+      <button class="option" data-value="wireless Qi charging base included, 20 plus sessions">
+        <div class="opt-title">Wireless Qi charging</div>
+        <div class="opt-sub">Just set it down, 20+ sessions</div>
+      </button>
+      <button class="option" data-value="swappable battery module — unlimited runtime, replace and go">
+        <div class="opt-title">Swappable battery</div>
+        <div class="opt-sub">Unlimited runtime, swap and keep going</div>
+      </button>
+      <button class="option" data-value="USB-C with pass-through charging — use while plugged in, 20 plus sessions">
+        <div class="opt-title">USB-C with pass-through</div>
+        <div class="opt-sub">Use it while charging, flexible</div>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 11: Extra Notes -->
+  <div class="step" data-step="11">
+    <div class="step-eyebrow">Final touches</div>
+    <div class="step-question">Anything else on the vision?</div>
+    <div class="step-desc">Inspirations, specific features, a device you love or hate, price tier target, anything.</div>
+    <textarea class="extra-input" id="extraInput" placeholder="e.g. should feel like a Focus V but more premium... want it to come with a travel case... inspired by the Puffco Peak Pro but more affordable... want a silicone insert storage drawer in the base... price point around $300..."></textarea>
+    <div class="nav">
+      <button class="btn-back" onclick="prevStep()">← Back</button>
+      <button class="btn-next" onclick="buildBrief()">Build my brief →</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+    <div class="result-eyebrow">concept brief complete</div>
+    <div class="result-title">Your e-rig concept</div>
+    <div class="result-sub">Use this to brief a manufacturer, commission a prototype, or align the team on the vision.</div>
+
+    <div class="brief-sections" id="briefCards"></div>
+
+    <div class="brief-label">Full concept brief (copy + paste ready)</div>
+    <div class="full-brief" id="fullBrief"></div>
+
+    <button class="btn-copy" id="copyBtn" onclick="copyBrief()">Copy full brief to clipboard</button>
+    <button class="btn-dl" onclick="downloadBrief()">Download as .txt</button>
+    <button class="btn-restart" onclick="restart()">Start over</button>
+
+    <div class="tip">
+      <strong>Next steps:</strong> Use this brief to prompt an AI image generator (Midjourney, Ideogram) with "product design render of an e-rig with the following specs..." — paste your brief after. Or send directly to a manufacturer or industrial designer as a starting point.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL = 11;
+  let current = 1;
+  const answers = {};
+
+  function updateProgress() {
+    const pct = ((current - 1) / TOTAL) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = current + ' / ' + TOTAL;
+  }
+
+  function getStep(n) { return document.querySelector(`.step[data-step="${n}"]`); }
+
+  function nextStep() {
+    if (current < TOTAL) {
+      getStep(current).classList.remove('active');
+      current++;
+      getStep(current).classList.add('active');
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function prevStep() {
+    if (current > 1) {
+      getStep(current).classList.remove('active');
+      current--;
+      getStep(current).classList.add('active');
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  document.querySelectorAll('.options').forEach(group => {
+    const multi = group.dataset.multi === 'true';
+    group.querySelectorAll('.option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!multi) {
+          group.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          answers[group.dataset.name] = btn.dataset.value;
+        } else {
+          btn.classList.toggle('selected');
+          const sel = [...group.querySelectorAll('.option.selected')].map(b => b.dataset.value);
+          answers[group.dataset.name] = sel;
+        }
+      });
+    });
+  });
+
+  function val(key, fallback) {
+    const v = answers[key];
+    if (!v) return fallback;
+    if (Array.isArray(v)) return v.length ? v.join('; ') : fallback;
+    return v;
+  }
+
+  function buildBrief() {
+    answers['extra'] = document.getElementById('extraInput').value.trim();
+
+    const sections = [
+      { label: 'Form factor', key: 'form', fallback: 'not specified' },
+      { label: 'Size & ergonomics', key: 'ergonomics', fallback: 'not specified' },
+      { label: 'Grip', key: 'grip', fallback: 'not specified' },
+      { label: 'Water path / function', key: 'function', fallback: 'not specified' },
+      { label: 'Atomizer / heating', key: 'atomizer', fallback: 'not specified' },
+      { label: 'Temperature control', key: 'temp', fallback: 'not specified' },
+      { label: 'App features', key: 'app', fallback: 'not specified' },
+      { label: 'Hot knife integration', key: 'hotknife', fallback: 'not specified' },
+      { label: 'Knife tip', key: 'knife_tip', fallback: 'not specified' },
+      { label: 'Materials & finish', key: 'material', fallback: 'not specified' },
+      { label: 'Colorway', key: 'colorway', fallback: 'not specified' },
+      { label: 'LED lighting', key: 'led', fallback: 'not specified' },
+      { label: 'Power & battery', key: 'power', fallback: 'not specified' },
+    ];
+
+    const cardsHtml = sections.map(s => `
+      <div class="brief-card">
+        <div class="brief-card-label">${s.label}</div>
+        <div class="brief-card-value">${val(s.key, s.fallback)}</div>
+      </div>
+    `).join('');
+    document.getElementById('briefCards').innerHTML = cardsHtml;
+
+    const extra = answers.extra ? `\nAdditional notes: ${answers.extra}` : '';
+
+    const full = `WEEDPLACE E-RIG CONCEPT BRIEF
+==============================
+
+FORM FACTOR
+${val('form','—')}
+
+SIZE & ERGONOMICS
+${val('ergonomics','—')}
+Grip: ${val('grip','—')}
+
+WATER PATH / FUNCTION
+${val('function','—')}
+
+ATOMIZER & HEATING
+${val('atomizer','—')}
+
+TEMPERATURE CONTROL
+${val('temp','—')}
+
+APP CONNECTIVITY
+${val('app','—')}
+
+HOT KNIFE
+Integration: ${val('hotknife','—')}
+Tip style: ${val('knife_tip','—')}
+
+MATERIALS & FINISH
+${val('material','—')}
+
+COLORWAY & AESTHETIC
+${val('colorway','—')}
+LED: ${val('led','—')}
+
+POWER & BATTERY
+${val('power','—')}
+${extra}
+
+==============================
+Generated by weedplace. e-rig concept builder`;
+
+    document.getElementById('fullBrief').textContent = full;
+
+    getStep(current).classList.remove('active');
+    document.getElementById('result').classList.add('active');
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('progressCount').textContent = '✓ Done';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyBrief() {
+    const text = document.getElementById('fullBrief').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy full brief to clipboard';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  function downloadBrief() {
+    const text = document.getElementById('fullBrief').textContent;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'weedplace-erig-concept.txt';
+    a.click();
+  }
+
+  function restart() {
+    document.getElementById('result').classList.remove('active');
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    document.getElementById('extraInput').value = '';
+    Object.keys(answers).forEach(k => delete answers[k]);
+    current = 1;
+    getStep(1).classList.add('active');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
