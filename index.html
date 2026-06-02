@@ -493,7 +493,53 @@
         <a href="saleslog.html" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;">full log ↗</a>
       </div>
     </div>
-
+<!-- 710 DAB DAY COUNTDOWN — weedplace.online hub -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  #wp-710{font-family:'Roboto Mono',monospace;background:#000;border-radius:12px;padding:2rem 1.5rem;text-align:center;max-width:420px;margin:2rem auto;border:1px solid #1a1a1a}
+  #wp-710 .wp-label{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin:0 0 .4rem}
+  #wp-710 .wp-title{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(90deg,#08E2A5,#2DE2D2,#CF75FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em;margin:0 0 1.5rem}
+  #wp-710 .wp-units{display:flex;justify-content:center;gap:1rem;align-items:flex-start}
+  #wp-710 .wp-unit{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+  #wp-710 .wp-num{font-size:2.5rem;font-weight:700;color:#08E2A5;line-height:1;min-width:60px;display:block}
+  #wp-710 .wp-uname{font-size:9px;letter-spacing:.15em;color:#444;text-transform:uppercase}
+  #wp-710 .wp-sep{font-size:2.5rem;color:#222;line-height:1;animation:wp710blink 1s step-end infinite}
+  #wp-710 .wp-sub{font-size:11px;color:#333;margin-top:1.25rem;letter-spacing:.1em}
+  @keyframes wp710blink{50%{opacity:.2}}
+</style>
+<div id="wp-710">
+  <p class="wp-label">WP Glass Co presents</p>
+  <p class="wp-title">7/10 DAB DAY</p>
+  <div class="wp-units">
+    <div class="wp-unit"><span class="wp-num" id="wp710d">--</span><span class="wp-uname">days</span></div>
+    <span class="wp-sep">:</span>
+    <div class="wp-unit"><span class="wp-num" id="wp710h">--</span><span class="wp-uname">hrs</span></div>
+    <span class="wp-sep">:</span>
+    <div class="wp-unit"><span class="wp-num" id="wp710m">--</span><span class="wp-uname">min</span></div>
+    <span class="wp-sep">:</span>
+    <div class="wp-unit"><span class="wp-num" id="wp710s">--</span><span class="wp-uname">sec</span></div>
+  </div>
+  <p class="wp-sub">JULY 10 · THE DABBIEST DAY OF THE YEAR</p>
+</div>
+<script>
+(function(){
+  function tick(){
+    var now=new Date();
+    var t=new Date(now.getFullYear(),6,10,0,0,0);
+    if(now>=t)t=new Date(now.getFullYear()+1,6,10,0,0,0);
+    var diff=t-now;
+    var d=Math.floor(diff/864e5);
+    var h=Math.floor((diff%864e5)/36e5);
+    var mi=Math.floor((diff%36e5)/6e4);
+    var sc=Math.floor((diff%6e4)/1e3);
+    document.getElementById('wp710d').textContent=String(d).padStart(2,'0');
+    document.getElementById('wp710h').textContent=String(h).padStart(2,'0');
+    document.getElementById('wp710m').textContent=String(mi).padStart(2,'0');
+    document.getElementById('wp710s').textContent=String(sc).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+})();
+</script>
     <div class="qr-card">
       <div class="qr-title">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
