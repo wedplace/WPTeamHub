@@ -91,7 +91,6 @@
   }
 
   html { background: var(--bg); }
-
   body {
     font-family: var(--font-main);
     background: var(--bg);
@@ -101,47 +100,20 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── DESKTOP LAYOUT ── */
-  .app {
-    display: flex;
-    min-height: 100vh;
-  }
+  .app { display: flex; min-height: 100vh; }
 
-  /* SIDEBAR */
   .sidebar {
-    width: 220px;
-    flex-shrink: 0;
-    background: #080808;
+    width: 220px; flex-shrink: 0; background: #080808;
     border-right: 0.5px solid var(--border);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     padding: 1.5rem 1rem 2rem;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
   }
-  .sidebar-logo {
-    margin-bottom: 2rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 0.5px solid var(--border);
-    text-align: center;
-  }
-  .sidebar-logo img {
-    width: 130px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-  .sidebar-logo-fallback {
-    font-size: 18px; font-weight: 700; letter-spacing: 0.06em; color: var(--text);
-  }
+  .sidebar-logo { margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); text-align: center; }
+  .sidebar-logo img { width: 130px; height: auto; display: block; margin: 0 auto; }
+  .sidebar-logo-fallback { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
   .sidebar-logo-fallback span { color: var(--teal); }
-  .sidebar-live {
-    display: flex; align-items: center; gap: 5px;
-    font-size: 10px; color: var(--teal); font-family: var(--font-mono);
-    justify-content: center; margin-top: 6px;
-  }
+  .sidebar-live { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--teal); font-family: var(--font-mono); justify-content: center; margin-top: 6px; }
   .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; flex-shrink: 0; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
@@ -163,19 +135,11 @@
   .nav-item.log-btn:hover { background: var(--teal-dim); }
   .nav-item.log-btn.active { background: var(--teal-dim); color: var(--teal); }
 
-  /* MAIN CONTENT */
-  .main {
-    flex: 1;
-    min-width: 0;
-    padding: 2rem 2.5rem 4rem;
-    max-width: 900px;
-  }
+  .main { flex: 1; min-width: 0; padding: 2rem 2.5rem 4rem; max-width: 900px; }
 
-  /* MOBILE HEADER — hidden on desktop */
   .header { display: none; }
   .tabs { display: none; }
 
-  /* DESKTOP GRID OVERRIDES */
   .stat-grid { grid-template-columns: repeat(4, 1fr); }
   .qr-grid { grid-template-columns: repeat(3, 1fr); }
   .card-list.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -183,22 +147,18 @@
   .form-grid { grid-template-columns: repeat(3, 1fr); }
   .form-group.full { grid-column: 1/-1; }
 
-  /* ── MOBILE LAYOUT ── */
   @media (max-width: 768px) {
     .app { flex-direction: column; }
     .sidebar { display: none; }
     .main { padding: 1.25rem 1rem 5rem; max-width: 100%; }
-
     .header {
       display: flex; align-items: center; justify-content: space-between;
-      padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border);
-      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); margin-bottom: 1.25rem;
     }
     .header-logo img { height: 40px; width: auto; }
     .header-logo-fallback { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
     .header-logo-fallback span { color: var(--teal); }
     .live { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal); font-family: var(--font-mono); }
-
     .tabs {
       display: flex; gap: 6px; margin-bottom: 1.25rem;
       overflow-x: auto; -webkit-overflow-scrolling: touch;
@@ -213,7 +173,6 @@
     }
     .tab.active { background: var(--teal); color: #000; border-color: var(--teal); font-weight: 700; }
     .tab:hover:not(.active) { border-color: var(--border); color: var(--text2); }
-
     .stat-grid { grid-template-columns: 1fr 1fr; }
     .qr-grid { grid-template-columns: 1fr 1fr; }
     .card-list.two-col { display: flex; flex-direction: column; }
@@ -221,11 +180,9 @@
     .form-grid { grid-template-columns: 1fr 1fr; }
   }
 
-  /* PAGES */
   .page { display: none; }
   .page.active { display: block; }
 
-  /* STAT GRID */
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
   .stat { background: var(--surface); border-radius: var(--radius); padding: 0.85rem 1rem; border: 0.5px solid var(--border); }
   .stat.full { grid-column: 1/-1; }
@@ -234,7 +191,6 @@
   .stat-v.teal { color: var(--teal); }
   .stat-v.red { color: var(--red); }
 
-  /* P&L */
   .pnl-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 1rem; margin-bottom: 8px; }
   .pnl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; }
   .pnl-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); }
@@ -250,17 +206,7 @@
   .pnl-v { font-size: 15px; font-weight: 600; }
   .pnl-v.g { color: var(--teal); }
   .pnl-v.r { color: var(--red); }
-  .pnl-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 0.5px solid var(--border); }
-  .pnl-input-group label { font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 5px; }
-  .pnl-input-group input {
-    width: 100%; background: var(--surface2); border: 0.5px solid var(--border2);
-    border-radius: var(--radius-sm); padding: 8px 10px; color: var(--text);
-    font-family: var(--font-mono); font-size: 13px; outline: none;
-    transition: border-color 0.15s;
-  }
-  .pnl-input-group input:focus { border-color: var(--teal); }
 
-  /* QUICK REF */
   .qr-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); border-left: 2px solid var(--purple); padding: 1rem; margin-bottom: 8px; }
   .qr-title { font-size: 10px; color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
   .qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -270,7 +216,6 @@
   .qr-link { font-size: 12px; color: var(--teal); text-decoration: none; font-weight: 500; }
   .qr-link:hover { text-decoration: underline; }
 
-  /* CARD LIST */
   .card-list { display: flex; flex-direction: column; gap: 6px; }
   .card {
     background: var(--surface); border-radius: var(--radius);
@@ -296,10 +241,8 @@
   .tag.p { background: var(--purple-dim); color: var(--purple); border: 0.5px solid var(--purple-border); }
   .tag.pk { background: var(--pink-dim); color: var(--pink); border: 0.5px solid #F002EC40; }
 
-  /* SECTION LABEL */
   .sec-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin: 1.25rem 0 0.6rem; }
 
-  /* CONTACTS PAGE */
   .contact-group { margin-bottom: 1rem; }
   .contact-group-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 0.5px solid var(--border); }
   .contact-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 0.85rem 1rem; margin-bottom: 6px; }
@@ -308,52 +251,22 @@
   .contact-link { color: var(--teal); text-decoration: none; font-size: 11px; }
   .contact-link:hover { text-decoration: underline; }
 
-  /* IDEAS PAGE */
   .ideas-note { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 1rem; margin-bottom: 6px; }
-  .ideas-note textarea {
-    width: 100%; background: transparent; border: none; outline: none;
-    color: var(--text); font-family: var(--font-main); font-size: 13px;
-    line-height: 1.6; resize: none; min-height: 80px;
-  }
+  .ideas-note textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--font-main); font-size: 13px; line-height: 1.6; resize: none; min-height: 80px; }
   .ideas-note textarea::placeholder { color: var(--text3); }
   .ideas-note-meta { font-size: 10px; color: var(--text3); font-family: var(--font-mono); margin-top: 6px; padding-top: 6px; border-top: 0.5px solid var(--border); }
-  .add-btn {
-    width: 100%; background: transparent; border: 0.5px dashed var(--border2);
-    border-radius: var(--radius); padding: 0.85rem; color: var(--text3);
-    font-family: var(--font-main); font-size: 13px; cursor: pointer;
-    transition: all 0.15s; margin-top: 6px;
-  }
+  .add-btn { width: 100%; background: transparent; border: 0.5px dashed var(--border2); border-radius: var(--radius); padding: 0.85rem; color: var(--text3); font-family: var(--font-main); font-size: 13px; cursor: pointer; transition: all 0.15s; margin-top: 6px; }
   .add-btn:hover { border-color: var(--teal); color: var(--teal); }
 
-  /* TODO PAGE */
   .todo-input-row { display: flex; gap: 8px; margin-bottom: 1rem; }
-  .todo-input {
-    flex: 1; background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text);
-    font-family: var(--font-main); font-size: 13px; outline: none;
-    transition: border-color 0.15s;
-  }
+  .todo-input { flex: 1; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text); font-family: var(--font-main); font-size: 13px; outline: none; transition: border-color 0.15s; }
   .todo-input:focus { border-color: var(--teal); }
-  .todo-add-btn {
-    background: var(--teal); border: none; border-radius: var(--radius-sm);
-    padding: 10px 16px; color: #000; font-family: var(--font-main);
-    font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity 0.15s;
-    white-space: nowrap;
-  }
+  .todo-add-btn { background: var(--teal); border: none; border-radius: var(--radius-sm); padding: 10px 16px; color: #000; font-family: var(--font-main); font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
   .todo-add-btn:hover { opacity: 0.85; }
-  .todo-item {
-    background: var(--surface); border-radius: var(--radius);
-    border: 0.5px solid var(--border); padding: 0.85rem 1rem;
-    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
-    transition: opacity 0.2s;
-  }
+  .todo-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 0.85rem 1rem; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; transition: opacity 0.2s; }
   .todo-item.done { opacity: 0.4; }
   .todo-item.done .todo-text { text-decoration: line-through; }
-  .todo-check {
-    width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border2);
-    background: transparent; cursor: pointer; flex-shrink: 0; display: flex;
-    align-items: center; justify-content: center; transition: all 0.15s; font-size: 10px;
-  }
+  .todo-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border2); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-size: 10px; }
   .todo-check.checked { background: var(--teal); border-color: var(--teal); color: #000; }
   .todo-text { flex: 1; font-size: 13px; color: var(--text); }
   .todo-del { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 16px; padding: 0 4px; transition: color 0.15s; }
@@ -362,39 +275,47 @@
   .todo-status.active { background: var(--teal-dim); color: var(--teal); }
   .todo-status.pending { background: var(--purple-dim); color: var(--purple); }
 
-  /* CALENDAR NOTE */
-  .cal-embed-note {
-    background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border);
-    border-left: 2px solid var(--teal); padding: 1rem; margin-bottom: 1rem;
-  }
+  .cal-embed-note { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); border-left: 2px solid var(--teal); padding: 1rem; margin-bottom: 1rem; }
   .cal-embed-note p { font-size: 13px; color: var(--text2); line-height: 1.6; }
   .cal-embed-note a { color: var(--teal); text-decoration: none; }
   .cal-embed-note a:hover { text-decoration: underline; }
 
-  /* FOOTER */
   .footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-align: center; }
 
-  /* FORMS */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .form-group { display: flex; flex-direction: column; gap: 4px; }
   .form-group.full { grid-column: 1/-1; }
   .form-group label { font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; }
-  .form-group input, .form-group select, .form-group textarea {
-    background: var(--surface2); border: 0.5px solid var(--border2);
-    border-radius: var(--radius-sm); padding: 9px 12px; color: var(--text);
-    font-family: var(--font-main); font-size: 13px; outline: none;
-    transition: border-color 0.15s; width: 100%;
-  }
+  .form-group input, .form-group select, .form-group textarea { background: var(--surface2); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); padding: 9px 12px; color: var(--text); font-family: var(--font-main); font-size: 13px; outline: none; transition: border-color 0.15s; width: 100%; }
   .form-group select { appearance: none; }
   .form-group textarea { resize: vertical; line-height: 1.5; }
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); }
 
+  /* SUB-TABS (used in To-Do and Log) */
+  .sub-tabs { display: flex; gap: 6px; margin-bottom: 1rem; }
+  .sub-tab { font-family: var(--font-main); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .sub-tab.active { background: var(--teal); color: #000; border-color: var(--teal); font-weight: 700; }
+  .sub-tab:hover:not(.active) { border-color: var(--border); color: var(--text2); }
 
-  /* PAGE TITLES — desktop only */
-  @media (min-width: 769px) {
-    .page-title { display: block !important; }
-  }
+  /* E&E CHECKLIST */
+  .ee-progress-wrap { background: var(--surface2); border-radius: 4px; height: 5px; margin-bottom: 1.25rem; overflow: hidden; }
+  .ee-progress-bar { height: 100%; background: linear-gradient(90deg, var(--teal), var(--purple)); border-radius: 4px; }
+  .ee-section { margin-bottom: 1.25rem; }
+  .ee-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; margin-bottom: 8px; display: inline-block; font-family: var(--font-mono); }
+  .ee-section.gc .ee-section-label  { background: rgba(116,247,120,0.1); color: #74F778; }
+  .ee-section.con .ee-section-label { background: rgba(207,117,255,0.1); color: #CF75FF; }
+  .ee-section.glass .ee-section-label { background: rgba(7,238,240,0.1); color: #07EEF0; }
+  .ee-section.hr .ee-section-label  { background: rgba(255,184,230,0.1); color: #FFB8E6; }
+  .ee-section.static .ee-section-label { background: rgba(255,255,255,0.05); color: #666; }
+  .ee-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .ee-item:last-child { border-bottom: none; }
+  .ee-check { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--border2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+  .ee-item.done .ee-check { background: var(--teal); border-color: var(--teal); color: #000; }
+  .ee-item.done .ee-label { color: var(--teal); }
+  .ee-item.todo .ee-label { color: var(--text3); }
+  .ee-xlink { font-size: 10px; color: var(--text3); margin-left: auto; white-space: nowrap; font-family: var(--font-mono); }
 
+  @media (min-width: 769px) { .page-title { display: block !important; } }
   .page.active > * { animation: fadeUp 0.2s ease forwards; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 </style>
@@ -407,9 +328,8 @@
   <button id="pw-btn" onclick="tryLogin()">Enter Hub</button>
   <span id="pw-hint">internal use only</span>
 </div>
-<div class="app">
 
-  <!-- DESKTOP SIDEBAR -->
+<div class="app">
   <aside class="sidebar">
     <div class="sidebar-logo">
       <img src="logo.png" alt="WPGlassCo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
@@ -431,629 +351,424 @@
 
   <div class="main">
 
-  <!-- MOBILE HEADER -->
-  <div class="header">
-    <div class="header-logo">
-      <img src="logo.png" alt="WPGlassCo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <div class="header-logo-fallback" style="display:none">WP<span>Glass</span>Co</div>
-    </div>
-    <div class="live"><span class="live-dot"></span>hub</div>
-  </div>
-
-  <!-- MOBILE TABS -->
-  <div class="tabs" role="tablist">
-    <button class="tab active" onclick="switchTab('dashboard', this)" role="tab">Dashboard</button>
-    <button class="tab" onclick="switchTab('todo', this)" role="tab">To-Do</button>
-    <button class="tab" onclick="switchTab('calendar', this)" role="tab">Calendar</button>
-    <button class="tab" onclick="switchTab('files', this)" role="tab">Files</button>
-    <button class="tab" onclick="switchTab('contacts', this)" role="tab">Contacts</button>
-    <button class="tab" onclick="switchTab('brand', this)" role="tab">Brand</button>
-    <button class="tab" onclick="switchTab('quizzes', this)" role="tab">Quizzes</button>
-    <button class="tab" onclick="switchTab('ideas', this)" role="tab">Ideas</button>
-    <button class="tab" onclick="switchTab('log', this)" role="tab">+ Log</button>
-  </div>
-
-  <!-- DASHBOARD -->
-  <div class="page active" id="page-dashboard">
-    <h2 style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:1.25rem;display:none;" class="page-title">Dashboard</h2>
-    <div class="stat-grid">
-      <div class="stat">
-        <div class="stat-l">Last invoice</div>
-        <div class="stat-v teal">#023</div>
+    <div class="header">
+      <div class="header-logo">
+        <img src="logo.png" alt="WPGlassCo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="header-logo-fallback" style="display:none">WP<span>Glass</span>Co</div>
       </div>
-      <div class="stat">
-        <div class="stat-l">Active SKUs</div>
-        <div class="stat-v">232</div>
-      </div>
+      <div class="live"><span class="live-dot"></span>hub</div>
     </div>
 
-    <div class="pnl-card">
-      <div class="pnl-header">
-        <div class="pnl-title">P&L — all time <span id="pnl-loading" style="font-size:10px;color:var(--text3);margin-left:6px">loading...</span></div>
-        <div class="pnl-net pos" id="pnl-net">—</div>
-      </div>
-      <div class="pnl-row">
-        <div class="pnl-item">
-          <div class="pnl-l">Revenue</div>
-          <div class="pnl-v g" id="pnl-rev-display">—</div>
-        </div>
-        <div class="pnl-div"></div>
-        <div class="pnl-item">
-          <div class="pnl-l">Cost</div>
-          <div class="pnl-v r" id="pnl-exp-display">—</div>
-        </div>
-        <div class="pnl-div"></div>
-        <div class="pnl-item">
-          <div class="pnl-l">Profit</div>
-          <div class="pnl-v g" id="pnl-net-display">—</div>
-        </div>
-      </div>
-      <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)" id="pnl-txcount">— transactions</span>
-        <a href="saleslog.html" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;">full log ↗</a>
-      </div>
-    </div>
-<!-- 710 DAB DAY COUNTDOWN — weedplace.online hub -->
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  #wp-710{font-family:'Roboto Mono',monospace;background:#000;border-radius:12px;padding:2rem 1.5rem;text-align:center;max-width:420px;margin:2rem auto;border:1px solid #1a1a1a}
-  #wp-710 .wp-label{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin:0 0 .4rem}
-  #wp-710 .wp-title{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(90deg,#08E2A5,#2DE2D2,#CF75FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em;margin:0 0 1.5rem}
-  #wp-710 .wp-units{display:flex;justify-content:center;gap:1rem;align-items:flex-start}
-  #wp-710 .wp-unit{display:flex;flex-direction:column;align-items:center;gap:.2rem}
-  #wp-710 .wp-num{font-size:2.5rem;font-weight:700;color:#08E2A5;line-height:1;min-width:60px;display:block}
-  #wp-710 .wp-uname{font-size:9px;letter-spacing:.15em;color:#444;text-transform:uppercase}
-  #wp-710 .wp-sep{font-size:2.5rem;color:#222;line-height:1;animation:wp710blink 1s step-end infinite}
-  #wp-710 .wp-sub{font-size:11px;color:#333;margin-top:1.25rem;letter-spacing:.1em}
-  @keyframes wp710blink{50%{opacity:.2}}
-</style>
-<div id="wp-710">
-  <p class="wp-label">WP Glass Co presents</p>
-  <p class="wp-title">7/10 DAB DAY</p>
-  <div class="wp-units">
-    <div class="wp-unit"><span class="wp-num" id="wp710d">--</span><span class="wp-uname">days</span></div>
-    <span class="wp-sep">:</span>
-    <div class="wp-unit"><span class="wp-num" id="wp710h">--</span><span class="wp-uname">hrs</span></div>
-    <span class="wp-sep">:</span>
-    <div class="wp-unit"><span class="wp-num" id="wp710m">--</span><span class="wp-uname">min</span></div>
-    <span class="wp-sep">:</span>
-    <div class="wp-unit"><span class="wp-num" id="wp710s">--</span><span class="wp-uname">sec</span></div>
-  </div>
-  <p class="wp-sub">JULY 10 · THE DABBIEST DAY OF THE YEAR</p>
-</div>
-<script>
-(function(){
-  function tick(){
-    var now=new Date();
-    var t=new Date(now.getFullYear(),6,10,0,0,0);
-    if(now>=t)t=new Date(now.getFullYear()+1,6,10,0,0,0);
-    var diff=t-now;
-    var d=Math.floor(diff/864e5);
-    var h=Math.floor((diff%864e5)/36e5);
-    var mi=Math.floor((diff%36e5)/6e4);
-    var sc=Math.floor((diff%6e4)/1e3);
-    document.getElementById('wp710d').textContent=String(d).padStart(2,'0');
-    document.getElementById('wp710h').textContent=String(h).padStart(2,'0');
-    document.getElementById('wp710m').textContent=String(mi).padStart(2,'0');
-    document.getElementById('wp710s').textContent=String(sc).padStart(2,'0');
-  }
-  tick();setInterval(tick,1000);
-})();
-</script>
-    <div class="qr-card">
-      <div class="qr-title">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Quick ref
-      </div>
-      <div class="qr-grid">
-        <div class="qr-item">
-          <div class="qr-l">Email (Communications)</div>
-          <div class="qr-v">elevate@wpglassco.com</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-l">Email (Business)</div>
-          <div class="qr-v">wpglasswholesale@gmail.com</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-l">Relay</div>
-          <div class="qr-v">····8104</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-l">PayPal</div>
-          <div class="qr-v">ID#FTHV2MNGMFH88</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-l">EIN</div>
-          <div class="qr-v">41-297152</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-l">Resale Tax ID</div>
-          <div class="qr-v">3-21045-9380-4</div>
-        </div>
-        <div class="qr-item" style="grid-column:1/-1">
-          <div class="qr-l">Website</div>
-          <a class="qr-link" href="https://wpglassco.com" target="_blank">wpglassco.com ↗</a>
-        </div>
-      </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" onclick="switchTab('dashboard', this)" role="tab">Dashboard</button>
+      <button class="tab" onclick="switchTab('todo', this)" role="tab">To-Do</button>
+      <button class="tab" onclick="switchTab('calendar', this)" role="tab">Calendar</button>
+      <button class="tab" onclick="switchTab('files', this)" role="tab">Files</button>
+      <button class="tab" onclick="switchTab('contacts', this)" role="tab">Contacts</button>
+      <button class="tab" onclick="switchTab('brand', this)" role="tab">Brand</button>
+      <button class="tab" onclick="switchTab('quizzes', this)" role="tab">Quizzes</button>
+      <button class="tab" onclick="switchTab('ideas', this)" role="tab">Ideas</button>
+      <button class="tab" onclick="switchTab('log', this)" role="tab">+ Log</button>
     </div>
 
-    <div class="sec-label">Community board</div>
-    <div id="board-list"></div>
-    <button class="add-btn" onclick="addBoardNote()" style="margin-bottom:1rem;">+ Add note</button>
-
-    <div class="sec-label">Live data</div>
-    <div class="card-list">
-      <a class="card teal-accent" href="saleslog.html" target="_blank">
-        <div class="card-ico teal">📊</div>
-        <div class="card-body">
-          <div class="card-title">SalesLog</div>
-          <div class="card-desc">Live sales data</div>
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <h2 style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:1.25rem;display:none;" class="page-title">Dashboard</h2>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-l">Last invoice</div><div class="stat-v teal">#023</div></div>
+        <div class="stat"><div class="stat-l">Active SKUs</div><div class="stat-v">232</div></div>
+      </div>
+      <div class="pnl-card">
+        <div class="pnl-header">
+          <div class="pnl-title">P&L — all time <span id="pnl-loading" style="font-size:10px;color:var(--text3);margin-left:6px">loading...</span></div>
+          <div class="pnl-net pos" id="pnl-net">—</div>
         </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="inventory.html" target="_blank">
-        <div class="card-ico teal">📦</div>
-        <div class="card-body">
-          <div class="card-title">Inventory</div>
-          <div class="card-desc">Current stock</div>
+        <div class="pnl-row">
+          <div class="pnl-item"><div class="pnl-l">Revenue</div><div class="pnl-v g" id="pnl-rev-display">—</div></div>
+          <div class="pnl-div"></div>
+          <div class="pnl-item"><div class="pnl-l">Cost</div><div class="pnl-v r" id="pnl-exp-display">—</div></div>
+          <div class="pnl-div"></div>
+          <div class="pnl-item"><div class="pnl-l">Profit</div><div class="pnl-v g" id="pnl-net-display">—</div></div>
         </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="prices.html" target="_blank">
-        <div class="card-ico teal">💲</div>
-        <div class="card-body">
-          <div class="card-title">Prices</div>
-          <div class="card-desc">Margins & pricing</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="sets.html" target="_blank">
-        <div class="card-ico dim">🎯</div>
-        <div class="card-body">
-          <div class="card-title">Sets</div>
-          <div class="card-desc">Banger & full sets</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-    </div>
-  </div>
-
-  <!-- TO-DO -->
-  <div class="page" id="page-todo">
-    <div class="todo-input-row">
-      <input class="todo-input" id="todo-input" type="text" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()">
-      <button class="todo-add-btn" onclick="addTodo()">+ Add</button>
-    </div>
-    <div class="card-list" id="todo-list"></div>
-  </div>
-
-  <!-- CALENDAR -->
-  <div class="page" id="page-calendar">
-    <div class="cal-embed-note">
-      <p>Link your shared Google Calendar below. Create one at <a href="https://calendar.google.com" target="_blank">calendar.google.com</a>, share it with Chels, then paste the embed URL or direct link here.</p>
-    </div>
-    <div class="card-list">
-      <a class="card teal-accent" href="https://calendar.google.com" target="_blank">
-        <div class="card-ico teal">📅</div>
-        <div class="card-body">
-          <div class="card-title">Open Google Calendar</div>
-          <div class="card-desc">Orders · drops · outreach · deadlines</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-    </div>
-    <div class="sec-label">Replace the link above with your shared calendar URL</div>
-  </div>
-
-  <!-- FILES -->
-  <div class="page" id="page-files">
-    <div class="sec-label">Invoices & Orders</div>
-    <div class="card-list">
-      <a class="card teal-accent" href="saleslog.html" target="_blank">
-        <div class="card-ico teal">🧾</div>
-        <div class="card-body">
-          <div class="card-title">Invoices / SalesLog</div>
-          <div class="card-desc">All transactions</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-    </div>
-
-    <div class="sec-label">Inventory</div>
-    <div class="card-list">
-      <a class="card" href="inventory.html" target="_blank">
-        <div class="card-ico dim">📋</div>
-        <div class="card-body">
-          <div class="card-title">Inventory</div>
-          <div class="card-desc">All SKUs, stock, costs</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="prices.html" target="_blank">
-        <div class="card-ico dim">📝</div>
-        <div class="card-body">
-          <div class="card-title">Prices & Margins</div>
-          <div class="card-desc">Current pricing, profit per item</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="sets.html" target="_blank">
-        <div class="card-ico dim">🎯</div>
-        <div class="card-body">
-          <div class="card-title">Sets</div>
-          <div class="card-desc">Curated banger & full sets</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-    </div>
-
-    <div class="sec-label">Brand Assets</div>
-    <div class="card-list">
-      <div class="card" style="cursor:default">
-        <div class="card-ico purple">🎨</div>
-        <div class="card-body">
-          <div class="card-title">Brand Assets</div>
-          <div class="card-desc">https://drive.google.com/drive/folders/1EZZpsuTcBQbYq1IhkQBqibdaUa-BKQFX?usp=sharing</div>
+        <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)" id="pnl-txcount">— transactions</span>
+          <a href="saleslog.html" target="_blank" style="font-size:11px;color:var(--teal);text-decoration:none;">full log ↗</a>
         </div>
       </div>
-    </div>
 
-    <div class="sec-label">Outreach</div>
-    <div class="card-list">
-    </div>
-  </div>
-
-  <!-- CONTACTS -->
-  <div class="page" id="page-contacts">
-
-    <div class="contact-group">
-      <div class="contact-group-label">Suppliers</div>
-
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="rpc.png" alt="Ruby Pearl Co." style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">Ruby Pearl Co.</div>
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+      <style>
+        #wp-710{font-family:'Roboto Mono',monospace;background:#000;border-radius:12px;padding:2rem 1.5rem;text-align:center;max-width:420px;margin:2rem auto;border:1px solid #1a1a1a}
+        #wp-710 .wp-label{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin:0 0 .4rem}
+        #wp-710 .wp-title{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(90deg,#08E2A5,#2DE2D2,#CF75FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em;margin:0 0 1.5rem}
+        #wp-710 .wp-units{display:flex;justify-content:center;gap:1rem;align-items:flex-start}
+        #wp-710 .wp-unit{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+        #wp-710 .wp-num{font-size:2.5rem;font-weight:700;color:#08E2A5;line-height:1;min-width:60px;display:block}
+        #wp-710 .wp-uname{font-size:9px;letter-spacing:.15em;color:#444;text-transform:uppercase}
+        #wp-710 .wp-sep{font-size:2.5rem;color:#222;line-height:1;animation:wp710blink 1s step-end infinite}
+        #wp-710 .wp-sub{font-size:11px;color:#333;margin-top:1.25rem;letter-spacing:.1em}
+        @keyframes wp710blink{50%{opacity:.2}}
+      </style>
+      <div id="wp-710">
+        <p class="wp-label">WP Glass Co presents</p>
+        <p class="wp-title">7/10 DAB DAY</p>
+        <div class="wp-units">
+          <div class="wp-unit"><span class="wp-num" id="wp710d">--</span><span class="wp-uname">days</span></div>
+          <span class="wp-sep">:</span>
+          <div class="wp-unit"><span class="wp-num" id="wp710h">--</span><span class="wp-uname">hrs</span></div>
+          <span class="wp-sep">:</span>
+          <div class="wp-unit"><span class="wp-num" id="wp710m">--</span><span class="wp-uname">min</span></div>
+          <span class="wp-sep">:</span>
+          <div class="wp-unit"><span class="wp-num" id="wp710s">--</span><span class="wp-uname">sec</span></div>
         </div>
-        <div class="contact-detail">Inserts & pearls</div>
-        <a class="contact-link" href="https://rpcwholesale.com" target="_blank">rpcwholesale.com ↗</a>
+        <p class="wp-sub">JULY 10 · THE DABBIEST DAY OF THE YEAR</p>
       </div>
+      <script>
+      (function(){
+        function tick(){
+          var now=new Date();
+          var t=new Date(now.getFullYear(),6,10,0,0,0);
+          if(now>=t)t=new Date(now.getFullYear()+1,6,10,0,0,0);
+          var diff=t-now;
+          var d=Math.floor(diff/864e5);
+          var h=Math.floor((diff%864e5)/36e5);
+          var mi=Math.floor((diff%36e5)/6e4);
+          var sc=Math.floor((diff%6e4)/1e3);
+          document.getElementById('wp710d').textContent=String(d).padStart(2,'0');
+          document.getElementById('wp710h').textContent=String(h).padStart(2,'0');
+          document.getElementById('wp710m').textContent=String(mi).padStart(2,'0');
+          document.getElementById('wp710s').textContent=String(sc).padStart(2,'0');
+        }
+        tick();setInterval(tick,1000);
+      })();
+      </script>
 
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="terp.png" alt="Terporium" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">Terporium</div>
+      <div class="qr-card">
+        <div class="qr-title">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Quick ref
         </div>
-        <div class="contact-detail">Terp slurper sets & accessories</div>
-        <a class="contact-link" href="https://terporium.com" target="_blank">terporium.com ↗</a>
-      </div>
-
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="focusv.png" alt="Focus V" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">Focus V</div>
+        <div class="qr-grid">
+          <div class="qr-item"><div class="qr-l">Email (Communications)</div><div class="qr-v">elevate@wpglassco.com</div></div>
+          <div class="qr-item"><div class="qr-l">Email (Business)</div><div class="qr-v">wpglasswholesale@gmail.com</div></div>
+          <div class="qr-item"><div class="qr-l">Relay</div><div class="qr-v">····8104</div></div>
+          <div class="qr-item"><div class="qr-l">PayPal</div><div class="qr-v">ID#FTHV2MNGMFH88</div></div>
+          <div class="qr-item"><div class="qr-l">EIN</div><div class="qr-v">41-297152</div></div>
+          <div class="qr-item"><div class="qr-l">Resale Tax ID</div><div class="qr-v">3-21045-9380-4</div></div>
+          <div class="qr-item" style="grid-column:1/-1"><div class="qr-l">Website</div><a class="qr-link" href="https://wpglassco.com" target="_blank">wpglassco.com ↗</a></div>
         </div>
-        <div class="contact-detail">E-rigs & accessories</div>
-        <a class="contact-link" href="https://focusv.com" target="_blank">focusv.com ↗</a>
       </div>
 
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="sps.png" alt="SPS Wholesale" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">SPS Wholesale</div>
-        </div>
-        <div class="contact-detail">General wholesale</div>
-        <a class="contact-link" href="https://spswholesale.com" target="_blank">spswholesale.com ↗</a>
-      </div>
+      <div class="sec-label">Community board</div>
+      <div id="board-list"></div>
+      <button class="add-btn" onclick="addBoardNote()" style="margin-bottom:1rem;">+ Add note</button>
 
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="zv.png" alt="ZeeVapor" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">ZeeVapor</div>
-        </div>
-        <div class="contact-detail">General wholesale</div>
-        <a class="contact-link" href="https://zeevapor.com" target="_blank">zeevapor.com ↗</a>
-      </div>
-
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="mlglass.png" alt="mlGlass" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">mlGlass</div>
-        </div>
-        <div class="contact-detail">Glass sourcing via DHGate</div>
-        <a class="contact-link" href="https://dhgate.com" target="_blank">dhgate.com ↗</a>
-      </div>
-
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="yareone.png" alt="YAREONE" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">YAREONE</div>
-        </div>
-        <div class="contact-detail">Glass sourcing</div>
-        <a class="contact-link" href="https://yareonewholesale.com" target="_blank">yareonewholesale.com ↗</a>
-      </div>
-
-      <div class="contact-item">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <img src="tag.png" alt="T.A.G." style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'">
-          <div class="contact-name">T.A.G.</div>
-        </div>
-        <div class="contact-detail">Glass sourcing</div>
-        <a class="contact-link" href="https://thickassglass.com" target="_blank">thickassglass.com ↗</a>
-      </div>
-
-    </div>
-
-    <div class="contact-group">
-      <div class="contact-group-label">Network</div>
-      <div class="contact-item">
-        <div class="contact-name">Josh (@pickedfreshly)</div>
-        <div class="contact-detail">3x repeat buyer · video reviews · ambassador candidate</div>
-        <a class="contact-link" href="https://instagram.com/pickedfreshly" target="_blank">@pickedfreshly ↗</a>
-      </div>
-      <div class="contact-item">
-        <div class="contact-name">Eric Kahn</div>
-        <div class="contact-detail">YouTuber · target collab</div>
-      </div>
-    </div>
-
-    <div class="contact-group">
-      <div class="contact-group-label">Platforms</div>
+      <div class="sec-label">Live data</div>
       <div class="card-list">
-        <a class="card" href="https://wpglassco.com" target="_blank">
-          <div class="card-body"><div class="card-title">Squarespace</div><div class="card-desc">wpglassco.com dashboard</div></div>
-          <div class="card-arr">↗</div>
-        </a>
-        <a class="card" href="https://github.com" target="_blank">
-          <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">Catalog · quizzes · hub repo</div></div>
-          <div class="card-arr">↗</div>
-        </a>
-        <a class="card" href="https://paypal.com" target="_blank">
-          <div class="card-body"><div class="card-title">PayPal</div><div class="card-desc">Invoicing & payments</div></div>
-          <div class="card-arr">↗</div>
-        </a>
-        <a class="card" href="https://relayfi.com" target="_blank">
-          <div class="card-body"><div class="card-title">Relay</div><div class="card-desc">Business banking</div></div>
-          <div class="card-arr">↗</div>
-        </a>
-        <a class="card" href="https://instagram.com/wp.curations" target="_blank">
-          <div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">@wp.curations</div></div>
-          <div class="card-arr">↗</div>
-        </a>
-         <a class="card" href="https://admin.google.com/?rapt=AEjHL4PlIMy04UP5BjhOMa-QSpdhIkuouns32ogGGdJrAgSP7xEWBZXuU7KFPcSYDMzwFJ6yOIBgwdc8Cn8qb_nm8xc9T1E_bHAOlOjTd318qqDEfjPeO4I" target="_blank">
-          <div class="card-body"><div class="card-title">Google Workspace</div><div class="card-desc">Emai, Drive and Calendar</div></div>
-          <div class="card-arr">↗</div>
-        </a>
- <a class="card" href="https://glasspass.com/" target="_blank">
-          <div class="card-body"><div class="card-title">Glass Pass</div><div class="card-desc">Sales</div></div>
-          <div class="card-arr">↗</div>
-        </a>
- <a class="card" href="https://www.ebay.com/" target="_blank">
-          <div class="card-body"><div class="card-title">eBay</div><div class="card-desc">Sales</div></div>
-          <div class="card-arr">↗</div>
-        </a>
+        <a class="card teal-accent" href="saleslog.html" target="_blank"><div class="card-ico teal">📊</div><div class="card-body"><div class="card-title">SalesLog</div><div class="card-desc">Live sales data</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="inventory.html" target="_blank"><div class="card-ico teal">📦</div><div class="card-body"><div class="card-title">Inventory</div><div class="card-desc">Current stock</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="prices.html" target="_blank"><div class="card-ico teal">💲</div><div class="card-body"><div class="card-title">Prices</div><div class="card-desc">Margins & pricing</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="sets.html" target="_blank"><div class="card-ico dim">🎯</div><div class="card-body"><div class="card-title">Sets</div><div class="card-desc">Banger & full sets</div></div><div class="card-arr">↗</div></a>
       </div>
     </div>
 
-  </div>
+    <!-- TO-DO -->
+    <div class="page" id="page-todo">
+      <!-- Sub-tabs -->
+      <div class="sub-tabs">
+        <button class="sub-tab active" id="todo-sub-tasks" onclick="switchTodoTab('tasks')">Tasks</button>
+        <button class="sub-tab" id="todo-sub-ee" onclick="switchTodoTab('ee')">E&amp;E</button>
+      </div>
 
-  <!-- BRAND -->
-  <div class="page" id="page-brand">
-    <div class="sec-label">Colors</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1rem">
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#08E2A5;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#08E2A5</div>
+      <!-- Tasks panel -->
+      <div id="todo-panel-tasks">
+        <div class="todo-input-row">
+          <input class="todo-input" id="todo-input" type="text" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()">
+          <button class="todo-add-btn" onclick="addTodo()">+ Add</button>
+        </div>
+        <div class="card-list" id="todo-list"></div>
       </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#0AF1C8;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#0AF1C8</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#CF75FF;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#CF75FF</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#F002EC;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#F002EC</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#74F778;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#74F778</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#B038F4;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#B038F4</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#FFB8E6;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#FFB8E6</div>
-      </div>
-      <div style="text-align:center">
-        <div style="height:40px;border-radius:8px;background:#5DD445;margin-bottom:4px"></div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#5DD445</div>
-      </div>
-    </div>
 
-    <div class="sec-label">Fonts</div>
-    <div class="card-list">
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">Display / Graffiti</div>
-          <div class="card-desc">Lost in South · Hyperwave 2 · Yakin · Quackerhack</div>
+      <!-- E&E Checklist panel -->
+      <div id="todo-panel-ee" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)">6 / 29 complete</span>
+          <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)">20.7%</span>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">Script</div>
-          <div class="card-desc">Kravo (italic)</div>
+        <div class="ee-progress-wrap"><div class="ee-progress-bar" style="width:20.7%"></div></div>
+
+        <!-- General Cannabis -->
+        <div class="ee-section gc">
+          <div class="ee-section-label">🌿 General Cannabis — 3/8</div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Cannabis 101</span></div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">The Entourage Effect</span><span class="ee-xlink">→ Concentrates</span></div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Terpenes Deep Dive</span><span class="ee-xlink">→ Concentrates</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">How Cannabis Works (ECS)</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Cannabinoids Beyond THC</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">COA Reading Guide</span><span class="ee-xlink">→ Concentrates</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Methods of Consumption</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Cannabis &amp; Wellness</span></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">Clean Sans</div>
-          <div class="card-desc">Montserrat · Univers · Dongle</div>
+
+        <!-- Concentrates -->
+        <div class="ee-section con">
+          <div class="ee-section-label">💎 Concentrates — 1/7</div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Concentrates 101</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Types of Concentrates</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">The Perfect Dab</span><span class="ee-xlink">→ Glass</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Live Resin vs. Rosin</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Terp Slurpers &amp; Inserts</span><span class="ee-xlink">→ Glass</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Storage &amp; Handling</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Reading a COA (Concentrates)</span><span class="ee-xlink">→ Gen Cannabis</span></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">Mono / Caps</div>
-          <div class="card-desc">Computer Says No · Laquonic</div>
+
+        <!-- Glass & Smokeware -->
+        <div class="ee-section glass">
+          <div class="ee-section-label">🔮 Glass &amp; Smokeware — 2/7</div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Glass 101</span></div>
+          <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">How to Clean Your Glass</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Rigs &amp; Setups</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Banger Guide</span><span class="ee-xlink">→ Concentrates</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Glass Quality 101</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Accessories Breakdown</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Carb Caps &amp; Airflow</span></div>
+        </div>
+
+        <!-- Harm Reduction -->
+        <div class="ee-section hr">
+          <div class="ee-section-label">❤️ Harm Reduction — 0/6</div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Start Low, Go Slow</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Tolerance &amp; Dependence</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Cannabis &amp; Mental Health</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Safe Consumption Spaces</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Mixing with Other Substances</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Recognizing Overconsumption</span></div>
+        </div>
+
+        <!-- Static Pages -->
+        <div class="ee-section static">
+          <div class="ee-section-label">📄 Static Pages — 0/2</div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Terminology / Vocab Index</span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Sources We Trust</span></div>
         </div>
       </div>
     </div>
 
-    <div class="sec-label">Voice</div>
-    <div class="card" style="cursor:default">
-      <div class="card-body">
-        <div class="card-desc" style="color:var(--text2);line-height:1.7">Casual. Confident. Culture-native. Knows concentrates deeply. Doesn't talk down. Short sentences. Never corporate. Knowledgeable plug energy — not a sales rep.</div>
+    <!-- CALENDAR -->
+    <div class="page" id="page-calendar">
+      <div class="cal-embed-note">
+        <p>Link your shared Google Calendar below. Create one at <a href="https://calendar.google.com" target="_blank">calendar.google.com</a>, share it with Chels, then paste the embed URL or direct link here.</p>
       </div>
-    </div>
-
-    <div class="sec-label">Canva brand kit</div>
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title">Brand Kit ID</div>
-        <div class="card-desc" style="font-family:var(--font-mono)">kAHE_YpsUM0</div>
+      <div class="card-list">
+        <a class="card teal-accent" href="https://calendar.google.com" target="_blank">
+          <div class="card-ico teal">📅</div>
+          <div class="card-body"><div class="card-title">Open Google Calendar</div><div class="card-desc">Orders · drops · outreach · deadlines</div></div>
+          <div class="card-arr">↗</div>
+        </a>
       </div>
-    </div>
-  </div>
-
-  <!-- QUIZZES -->
-  <div class="page" id="page-quizzes">
-    <div class="sec-label">Product Knowledge</div>
-    <div class="sec-label">Quizzes</div>
-    <div class="card-list">
-      <a class="card teal-accent" href="erig.html" target="_blank">
-        <div class="card-ico teal">🔥</div>
-        <div class="card-body">
-          <div class="card-title">E-Rig Build</div>
-          <div class="card-desc">Our e-rig setup &amp; knowledge</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-      <a class="card" href="location.html" target="_blank">
-        <div class="card-ico dim">🏪</div>
-        <div class="card-body">
-          <div class="card-title">Storefront Manifest</div>
-          <div class="card-desc">Location knowledge &amp; reference</div>
-        </div>
-        <div class="card-arr">↗</div>
-      </a>
-    </div>
-  </div>
-
-  <!-- IDEAS -->
-  <div class="page" id="page-ideas">
-    <div id="ideas-list"></div>
-    <button class="add-btn" onclick="addIdea()">+ New idea</button>
-  </div>
-
-  <!-- LOG -->
-  <div class="page" id="page-log">
-
-    <div class="tabs" style="margin-bottom:1rem;" role="tablist">
-      <button class="tab active" id="log-tab-sale" onclick="switchLogTab('sale')" role="tab">Sale</button>
-      <button class="tab" id="log-tab-inventory" onclick="switchLogTab('inventory')" role="tab">Inventory</button>
-      <button class="tab" id="log-tab-prices" onclick="switchLogTab('prices')" role="tab">Prices</button>
+      <div class="sec-label">Replace the link above with your shared calendar URL</div>
     </div>
 
-    <!-- SALE FORM -->
-    <div id="log-sale">
-      <div class="card" style="cursor:default;margin-bottom:8px;">
-        <div class="card-body">
-          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Fill out the sale. Hit Generate — it downloads an updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">saleslog.html</code> ready to upload to GitHub.</div>
-          <div class="form-grid">
-            <div class="form-group"><label>Date</label><input type="date" id="s-date"></div>
-            <div class="form-group"><label>Invoice #</label><input type="text" id="s-invoice" placeholder="024"></div>
-            <div class="form-group full"><label>Items Sold</label><textarea id="s-items" placeholder="WPC-B-335 V3 Slurper&#10;WPC-I-074 Green Dichro Set" rows="3"></textarea></div>
-            <div class="form-group"><label>Platform / Customer</label><input type="text" id="s-platform" placeholder="Glass Pass — Juan"></div>
-            <div class="form-group"><label>Cost ($)</label><input type="number" id="s-cost" placeholder="0.00" step="0.01"></div>
-            <div class="form-group"><label>Sale Price ($)</label><input type="number" id="s-price" placeholder="0.00" step="0.01"></div>
-            <div class="form-group"><label>Shipping</label><input type="text" id="s-ship" placeholder="$8.00 USPS"></div>
-            <div class="form-group full"><label>Notes</label><input type="text" id="s-notes" placeholder="Optional"></div>
-          </div>
-          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateSaleLog()">Generate saleslog.html ↓</button>
+    <!-- FILES -->
+    <div class="page" id="page-files">
+      <div class="sec-label">Invoices & Orders</div>
+      <div class="card-list">
+        <a class="card teal-accent" href="saleslog.html" target="_blank"><div class="card-ico teal">🧾</div><div class="card-body"><div class="card-title">Invoices / SalesLog</div><div class="card-desc">All transactions</div></div><div class="card-arr">↗</div></a>
+      </div>
+      <div class="sec-label">Inventory</div>
+      <div class="card-list">
+        <a class="card" href="inventory.html" target="_blank"><div class="card-ico dim">📋</div><div class="card-body"><div class="card-title">Inventory</div><div class="card-desc">All SKUs, stock, costs</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="prices.html" target="_blank"><div class="card-ico dim">📝</div><div class="card-body"><div class="card-title">Prices & Margins</div><div class="card-desc">Current pricing, profit per item</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="sets.html" target="_blank"><div class="card-ico dim">🎯</div><div class="card-body"><div class="card-title">Sets</div><div class="card-desc">Curated banger & full sets</div></div><div class="card-arr">↗</div></a>
+      </div>
+      <div class="sec-label">Brand Assets</div>
+      <div class="card-list">
+        <div class="card" style="cursor:default"><div class="card-ico purple">🎨</div><div class="card-body"><div class="card-title">Brand Assets</div><div class="card-desc">https://drive.google.com/drive/folders/1EZZpsuTcBQbYq1IhkQBqibdaUa-BKQFX?usp=sharing</div></div></div>
+      </div>
+      <div class="sec-label">Outreach</div>
+      <div class="card-list"></div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="page" id="page-contacts">
+      <div class="contact-group">
+        <div class="contact-group-label">Suppliers</div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="rpc.png" alt="Ruby Pearl Co." style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">Ruby Pearl Co.</div></div><div class="contact-detail">Inserts & pearls</div><a class="contact-link" href="https://rpcwholesale.com" target="_blank">rpcwholesale.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="terp.png" alt="Terporium" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">Terporium</div></div><div class="contact-detail">Terp slurper sets & accessories</div><a class="contact-link" href="https://terporium.com" target="_blank">terporium.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="focusv.png" alt="Focus V" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">Focus V</div></div><div class="contact-detail">E-rigs & accessories</div><a class="contact-link" href="https://focusv.com" target="_blank">focusv.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="sps.png" alt="SPS Wholesale" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">SPS Wholesale</div></div><div class="contact-detail">General wholesale</div><a class="contact-link" href="https://spswholesale.com" target="_blank">spswholesale.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="zv.png" alt="ZeeVapor" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">ZeeVapor</div></div><div class="contact-detail">General wholesale</div><a class="contact-link" href="https://zeevapor.com" target="_blank">zeevapor.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="mlglass.png" alt="mlGlass" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">mlGlass</div></div><div class="contact-detail">Glass sourcing via DHGate</div><a class="contact-link" href="https://dhgate.com" target="_blank">dhgate.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="yareone.png" alt="YAREONE" style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">YAREONE</div></div><div class="contact-detail">Glass sourcing</div><a class="contact-link" href="https://yareonewholesale.com" target="_blank">yareonewholesale.com ↗</a></div>
+        <div class="contact-item"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><img src="tag.png" alt="T.A.G." style="height:28px;width:auto;border-radius:4px;object-fit:contain;background:#1a1a1a;padding:2px" onerror="this.style.display='none'"><div class="contact-name">T.A.G.</div></div><div class="contact-detail">Glass sourcing</div><a class="contact-link" href="https://thickassglass.com" target="_blank">thickassglass.com ↗</a></div>
+      </div>
+      <div class="contact-group">
+        <div class="contact-group-label">Network</div>
+        <div class="contact-item"><div class="contact-name">Josh (@pickedfreshly)</div><div class="contact-detail">3x repeat buyer · video reviews · ambassador candidate</div><a class="contact-link" href="https://instagram.com/pickedfreshly" target="_blank">@pickedfreshly ↗</a></div>
+        <div class="contact-item"><div class="contact-name">Eric Kahn</div><div class="contact-detail">YouTuber · target collab</div></div>
+      </div>
+      <div class="contact-group">
+        <div class="contact-group-label">Platforms</div>
+        <div class="card-list">
+          <a class="card" href="https://wpglassco.com" target="_blank"><div class="card-body"><div class="card-title">Squarespace</div><div class="card-desc">wpglassco.com dashboard</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://github.com" target="_blank"><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">Catalog · quizzes · hub repo</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://paypal.com" target="_blank"><div class="card-body"><div class="card-title">PayPal</div><div class="card-desc">Invoicing & payments</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://relayfi.com" target="_blank"><div class="card-body"><div class="card-title">Relay</div><div class="card-desc">Business banking</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://instagram.com/wp.curations" target="_blank"><div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">@wp.curations</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://admin.google.com/?rapt=AEjHL4PlIMy04UP5BjhOMa-QSpdhIkuouns32ogGGdJrAgSP7xEWBZXuU7KFPcSYDMzwFJ6yOIBgwdc8Cn8qb_nm8xc9T1E_bHAOlOjTd318qqDEfjPeO4I" target="_blank"><div class="card-body"><div class="card-title">Google Workspace</div><div class="card-desc">Email, Drive and Calendar</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://glasspass.com/" target="_blank"><div class="card-body"><div class="card-title">Glass Pass</div><div class="card-desc">Sales</div></div><div class="card-arr">↗</div></a>
+          <a class="card" href="https://www.ebay.com/" target="_blank"><div class="card-body"><div class="card-title">eBay</div><div class="card-desc">Sales</div></div><div class="card-arr">↗</div></a>
         </div>
       </div>
     </div>
 
-    <!-- INVENTORY FORM -->
-    <div id="log-inventory" style="display:none">
-      <div class="card" style="cursor:default;margin-bottom:8px;">
-        <div class="card-body">
-          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new SKU. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">inventory.html</code> with the new row appended.</div>
-          <div class="form-grid">
-            <div class="form-group"><label>SKU</label><input type="text" id="i-sku" placeholder="WPC-B-400"></div>
-            <div class="form-group"><label>Product Name</label><input type="text" id="i-product" placeholder="Seamless Slurper"></div>
-            <div class="form-group"><label>Brand / Source</label><input type="text" id="i-brand" placeholder="Terporium"></div>
-            <div class="form-group"><label>Category</label>
-              <select id="i-category">
-                <option value="Add-Ons">Add-Ons (A)</option>
-                <option value="Bangers &amp; Bowls">Bangers & Bowls (B)</option>
-                <option value="Caps">Caps (C)</option>
-                <option value="Pieces">Pieces (D)</option>
-                <option value="Inserts">Inserts (I)</option>
-              </select>
+    <!-- BRAND -->
+    <div class="page" id="page-brand">
+      <div class="sec-label">Colors</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1rem">
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#08E2A5;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#08E2A5</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#0AF1C8;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#0AF1C8</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#CF75FF;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#CF75FF</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#F002EC;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#F002EC</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#74F778;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#74F778</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#B038F4;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#B038F4</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#FFB8E6;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#FFB8E6</div></div>
+        <div style="text-align:center"><div style="height:40px;border-radius:8px;background:#5DD445;margin-bottom:4px"></div><div style="font-size:9px;color:var(--text3);font-family:var(--font-mono)">#5DD445</div></div>
+      </div>
+      <div class="sec-label">Fonts</div>
+      <div class="card-list">
+        <div class="card"><div class="card-body"><div class="card-title">Display / Graffiti</div><div class="card-desc">Lost in South · Hyperwave 2 · Yakin · Quackerhack</div></div></div>
+        <div class="card"><div class="card-body"><div class="card-title">Script</div><div class="card-desc">Kravo (italic)</div></div></div>
+        <div class="card"><div class="card-body"><div class="card-title">Clean Sans</div><div class="card-desc">Montserrat · Univers · Dongle</div></div></div>
+        <div class="card"><div class="card-body"><div class="card-title">Mono / Caps</div><div class="card-desc">Computer Says No · Laquonic</div></div></div>
+      </div>
+      <div class="sec-label">Voice</div>
+      <div class="card" style="cursor:default"><div class="card-body"><div class="card-desc" style="color:var(--text2);line-height:1.7">Casual. Confident. Culture-native. Knows concentrates deeply. Doesn't talk down. Short sentences. Never corporate. Knowledgeable plug energy — not a sales rep.</div></div></div>
+      <div class="sec-label">Canva brand kit</div>
+      <div class="card"><div class="card-body"><div class="card-title">Brand Kit ID</div><div class="card-desc" style="font-family:var(--font-mono)">kAHE_YpsUM0</div></div></div>
+    </div>
+
+    <!-- QUIZZES -->
+    <div class="page" id="page-quizzes">
+      <div class="sec-label">Product Knowledge</div>
+      <div class="sec-label">Quizzes</div>
+      <div class="card-list">
+        <a class="card teal-accent" href="erig.html" target="_blank"><div class="card-ico teal">🔥</div><div class="card-body"><div class="card-title">E-Rig Build</div><div class="card-desc">Our e-rig setup &amp; knowledge</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="location.html" target="_blank"><div class="card-ico dim">🏪</div><div class="card-body"><div class="card-title">Storefront Manifest</div><div class="card-desc">Location knowledge &amp; reference</div></div><div class="card-arr">↗</div></a>
+      </div>
+    </div>
+
+    <!-- IDEAS -->
+    <div class="page" id="page-ideas">
+      <div id="ideas-list"></div>
+      <button class="add-btn" onclick="addIdea()">+ New idea</button>
+    </div>
+
+    <!-- LOG -->
+    <div class="page" id="page-log">
+      <div class="sub-tabs" style="margin-bottom:1rem;">
+        <button class="sub-tab active" id="log-tab-sale" onclick="switchLogTab('sale')">Sale</button>
+        <button class="sub-tab" id="log-tab-inventory" onclick="switchLogTab('inventory')">Inventory</button>
+        <button class="sub-tab" id="log-tab-prices" onclick="switchLogTab('prices')">Prices</button>
+      </div>
+
+      <div id="log-sale">
+        <div class="card" style="cursor:default;margin-bottom:8px;">
+          <div class="card-body">
+            <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Fill out the sale. Hit Generate — it downloads an updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">saleslog.html</code> ready to upload to GitHub.</div>
+            <div class="form-grid">
+              <div class="form-group"><label>Date</label><input type="date" id="s-date"></div>
+              <div class="form-group"><label>Invoice #</label><input type="text" id="s-invoice" placeholder="024"></div>
+              <div class="form-group full"><label>Items Sold</label><textarea id="s-items" placeholder="WPC-B-335 V3 Slurper&#10;WPC-I-074 Green Dichro Set" rows="3"></textarea></div>
+              <div class="form-group"><label>Platform / Customer</label><input type="text" id="s-platform" placeholder="Glass Pass — Juan"></div>
+              <div class="form-group"><label>Cost ($)</label><input type="number" id="s-cost" placeholder="0.00" step="0.01"></div>
+              <div class="form-group"><label>Sale Price ($)</label><input type="number" id="s-price" placeholder="0.00" step="0.01"></div>
+              <div class="form-group"><label>Shipping</label><input type="text" id="s-ship" placeholder="$8.00 USPS"></div>
+              <div class="form-group full"><label>Notes</label><input type="text" id="s-notes" placeholder="Optional"></div>
             </div>
-            <div class="form-group"><label>Cost ($)</label><input type="number" id="i-cost" placeholder="0.00" step="0.01"></div>
-            <div class="form-group"><label>MSRP ($)</label><input type="number" id="i-msrp" placeholder="0.00" step="0.01"></div>
-            <div class="form-group"><label>Quantity</label><input type="number" id="i-qty" placeholder="1" min="1"></div>
+            <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateSaleLog()">Generate saleslog.html ↓</button>
           </div>
-          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateInventory()">Generate inventory.html ↓</button>
         </div>
       </div>
-    </div>
 
-    <!-- PRICES FORM -->
-    <div id="log-prices" style="display:none">
-      <div class="card" style="cursor:default;margin-bottom:8px;">
-        <div class="card-body">
-          <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new item to the price sheet. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">prices.html</code> with the new row.</div>
-          <div class="form-grid">
-            <div class="form-group"><label>Product Name</label><input type="text" id="p-product" placeholder="Seamless Slurper"></div>
-            <div class="form-group"><label>Brand / Source</label><input type="text" id="p-brand" placeholder="Terporium"></div>
-            <div class="form-group"><label>Section</label>
-              <select id="p-section">
-                <option value="flower">Flower Pieces & Accessories</option>
-                <option value="rigs">Concentrates — Rigs</option>
-                <option value="bangers">Concentrates — Bangers & Bowls</option>
-                <option value="inserts">Concentrates — Inserts & Caps</option>
-                <option value="banger-sets">Banger Sets</option>
-                <option value="full-sets">Full Sets</option>
-              </select>
+      <div id="log-inventory" style="display:none">
+        <div class="card" style="cursor:default;margin-bottom:8px;">
+          <div class="card-body">
+            <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new SKU. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">inventory.html</code> with the new row appended.</div>
+            <div class="form-grid">
+              <div class="form-group"><label>SKU</label><input type="text" id="i-sku" placeholder="WPC-B-400"></div>
+              <div class="form-group"><label>Product Name</label><input type="text" id="i-product" placeholder="Seamless Slurper"></div>
+              <div class="form-group"><label>Brand / Source</label><input type="text" id="i-brand" placeholder="Terporium"></div>
+              <div class="form-group"><label>Category</label>
+                <select id="i-category">
+                  <option value="Add-Ons">Add-Ons (A)</option>
+                  <option value="Bangers &amp; Bowls">Bangers & Bowls (B)</option>
+                  <option value="Caps">Caps (C)</option>
+                  <option value="Pieces">Pieces (D)</option>
+                  <option value="Inserts">Inserts (I)</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Cost ($)</label><input type="number" id="i-cost" placeholder="0.00" step="0.01"></div>
+              <div class="form-group"><label>MSRP ($)</label><input type="number" id="i-msrp" placeholder="0.00" step="0.01"></div>
+              <div class="form-group"><label>Quantity</label><input type="number" id="i-qty" placeholder="1" min="1"></div>
             </div>
-            <div class="form-group"><label>Price ($)</label><input type="number" id="p-price" placeholder="0.00" step="0.01"></div>
-            <div class="form-group"><label>Cost ($)</label><input type="number" id="p-cost" placeholder="0.00" step="0.01"></div>
+            <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generateInventory()">Generate inventory.html ↓</button>
           </div>
-          <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generatePrices()">Generate prices.html ↓</button>
+        </div>
+      </div>
+
+      <div id="log-prices" style="display:none">
+        <div class="card" style="cursor:default;margin-bottom:8px;">
+          <div class="card-body">
+            <div class="card-desc" style="color:var(--text2);margin-bottom:1rem;">Add a new item to the price sheet. Generates updated <code style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">prices.html</code> with the new row.</div>
+            <div class="form-grid">
+              <div class="form-group"><label>Product Name</label><input type="text" id="p-product" placeholder="Seamless Slurper"></div>
+              <div class="form-group"><label>Brand / Source</label><input type="text" id="p-brand" placeholder="Terporium"></div>
+              <div class="form-group"><label>Section</label>
+                <select id="p-section">
+                  <option value="flower">Flower Pieces & Accessories</option>
+                  <option value="rigs">Concentrates — Rigs</option>
+                  <option value="bangers">Concentrates — Bangers & Bowls</option>
+                  <option value="inserts">Concentrates — Inserts & Caps</option>
+                  <option value="banger-sets">Banger Sets</option>
+                  <option value="full-sets">Full Sets</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Price ($)</label><input type="number" id="p-price" placeholder="0.00" step="0.01"></div>
+              <div class="form-group"><label>Cost ($)</label><input type="number" id="p-cost" placeholder="0.00" step="0.01"></div>
+            </div>
+            <button class="todo-add-btn" style="width:100%;margin-top:1rem;" onclick="generatePrices()">Generate prices.html ↓</button>
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="footer">wpglassco.com · internal use only · sam & chels</div>
+    <div class="footer">wpglassco.com · internal use only · sam & chels</div>
 
   </div><!-- end .main -->
 </div><!-- end .app -->
 
 <script>
-  // TAB SWITCHING — works for both sidebar nav items and mobile tabs
   function switchTab(name, el) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tabs > .tab').forEach(t => t.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
     if (el) el.classList.add('active');
-    // Also sync sidebar/tabs to stay in sync
-    document.querySelectorAll('.nav-item, .tab').forEach(b => {
+    document.querySelectorAll('.nav-item, .tabs > .tab').forEach(b => {
       if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
         b.classList.add('active');
       }
     });
   }
 
-  // P&L — live fetch from saleslog.html
+  function switchTodoTab(name) {
+    document.getElementById('todo-panel-tasks').style.display = name === 'tasks' ? 'block' : 'none';
+    document.getElementById('todo-panel-ee').style.display   = name === 'ee'    ? 'block' : 'none';
+    document.getElementById('todo-sub-tasks').classList.toggle('active', name === 'tasks');
+    document.getElementById('todo-sub-ee').classList.toggle('active',    name === 'ee');
+  }
+
   async function loadPnl() {
     try {
       const res = await fetch('saleslog.html');
@@ -1085,7 +800,6 @@
   }
   loadPnl();
 
-  // TO-DO
   let todos = JSON.parse(localStorage.getItem('wpgc-todos') || '[]');
   function saveTodos() { localStorage.setItem('wpgc-todos', JSON.stringify(todos)); }
   function renderTodos() {
@@ -1094,12 +808,7 @@
     todos.forEach((t, i) => {
       const el = document.createElement('div');
       el.className = 'todo-item' + (t.done ? ' done' : '');
-      el.innerHTML = `
-        <div class="todo-check ${t.done ? 'checked' : ''}" onclick="toggleTodo(${i})">${t.done ? '✓' : ''}</div>
-        <div class="todo-text">${t.text}</div>
-        <span class="todo-status ${t.done ? '' : 'active'}">${t.done ? 'done' : 'active'}</span>
-        <button class="todo-del" onclick="deleteTodo(${i})">×</button>
-      `;
+      el.innerHTML = `<div class="todo-check ${t.done ? 'checked' : ''}" onclick="toggleTodo(${i})">${t.done ? '✓' : ''}</div><div class="todo-text">${t.text}</div><span class="todo-status ${t.done ? '' : 'active'}">${t.done ? 'done' : 'active'}</span><button class="todo-del" onclick="deleteTodo(${i})">×</button>`;
       list.appendChild(el);
     });
   }
@@ -1114,7 +823,6 @@
   function deleteTodo(i) { todos.splice(i, 1); saveTodos(); renderTodos(); }
   renderTodos();
 
-  // IDEAS
   let ideas = JSON.parse(localStorage.getItem('wpgc-ideas') || '[]');
   function saveIdeas() { localStorage.setItem('wpgc-ideas', JSON.stringify(ideas)); }
   function renderIdeas() {
@@ -1123,10 +831,7 @@
     ideas.forEach((idea, i) => {
       const el = document.createElement('div');
       el.className = 'ideas-note';
-      el.innerHTML = `
-        <textarea placeholder="Write something..." oninput="updateIdea(${i}, this.value)">${idea.text}</textarea>
-        <div class="ideas-note-meta">${idea.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteIdea(${i})">delete</span></div>
-      `;
+      el.innerHTML = `<textarea placeholder="Write something..." oninput="updateIdea(${i}, this.value)">${idea.text}</textarea><div class="ideas-note-meta">${idea.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteIdea(${i})">delete</span></div>`;
       list.appendChild(el);
     });
   }
@@ -1139,7 +844,6 @@
   function deleteIdea(i) { ideas.splice(i, 1); saveIdeas(); renderIdeas(); }
   renderIdeas();
 
-  // COMMUNITY BOARD
   let board = JSON.parse(localStorage.getItem('wpgc-board') || '[]');
   function saveBoard() { localStorage.setItem('wpgc-board', JSON.stringify(board)); }
   function renderBoard() {
@@ -1150,10 +854,7 @@
       const el = document.createElement('div');
       el.className = 'ideas-note';
       el.style.borderLeft = '2px solid var(--purple)';
-      el.innerHTML = `
-        <textarea placeholder="Important note..." oninput="updateBoard(${i}, this.value)">${note.text}</textarea>
-        <div class="ideas-note-meta">${note.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteBoard(${i})">delete</span></div>
-      `;
+      el.innerHTML = `<textarea placeholder="Important note..." oninput="updateBoard(${i}, this.value)">${note.text}</textarea><div class="ideas-note-meta">${note.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteBoard(${i})">delete</span></div>`;
       list.appendChild(el);
     });
   }
@@ -1167,7 +868,6 @@
   function deleteBoard(i) { board.splice(i, 1); saveBoard(); renderBoard(); }
   renderBoard();
 
-  // LOG TAB SWITCHING
   function switchLogTab(name) {
     ['sale','inventory','prices'].forEach(t => {
       document.getElementById('log-' + t).style.display = t === name ? 'block' : 'none';
@@ -1175,7 +875,6 @@
     });
   }
 
-  // HELPERS
   function dlFile(filename, content) {
     const a = document.createElement('a');
     a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(content);
@@ -1189,7 +888,6 @@
     return `${m}/${day}/${y.slice(2)}`;
   }
 
-  // GENERATE SALESLOG
   async function generateSaleLog() {
     const date = fmtDate(gval('s-date'));
     const invoice = gval('s-invoice') || '—';
@@ -1210,7 +908,6 @@
     } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
 
-  // GENERATE INVENTORY
   async function generateInventory() {
     const sku = gval('i-sku') || 'WPC-X-000';
     const product = gval('i-product') || '—';
@@ -1233,7 +930,6 @@
     } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
 
-  // GENERATE PRICES
   async function generatePrices() {
     const product = gval('p-product') || '—';
     const brand = gval('p-brand') || '—';
@@ -1261,7 +957,6 @@
       dlFile('prices.html', html);
     } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
-
 </script>
 </body>
 </html>
