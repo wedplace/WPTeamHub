@@ -65,40 +65,19 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --teal: #08E2A5;
-    --teal-dim: #08E2A520;
-    --teal-border: #08E2A540;
-    --purple: #CF75FF;
-    --purple-dim: #CF75FF15;
-    --purple-border: #CF75FF40;
-    --pink: #F002EC;
-    --pink-dim: #F002EC15;
-    --bg: #000;
-    --surface: #0f0f0f;
-    --surface2: #161616;
-    --surface3: #1e1e1e;
-    --border: #222;
-    --border2: #2a2a2a;
-    --text: #fff;
-    --text2: #aaa;
-    --text3: #555;
-    --red: #ff4444;
-    --green: #08E2A5;
-    --font-main: 'Syne', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --teal: #08E2A5; --teal-dim: #08E2A520; --teal-border: #08E2A540;
+    --purple: #CF75FF; --purple-dim: #CF75FF15; --purple-border: #CF75FF40;
+    --pink: #F002EC; --pink-dim: #F002EC15;
+    --bg: #000; --surface: #0f0f0f; --surface2: #161616; --surface3: #1e1e1e;
+    --border: #222; --border2: #2a2a2a;
+    --text: #fff; --text2: #aaa; --text3: #555;
+    --red: #ff4444; --green: #08E2A5;
+    --font-main: 'Syne', sans-serif; --font-mono: 'DM Mono', monospace;
+    --radius: 12px; --radius-sm: 8px;
   }
 
   html { background: var(--bg); }
-  body {
-    font-family: var(--font-main);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-  }
+  body { font-family: var(--font-main); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
   .app { display: flex; min-height: 100vh; }
 
@@ -131,7 +110,7 @@
   .nav-item.active .nav-ico { color: var(--teal); }
   .nav-ico { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
   .nav-label { flex: 1; }
-  .nav-item.log-btn { margin-top: auto; border: 0.5px solid var(--teal); color: var(--teal); }
+  .nav-item.log-btn { margin-top: 8px; border: 0.5px solid var(--teal); color: var(--teal); }
   .nav-item.log-btn:hover { background: var(--teal-dim); }
   .nav-item.log-btn.active { background: var(--teal-dim); color: var(--teal); }
 
@@ -140,12 +119,9 @@
   .header { display: none; }
   .tabs { display: none; }
 
-  .stat-grid { grid-template-columns: repeat(4, 1fr); }
-  .qr-grid { grid-template-columns: repeat(3, 1fr); }
-  .card-list.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .section-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .form-grid { grid-template-columns: repeat(3, 1fr); }
-  .form-group.full { grid-column: 1/-1; }
+  .page { display: none; }
+  .page.active { display: block; animation: fadeUp 0.2s ease forwards; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
   @media (max-width: 768px) {
     .app { flex-direction: column; }
@@ -156,7 +132,7 @@
       padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); margin-bottom: 1.25rem;
     }
     .header-logo img { height: 40px; width: auto; }
-    .header-logo-fallback { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); }
+    .header-logo-fallback { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; }
     .header-logo-fallback span { color: var(--teal); }
     .live { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal); font-family: var(--font-mono); }
     .tabs {
@@ -173,17 +149,13 @@
     }
     .tab.active { background: var(--teal); color: #000; border-color: var(--teal); font-weight: 700; }
     .tab:hover:not(.active) { border-color: var(--border); color: var(--text2); }
-    .stat-grid { grid-template-columns: 1fr 1fr; }
-    .qr-grid { grid-template-columns: 1fr 1fr; }
-    .card-list.two-col { display: flex; flex-direction: column; }
-    .section-cols { grid-template-columns: 1fr; gap: 0; }
-    .form-grid { grid-template-columns: 1fr 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr !important; }
+    .card-list.two-col { display: flex !important; flex-direction: column !important; }
+    .section-cols { grid-template-columns: 1fr !important; gap: 0 !important; }
+    .form-grid { grid-template-columns: 1fr 1fr !important; }
   }
 
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 8px; }
   .stat { background: var(--surface); border-radius: var(--radius); padding: 0.85rem 1rem; border: 0.5px solid var(--border); }
   .stat.full { grid-column: 1/-1; }
   .stat-l { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-family: var(--font-mono); }
@@ -217,13 +189,13 @@
   .qr-link:hover { text-decoration: underline; }
 
   .card-list { display: flex; flex-direction: column; gap: 6px; }
+  .card-list.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .card {
     background: var(--surface); border-radius: var(--radius);
-    border: 0.5px solid var(--border);
-    padding: 1rem; display: flex; align-items: center; gap: 12px;
+    border: 0.5px solid var(--border); padding: 1rem;
+    display: flex; align-items: center; gap: 12px;
     text-decoration: none; color: inherit;
-    transition: background 0.15s, border-color 0.15s;
-    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s; cursor: pointer;
   }
   .card:hover { background: var(--surface2); border-color: var(--border2); }
   .card.teal-accent { border-left: 2px solid var(--teal); }
@@ -235,11 +207,6 @@
   .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
   .card-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
   .card-arr { color: var(--text3); font-size: 16px; flex-shrink: 0; }
-  .tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-  .tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
-  .tag.m { background: var(--teal-dim); color: var(--teal); border: 0.5px solid var(--teal-border); }
-  .tag.p { background: var(--purple-dim); color: var(--purple); border: 0.5px solid var(--purple-border); }
-  .tag.pk { background: var(--pink-dim); color: var(--pink); border: 0.5px solid #F002EC40; }
 
   .sec-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin: 1.25rem 0 0.6rem; }
 
@@ -247,7 +214,7 @@
   .contact-group-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 0.5px solid var(--border); }
   .contact-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 0.85rem 1rem; margin-bottom: 6px; }
   .contact-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .contact-detail { font-size: 11px; color: var(--text3); margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+  .contact-detail { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
   .contact-link { color: var(--teal); text-decoration: none; font-size: 11px; }
   .contact-link:hover { text-decoration: underline; }
 
@@ -273,12 +240,10 @@
   .todo-del:hover { color: var(--red); }
   .todo-status { font-size: 10px; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
   .todo-status.active { background: var(--teal-dim); color: var(--teal); }
-  .todo-status.pending { background: var(--purple-dim); color: var(--purple); }
 
   .cal-embed-note { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); border-left: 2px solid var(--teal); padding: 1rem; margin-bottom: 1rem; }
   .cal-embed-note p { font-size: 13px; color: var(--text2); line-height: 1.6; }
   .cal-embed-note a { color: var(--teal); text-decoration: none; }
-  .cal-embed-note a:hover { text-decoration: underline; }
 
   .footer { margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 10px; color: var(--text3); font-family: var(--font-mono); text-align: center; }
 
@@ -291,13 +256,11 @@
   .form-group textarea { resize: vertical; line-height: 1.5; }
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); }
 
-  /* SUB-TABS (used in To-Do and Log) */
   .sub-tabs { display: flex; gap: 6px; margin-bottom: 1rem; }
   .sub-tab { font-family: var(--font-main); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .sub-tab.active { background: var(--teal); color: #000; border-color: var(--teal); font-weight: 700; }
   .sub-tab:hover:not(.active) { border-color: var(--border); color: var(--text2); }
 
-  /* E&E CHECKLIST */
   .ee-progress-wrap { background: var(--surface2); border-radius: 4px; height: 5px; margin-bottom: 1.25rem; overflow: hidden; }
   .ee-progress-bar { height: 100%; background: linear-gradient(90deg, var(--teal), var(--purple)); border-radius: 4px; }
   .ee-section { margin-bottom: 1.25rem; }
@@ -315,9 +278,16 @@
   .ee-item.todo .ee-label { color: var(--text3); }
   .ee-xlink { font-size: 10px; color: var(--text3); margin-left: auto; white-space: nowrap; font-family: var(--font-mono); }
 
-  @media (min-width: 769px) { .page-title { display: block !important; } }
-  .page.active > * { animation: fadeUp 0.2s ease forwards; }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  #wp-710 { font-family:'Roboto Mono',monospace; background:#000; border-radius:12px; padding:2rem 1.5rem; text-align:center; max-width:420px; margin:2rem auto; border:1px solid #1a1a1a; }
+  #wp-710 .wp-label { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.2em; color:#444; text-transform:uppercase; margin:0 0 .4rem; }
+  #wp-710 .wp-title { font-family:'Oswald',sans-serif; font-size:2rem; font-weight:700; background:linear-gradient(90deg,#08E2A5,#2DE2D2,#CF75FF); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:.05em; margin:0 0 1.5rem; }
+  #wp-710 .wp-units { display:flex; justify-content:center; gap:1rem; align-items:flex-start; }
+  #wp-710 .wp-unit { display:flex; flex-direction:column; align-items:center; gap:.2rem; }
+  #wp-710 .wp-num { font-size:2.5rem; font-weight:700; color:#08E2A5; line-height:1; min-width:60px; display:block; }
+  #wp-710 .wp-uname { font-size:9px; letter-spacing:.15em; color:#444; text-transform:uppercase; }
+  #wp-710 .wp-sep { font-size:2.5rem; color:#222; line-height:1; animation:wp710blink 1s step-end infinite; }
+  #wp-710 .wp-sub { font-size:11px; color:#333; margin-top:1.25rem; letter-spacing:.1em; }
+  @keyframes wp710blink { 50%{opacity:.2} }
 </style>
 </head>
 <body>
@@ -337,15 +307,16 @@
       <div class="sidebar-live"><span class="live-dot"></span>hub</div>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-item active" onclick="switchTab('dashboard', this)"><span class="nav-ico">📊</span><span class="nav-label">Dashboard</span></button>
-      <button class="nav-item" onclick="switchTab('todo', this)"><span class="nav-ico">✅</span><span class="nav-label">To-Do</span></button>
-      <button class="nav-item" onclick="switchTab('calendar', this)"><span class="nav-ico">📅</span><span class="nav-label">Calendar</span></button>
-      <button class="nav-item" onclick="switchTab('files', this)"><span class="nav-ico">📁</span><span class="nav-label">Files</span></button>
-      <button class="nav-item" onclick="switchTab('contacts', this)"><span class="nav-ico">📒</span><span class="nav-label">Contacts</span></button>
-      <button class="nav-item" onclick="switchTab('brand', this)"><span class="nav-ico">🎨</span><span class="nav-label">Brand</span></button>
-      <button class="nav-item" onclick="switchTab('quizzes', this)"><span class="nav-ico">📝</span><span class="nav-label">Quizzes</span></button>
-      <button class="nav-item" onclick="switchTab('ideas', this)"><span class="nav-ico">💡</span><span class="nav-label">Ideas</span></button>
-      <button class="nav-item log-btn" onclick="switchTab('log', this)"><span class="nav-ico">＋</span><span class="nav-label">Log Entry</span></button>
+      <button class="nav-item active" onclick="switchTab('dashboard',this)"><span class="nav-ico">📊</span><span class="nav-label">Dashboard</span></button>
+      <button class="nav-item" onclick="switchTab('todo',this)"><span class="nav-ico">✅</span><span class="nav-label">To-Do</span></button>
+      <button class="nav-item" onclick="switchTab('calendar',this)"><span class="nav-ico">📅</span><span class="nav-label">Calendar</span></button>
+      <button class="nav-item" onclick="switchTab('files',this)"><span class="nav-ico">📁</span><span class="nav-label">Files</span></button>
+      <button class="nav-item" onclick="switchTab('contacts',this)"><span class="nav-ico">📒</span><span class="nav-label">Contacts</span></button>
+      <button class="nav-item" onclick="switchTab('brand',this)"><span class="nav-ico">🎨</span><span class="nav-label">Brand</span></button>
+      <button class="nav-item" onclick="switchTab('quizzes',this)"><span class="nav-ico">📝</span><span class="nav-label">Quizzes</span></button>
+      <button class="nav-item" onclick="switchTab('ideas',this)"><span class="nav-ico">💡</span><span class="nav-label">Ideas</span></button>
+      <button class="nav-item" onclick="switchTab('expenses',this)"><span class="nav-ico">💸</span><span class="nav-label">Expenses</span></button>
+      <button class="nav-item log-btn" onclick="switchTab('log',this)"><span class="nav-ico">＋</span><span class="nav-label">Log Entry</span></button>
     </nav>
   </aside>
 
@@ -360,23 +331,24 @@
     </div>
 
     <div class="tabs" role="tablist">
-      <button class="tab active" onclick="switchTab('dashboard', this)" role="tab">Dashboard</button>
-      <button class="tab" onclick="switchTab('todo', this)" role="tab">To-Do</button>
-      <button class="tab" onclick="switchTab('calendar', this)" role="tab">Calendar</button>
-      <button class="tab" onclick="switchTab('files', this)" role="tab">Files</button>
-      <button class="tab" onclick="switchTab('contacts', this)" role="tab">Contacts</button>
-      <button class="tab" onclick="switchTab('brand', this)" role="tab">Brand</button>
-      <button class="tab" onclick="switchTab('quizzes', this)" role="tab">Quizzes</button>
-      <button class="tab" onclick="switchTab('ideas', this)" role="tab">Ideas</button>
-      <button class="tab" onclick="switchTab('log', this)" role="tab">+ Log</button>
+      <button class="tab active" onclick="switchTab('dashboard',this)" role="tab">Dashboard</button>
+      <button class="tab" onclick="switchTab('todo',this)" role="tab">To-Do</button>
+      <button class="tab" onclick="switchTab('calendar',this)" role="tab">Calendar</button>
+      <button class="tab" onclick="switchTab('files',this)" role="tab">Files</button>
+      <button class="tab" onclick="switchTab('contacts',this)" role="tab">Contacts</button>
+      <button class="tab" onclick="switchTab('brand',this)" role="tab">Brand</button>
+      <button class="tab" onclick="switchTab('quizzes',this)" role="tab">Quizzes</button>
+      <button class="tab" onclick="switchTab('ideas',this)" role="tab">Ideas</button>
+      <button class="tab" onclick="switchTab('expenses',this)" role="tab">💸 Expenses</button>
+      <button class="tab" onclick="switchTab('log',this)" role="tab">+ Log</button>
     </div>
 
     <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
-      <h2 style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:1.25rem;display:none;" class="page-title">Dashboard</h2>
       <div class="stat-grid">
         <div class="stat"><div class="stat-l">Last invoice</div><div class="stat-v teal">#024</div></div>
-  
+      </div>
+
       <div class="pnl-card">
         <div class="pnl-header">
           <div class="pnl-title">P&L — all time <span id="pnl-loading" style="font-size:10px;color:var(--text3);margin-left:6px">loading...</span></div>
@@ -396,18 +368,6 @@
       </div>
 
       <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-      <style>
-        #wp-710{font-family:'Roboto Mono',monospace;background:#000;border-radius:12px;padding:2rem 1.5rem;text-align:center;max-width:420px;margin:2rem auto;border:1px solid #1a1a1a}
-        #wp-710 .wp-label{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin:0 0 .4rem}
-        #wp-710 .wp-title{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;background:linear-gradient(90deg,#08E2A5,#2DE2D2,#CF75FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em;margin:0 0 1.5rem}
-        #wp-710 .wp-units{display:flex;justify-content:center;gap:1rem;align-items:flex-start}
-        #wp-710 .wp-unit{display:flex;flex-direction:column;align-items:center;gap:.2rem}
-        #wp-710 .wp-num{font-size:2.5rem;font-weight:700;color:#08E2A5;line-height:1;min-width:60px;display:block}
-        #wp-710 .wp-uname{font-size:9px;letter-spacing:.15em;color:#444;text-transform:uppercase}
-        #wp-710 .wp-sep{font-size:2.5rem;color:#222;line-height:1;animation:wp710blink 1s step-end infinite}
-        #wp-710 .wp-sub{font-size:11px;color:#333;margin-top:1.25rem;letter-spacing:.1em}
-        @keyframes wp710blink{50%{opacity:.2}}
-      </style>
       <div id="wp-710">
         <p class="wp-label">WP Glass Co presents</p>
         <p class="wp-title">7/10 DAB DAY</p>
@@ -422,25 +382,6 @@
         </div>
         <p class="wp-sub">JULY 10 · THE DABBIEST DAY OF THE YEAR</p>
       </div>
-      <script>
-      (function(){
-        function tick(){
-          var now=new Date();
-          var t=new Date(now.getFullYear(),6,10,0,0,0);
-          if(now>=t)t=new Date(now.getFullYear()+1,6,10,0,0,0);
-          var diff=t-now;
-          var d=Math.floor(diff/864e5);
-          var h=Math.floor((diff%864e5)/36e5);
-          var mi=Math.floor((diff%36e5)/6e4);
-          var sc=Math.floor((diff%6e4)/1e3);
-          document.getElementById('wp710d').textContent=String(d).padStart(2,'0');
-          document.getElementById('wp710h').textContent=String(h).padStart(2,'0');
-          document.getElementById('wp710m').textContent=String(mi).padStart(2,'0');
-          document.getElementById('wp710s').textContent=String(sc).padStart(2,'0');
-        }
-        tick();setInterval(tick,1000);
-      })();
-      </script>
 
       <div class="qr-card">
         <div class="qr-title">
@@ -468,18 +409,16 @@
         <a class="card" href="inventory.html" target="_blank"><div class="card-ico teal">📦</div><div class="card-body"><div class="card-title">Inventory</div><div class="card-desc">Current stock</div></div><div class="card-arr">↗</div></a>
         <a class="card" href="prices.html" target="_blank"><div class="card-ico teal">💲</div><div class="card-body"><div class="card-title">Prices</div><div class="card-desc">Margins & pricing</div></div><div class="card-arr">↗</div></a>
         <a class="card" href="sets.html" target="_blank"><div class="card-ico dim">🎯</div><div class="card-body"><div class="card-title">Sets</div><div class="card-desc">Banger & full sets</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="expenses.html" target="_blank"><div class="card-ico dim">💸</div><div class="card-body"><div class="card-title">Expenses</div><div class="card-desc">Cost tracking</div></div><div class="card-arr">↗</div></a>
       </div>
     </div>
 
     <!-- TO-DO -->
     <div class="page" id="page-todo">
-      <!-- Sub-tabs -->
       <div class="sub-tabs">
         <button class="sub-tab active" id="todo-sub-tasks" onclick="switchTodoTab('tasks')">Tasks</button>
         <button class="sub-tab" id="todo-sub-ee" onclick="switchTodoTab('ee')">E&amp;E</button>
       </div>
-
-      <!-- Tasks panel -->
       <div id="todo-panel-tasks">
         <div class="todo-input-row">
           <input class="todo-input" id="todo-input" type="text" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()">
@@ -487,16 +426,12 @@
         </div>
         <div class="card-list" id="todo-list"></div>
       </div>
-
-      <!-- E&E Checklist panel -->
       <div id="todo-panel-ee" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
           <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)">6 / 29 complete</span>
           <span style="font-size:10px;color:var(--text3);font-family:var(--font-mono)">20.7%</span>
         </div>
         <div class="ee-progress-wrap"><div class="ee-progress-bar" style="width:20.7%"></div></div>
-
-        <!-- General Cannabis -->
         <div class="ee-section gc">
           <div class="ee-section-label">🌿 General Cannabis — 3/8</div>
           <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Cannabis 101</span></div>
@@ -508,8 +443,6 @@
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Methods of Consumption</span></div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Cannabis &amp; Wellness</span></div>
         </div>
-
-        <!-- Concentrates -->
         <div class="ee-section con">
           <div class="ee-section-label">💎 Concentrates — 1/7</div>
           <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Concentrates 101</span></div>
@@ -520,8 +453,6 @@
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Storage &amp; Handling</span></div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Reading a COA (Concentrates)</span><span class="ee-xlink">→ Gen Cannabis</span></div>
         </div>
-
-        <!-- Glass & Smokeware -->
         <div class="ee-section glass">
           <div class="ee-section-label">🔮 Glass &amp; Smokeware — 2/7</div>
           <div class="ee-item done"><div class="ee-check">✓</div><span class="ee-label">Glass 101</span></div>
@@ -531,10 +462,8 @@
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Glass Quality 101</span></div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Accessories Breakdown</span></div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Carb Caps &amp; Airflow</span></div>
-          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Devitrification/span></div>
+          <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Devitrification</span></div>
         </div>
-
-        <!-- Harm Reduction -->
         <div class="ee-section hr">
           <div class="ee-section-label">❤️ Harm Reduction — 0/6</div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Start Low, Go Slow</span></div>
@@ -544,8 +473,6 @@
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Mixing with Other Substances</span></div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Recognizing Overconsumption</span></div>
         </div>
-
-        <!-- Static Pages -->
         <div class="ee-section static">
           <div class="ee-section-label">📄 Static Pages — 0/2</div>
           <div class="ee-item todo"><div class="ee-check"></div><span class="ee-label">Terminology / Vocab Index</span></div>
@@ -580,13 +507,12 @@
         <a class="card" href="inventory.html" target="_blank"><div class="card-ico dim">📋</div><div class="card-body"><div class="card-title">Inventory</div><div class="card-desc">All SKUs, stock, costs</div></div><div class="card-arr">↗</div></a>
         <a class="card" href="prices.html" target="_blank"><div class="card-ico dim">📝</div><div class="card-body"><div class="card-title">Prices & Margins</div><div class="card-desc">Current pricing, profit per item</div></div><div class="card-arr">↗</div></a>
         <a class="card" href="sets.html" target="_blank"><div class="card-ico dim">🎯</div><div class="card-body"><div class="card-title">Sets</div><div class="card-desc">Curated banger & full sets</div></div><div class="card-arr">↗</div></a>
+        <a class="card" href="expenses.html" target="_blank"><div class="card-ico dim">💸</div><div class="card-body"><div class="card-title">Expenses</div><div class="card-desc">Cost tracking log</div></div><div class="card-arr">↗</div></a>
       </div>
       <div class="sec-label">Brand Assets</div>
       <div class="card-list">
         <div class="card" style="cursor:default"><div class="card-ico purple">🎨</div><div class="card-body"><div class="card-title">Brand Assets</div><div class="card-desc">https://drive.google.com/drive/folders/1EZZpsuTcBQbYq1IhkQBqibdaUa-BKQFX?usp=sharing</div></div></div>
       </div>
-      <div class="sec-label">Outreach</div>
-      <div class="card-list"></div>
     </div>
 
     <!-- CONTACTS -->
@@ -615,7 +541,6 @@
           <a class="card" href="https://paypal.com" target="_blank"><div class="card-body"><div class="card-title">PayPal</div><div class="card-desc">Invoicing & payments</div></div><div class="card-arr">↗</div></a>
           <a class="card" href="https://relayfi.com" target="_blank"><div class="card-body"><div class="card-title">Relay</div><div class="card-desc">Business banking</div></div><div class="card-arr">↗</div></a>
           <a class="card" href="https://instagram.com/wp.curations" target="_blank"><div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">@wp.curations</div></div><div class="card-arr">↗</div></a>
-          <a class="card" href="https://admin.google.com/?rapt=AEjHL4PlIMy04UP5BjhOMa-QSpdhIkuouns32ogGGdJrAgSP7xEWBZXuU7KFPcSYDMzwFJ6yOIBgwdc8Cn8qb_nm8xc9T1E_bHAOlOjTd318qqDEfjPeO4I" target="_blank"><div class="card-body"><div class="card-title">Google Workspace</div><div class="card-desc">Email, Drive and Calendar</div></div><div class="card-arr">↗</div></a>
           <a class="card" href="https://glasspass.com/" target="_blank"><div class="card-body"><div class="card-title">Glass Pass</div><div class="card-desc">Sales</div></div><div class="card-arr">↗</div></a>
           <a class="card" href="https://www.ebay.com/" target="_blank"><div class="card-body"><div class="card-title">eBay</div><div class="card-desc">Sales</div></div><div class="card-arr">↗</div></a>
         </div>
@@ -651,7 +576,6 @@
     <!-- QUIZZES -->
     <div class="page" id="page-quizzes">
       <div class="sec-label">Product Knowledge</div>
-      <div class="sec-label">Quizzes</div>
       <div class="card-list">
         <a class="card teal-accent" href="erig.html" target="_blank"><div class="card-ico teal">🔥</div><div class="card-body"><div class="card-title">E-Rig Build</div><div class="card-desc">Our e-rig setup &amp; knowledge</div></div><div class="card-arr">↗</div></a>
         <a class="card" href="location.html" target="_blank"><div class="card-ico dim">🏪</div><div class="card-body"><div class="card-title">Storefront Manifest</div><div class="card-desc">Location knowledge &amp; reference</div></div><div class="card-arr">↗</div></a>
@@ -664,6 +588,11 @@
       <button class="add-btn" onclick="addIdea()">+ New idea</button>
     </div>
 
+    <!-- EXPENSES -->
+    <div class="page" id="page-expenses">
+      <iframe src="expenses.html" style="width:100%;height:calc(100vh - 4rem);border:none;border-radius:8px;" loading="lazy"></iframe>
+    </div>
+
     <!-- LOG -->
     <div class="page" id="page-log">
       <div class="sub-tabs" style="margin-bottom:1rem;">
@@ -671,7 +600,6 @@
         <button class="sub-tab" id="log-tab-inventory" onclick="switchLogTab('inventory')">Inventory</button>
         <button class="sub-tab" id="log-tab-prices" onclick="switchLogTab('prices')">Prices</button>
       </div>
-
       <div id="log-sale">
         <div class="card" style="cursor:default;margin-bottom:8px;">
           <div class="card-body">
@@ -690,7 +618,6 @@
           </div>
         </div>
       </div>
-
       <div id="log-inventory" style="display:none">
         <div class="card" style="cursor:default;margin-bottom:8px;">
           <div class="card-body">
@@ -716,7 +643,6 @@
           </div>
         </div>
       </div>
-
       <div id="log-prices" style="display:none">
         <div class="card" style="cursor:default;margin-bottom:8px;">
           <div class="card-body">
@@ -744,21 +670,19 @@
     </div>
 
     <div class="footer">wpglassco.com · internal use only · sam & chels</div>
-
-  </div><!-- end .main -->
-</div><!-- end .app -->
+  </div>
+</div>
 
 <script>
   function switchTab(name, el) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.tabs > .tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('.nav-item, .tabs .tab').forEach(b => b.classList.remove('active'));
+    const page = document.getElementById('page-' + name);
+    if (page) page.classList.add('active');
     if (el) el.classList.add('active');
-    document.querySelectorAll('.nav-item, .tabs > .tab').forEach(b => {
-      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
-        b.classList.add('active');
-      }
+    document.querySelectorAll('.nav-item, .tabs .tab').forEach(b => {
+      const oc = b.getAttribute('onclick') || '';
+      if (oc.includes("'" + name + "'") && b !== el) b.classList.add('active');
     });
   }
 
@@ -773,26 +697,24 @@
     try {
       const res = await fetch('saleslog.html');
       const html = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
+      const doc = new DOMParser().parseFromString(html, 'text/html');
       const rows = doc.querySelectorAll('#slTable tbody tr');
-      let count = 0, rev = 0, cost = 0, profit = 0;
+      let count=0, rev=0, cost=0, profit=0;
       rows.forEach(r => {
         const cells = r.querySelectorAll('td');
         if (cells.length < 7) return;
         count++;
-        cost   += parseFloat(cells[3].textContent.replace(/[^0-9.]/g, '')) || 0;
-        rev    += parseFloat(cells[4].textContent.replace(/[^0-9.]/g, '')) || 0;
-        profit += parseFloat(cells[6].textContent.replace(/[^0-9.-]/g, '')) || 0;
+        cost   += parseFloat(cells[3].textContent.replace(/[^0-9.]/g,'')) || 0;
+        rev    += parseFloat(cells[4].textContent.replace(/[^0-9.]/g,'')) || 0;
+        profit += parseFloat(cells[6].textContent.replace(/[^0-9.-]/g,'')) || 0;
       });
-      const net = profit;
-      document.getElementById('pnl-rev-display').textContent = '$' + rev.toFixed(2);
-      document.getElementById('pnl-exp-display').textContent = '$' + cost.toFixed(2);
-      document.getElementById('pnl-net-display').textContent = (net >= 0 ? '+' : '') + '$' + net.toFixed(2);
-      document.getElementById('pnl-net').textContent = (net >= 0 ? '+' : '') + '$' + net.toFixed(2);
-      document.getElementById('pnl-net').className = 'pnl-net ' + (net >= 0 ? 'pos' : 'neg');
-      document.getElementById('pnl-net-display').className = 'pnl-v ' + (net >= 0 ? 'g' : 'r');
-      document.getElementById('pnl-txcount').textContent = count + ' transactions';
+      document.getElementById('pnl-rev-display').textContent = '$'+rev.toFixed(2);
+      document.getElementById('pnl-exp-display').textContent = '$'+cost.toFixed(2);
+      document.getElementById('pnl-net-display').textContent = (profit>=0?'+':'')+'$'+profit.toFixed(2);
+      document.getElementById('pnl-net').textContent = (profit>=0?'+':'')+'$'+profit.toFixed(2);
+      document.getElementById('pnl-net').className = 'pnl-net '+(profit>=0?'pos':'neg');
+      document.getElementById('pnl-net-display').className = 'pnl-v '+(profit>=0?'g':'r');
+      document.getElementById('pnl-txcount').textContent = count+' transactions';
       document.getElementById('pnl-loading').textContent = '';
     } catch(e) {
       document.getElementById('pnl-loading').textContent = 'offline';
@@ -800,162 +722,117 @@
   }
   loadPnl();
 
-  let todos = JSON.parse(localStorage.getItem('wpgc-todos') || '[]');
-  function saveTodos() { localStorage.setItem('wpgc-todos', JSON.stringify(todos)); }
-  function renderTodos() {
-    const list = document.getElementById('todo-list');
-    list.innerHTML = '';
-    todos.forEach((t, i) => {
-      const el = document.createElement('div');
-      el.className = 'todo-item' + (t.done ? ' done' : '');
-      el.innerHTML = `<div class="todo-check ${t.done ? 'checked' : ''}" onclick="toggleTodo(${i})">${t.done ? '✓' : ''}</div><div class="todo-text">${t.text}</div><span class="todo-status ${t.done ? '' : 'active'}">${t.done ? 'done' : 'active'}</span><button class="todo-del" onclick="deleteTodo(${i})">×</button>`;
+  (function(){
+    function tick(){
+      var now=new Date(), t=new Date(now.getFullYear(),6,10,0,0,0);
+      if(now>=t) t=new Date(now.getFullYear()+1,6,10,0,0,0);
+      var diff=t-now;
+      var d=Math.floor(diff/864e5), h=Math.floor((diff%864e5)/36e5),
+          mi=Math.floor((diff%36e5)/6e4), sc=Math.floor((diff%6e4)/1e3);
+      document.getElementById('wp710d').textContent=String(d).padStart(2,'0');
+      document.getElementById('wp710h').textContent=String(h).padStart(2,'0');
+      document.getElementById('wp710m').textContent=String(mi).padStart(2,'0');
+      document.getElementById('wp710s').textContent=String(sc).padStart(2,'0');
+    }
+    tick(); setInterval(tick,1000);
+  })();
+
+  let todos = JSON.parse(localStorage.getItem('wpgc-todos')||'[]');
+  function saveTodos(){ localStorage.setItem('wpgc-todos',JSON.stringify(todos)); }
+  function renderTodos(){
+    const list=document.getElementById('todo-list'); list.innerHTML='';
+    todos.forEach((t,i)=>{
+      const el=document.createElement('div');
+      el.className='todo-item'+(t.done?' done':'');
+      el.innerHTML=`<div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${i})">${t.done?'✓':''}</div><div class="todo-text">${t.text}</div><span class="todo-status ${t.done?'':'active'}">${t.done?'done':'active'}</span><button class="todo-del" onclick="deleteTodo(${i})">×</button>`;
       list.appendChild(el);
     });
   }
-  function addTodo() {
-    const inp = document.getElementById('todo-input');
-    if (!inp.value.trim()) return;
-    todos.unshift({ text: inp.value.trim(), done: false });
-    inp.value = '';
-    saveTodos(); renderTodos();
-  }
-  function toggleTodo(i) { todos[i].done = !todos[i].done; saveTodos(); renderTodos(); }
-  function deleteTodo(i) { todos.splice(i, 1); saveTodos(); renderTodos(); }
+  function addTodo(){ const inp=document.getElementById('todo-input'); if(!inp.value.trim())return; todos.unshift({text:inp.value.trim(),done:false}); inp.value=''; saveTodos(); renderTodos(); }
+  function toggleTodo(i){ todos[i].done=!todos[i].done; saveTodos(); renderTodos(); }
+  function deleteTodo(i){ todos.splice(i,1); saveTodos(); renderTodos(); }
   renderTodos();
 
-  let ideas = JSON.parse(localStorage.getItem('wpgc-ideas') || '[]');
-  function saveIdeas() { localStorage.setItem('wpgc-ideas', JSON.stringify(ideas)); }
-  function renderIdeas() {
-    const list = document.getElementById('ideas-list');
-    list.innerHTML = '';
-    ideas.forEach((idea, i) => {
-      const el = document.createElement('div');
-      el.className = 'ideas-note';
-      el.innerHTML = `<textarea placeholder="Write something..." oninput="updateIdea(${i}, this.value)">${idea.text}</textarea><div class="ideas-note-meta">${idea.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteIdea(${i})">delete</span></div>`;
+  let ideas=JSON.parse(localStorage.getItem('wpgc-ideas')||'[]');
+  function saveIdeas(){ localStorage.setItem('wpgc-ideas',JSON.stringify(ideas)); }
+  function renderIdeas(){
+    const list=document.getElementById('ideas-list'); list.innerHTML='';
+    ideas.forEach((idea,i)=>{
+      const el=document.createElement('div'); el.className='ideas-note';
+      el.innerHTML=`<textarea placeholder="Write something..." oninput="updateIdea(${i},this.value)">${idea.text}</textarea><div class="ideas-note-meta">${idea.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteIdea(${i})">delete</span></div>`;
       list.appendChild(el);
     });
   }
-  function addIdea() {
-    ideas.unshift({ text: '', date: new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) });
-    saveIdeas(); renderIdeas();
-    document.querySelector('.ideas-note textarea').focus();
-  }
-  function updateIdea(i, val) { ideas[i].text = val; saveIdeas(); }
-  function deleteIdea(i) { ideas.splice(i, 1); saveIdeas(); renderIdeas(); }
+  function addIdea(){ ideas.unshift({text:'',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}); saveIdeas(); renderIdeas(); document.querySelector('.ideas-note textarea')?.focus(); }
+  function updateIdea(i,val){ ideas[i].text=val; saveIdeas(); }
+  function deleteIdea(i){ ideas.splice(i,1); saveIdeas(); renderIdeas(); }
   renderIdeas();
 
-  let board = JSON.parse(localStorage.getItem('wpgc-board') || '[]');
-  function saveBoard() { localStorage.setItem('wpgc-board', JSON.stringify(board)); }
-  function renderBoard() {
-    const list = document.getElementById('board-list');
-    if (!list) return;
-    list.innerHTML = '';
-    board.forEach((note, i) => {
-      const el = document.createElement('div');
-      el.className = 'ideas-note';
-      el.style.borderLeft = '2px solid var(--purple)';
-      el.innerHTML = `<textarea placeholder="Important note..." oninput="updateBoard(${i}, this.value)">${note.text}</textarea><div class="ideas-note-meta">${note.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteBoard(${i})">delete</span></div>`;
+  let board=JSON.parse(localStorage.getItem('wpgc-board')||'[]');
+  function saveBoard(){ localStorage.setItem('wpgc-board',JSON.stringify(board)); }
+  function renderBoard(){
+    const list=document.getElementById('board-list'); if(!list)return; list.innerHTML='';
+    board.forEach((note,i)=>{
+      const el=document.createElement('div'); el.className='ideas-note'; el.style.borderLeft='2px solid var(--purple)';
+      el.innerHTML=`<textarea placeholder="Important note..." oninput="updateBoard(${i},this.value)">${note.text}</textarea><div class="ideas-note-meta">${note.date} · <span style="cursor:pointer;color:var(--red)" onclick="deleteBoard(${i})">delete</span></div>`;
       list.appendChild(el);
     });
   }
-  function addBoardNote() {
-    board.unshift({ text: '', date: new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) });
-    saveBoard(); renderBoard();
-    const ta = document.querySelector('#board-list .ideas-note textarea');
-    if (ta) ta.focus();
-  }
-  function updateBoard(i, val) { board[i].text = val; saveBoard(); }
-  function deleteBoard(i) { board.splice(i, 1); saveBoard(); renderBoard(); }
+  function addBoardNote(){ board.unshift({text:'',date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}); saveBoard(); renderBoard(); document.querySelector('#board-list .ideas-note textarea')?.focus(); }
+  function updateBoard(i,val){ board[i].text=val; saveBoard(); }
+  function deleteBoard(i){ board.splice(i,1); saveBoard(); renderBoard(); }
   renderBoard();
 
-  function switchLogTab(name) {
-    ['sale','inventory','prices'].forEach(t => {
-      document.getElementById('log-' + t).style.display = t === name ? 'block' : 'none';
-      document.getElementById('log-tab-' + t).classList.toggle('active', t === name);
+  function switchLogTab(name){
+    ['sale','inventory','prices'].forEach(t=>{
+      document.getElementById('log-'+t).style.display=t===name?'block':'none';
+      document.getElementById('log-tab-'+t).classList.toggle('active',t===name);
     });
   }
 
-  function dlFile(filename, content) {
-    const a = document.createElement('a');
-    a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(content);
-    a.download = filename;
-    a.click();
-  }
-  function gval(id) { return document.getElementById(id).value.trim(); }
-  function fmtDate(d) {
-    if (!d) return new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'});
-    const [y,m,day] = d.split('-');
-    return `${m}/${day}/${y.slice(2)}`;
+  function dlFile(filename,content){ const a=document.createElement('a'); a.href='data:text/html;charset=utf-8,'+encodeURIComponent(content); a.download=filename; a.click(); }
+  function gval(id){ return document.getElementById(id).value.trim(); }
+  function fmtDate(d){ if(!d)return new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}); const[y,m,day]=d.split('-'); return`${m}/${day}/${y.slice(2)}`; }
+
+  async function generateSaleLog(){
+    const date=fmtDate(gval('s-date')),invoice=gval('s-invoice')||'—',items=gval('s-items').replace(/\n/g,'<br>')||'—',
+          platform=gval('s-platform')||'—',cost=parseFloat(gval('s-cost'))||0,price=parseFloat(gval('s-price'))||0,
+          ship=gval('s-ship')||'—',notes=gval('s-notes');
+    const shipAmt=parseFloat((ship.match(/[\d.]+/)||[0])[0])||0,profit=price-cost-shipAmt;
+    const newRow=`\n    <tr>\n      <td style="white-space:nowrap;">${date}</td>\n      <td class="sl-items">${items}</td>\n      <td>${platform}</td>\n      <td class="sl-cost">$${cost.toFixed(2)}</td>\n      <td class="sl-price">$${price.toFixed(2)}</td>\n      <td class="sl-ship">${ship}</td>\n      <td class="${profit>=0?'sl-profit':'sl-loss'}">$${profit.toFixed(2)}</td>\n      <td class="sl-invoice">${invoice}</td>\n      <td class="sl-note">${notes}</td>\n    </tr>`;
+    try{ const res=await fetch('saleslog.html'); let html=await res.text(); html=html.replace('</tbody>',newRow+'\n  </tbody>'); dlFile('saleslog.html',html); }
+    catch(e){ alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
 
-  async function generateSaleLog() {
-    const date = fmtDate(gval('s-date'));
-    const invoice = gval('s-invoice') || '—';
-    const items = gval('s-items').replace(/\n/g,'<br>') || '—';
-    const platform = gval('s-platform') || '—';
-    const cost = parseFloat(gval('s-cost')) || 0;
-    const price = parseFloat(gval('s-price')) || 0;
-    const ship = gval('s-ship') || '—';
-    const notes = gval('s-notes');
-    const shipAmt = parseFloat((ship.match(/[\d.]+/) || [0])[0]) || 0;
-    const profit = price - cost - shipAmt;
-    const newRow = `\n    <tr>\n      <td style="white-space:nowrap;">${date}</td>\n      <td class="sl-items">${items}</td>\n      <td>${platform}</td>\n      <td class="sl-cost">$${cost.toFixed(2)}</td>\n      <td class="sl-price">$${price.toFixed(2)}</td>\n      <td class="sl-ship">${ship}</td>\n      <td class="${profit>=0?'sl-profit':'sl-loss'}">$${profit.toFixed(2)}</td>\n      <td class="sl-invoice">${invoice}</td>\n      <td class="sl-note">${notes}</td>\n    </tr>`;
-    try {
-      const res = await fetch('saleslog.html');
-      let html = await res.text();
-      html = html.replace('</tbody>', newRow + '\n  </tbody>');
-      dlFile('saleslog.html', html);
-    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
+  async function generateInventory(){
+    const sku=gval('i-sku')||'WPC-X-000',product=gval('i-product')||'—',brand=gval('i-brand')||'—',
+          category=gval('i-category'),cost=parseFloat(gval('i-cost'))||0,
+          msrp=parseFloat(gval('i-msrp'))||0,qty=parseInt(gval('i-qty'))||1;
+    const margin=msrp>0?Math.round((msrp-cost)/msrp*100):0;
+    const mClass=margin>=87?'margin top':'margin',qtyClass=qty>1?'ok':'low';
+    const msrpCell=msrp>0?`<td class="price">$${msrp.toFixed(2)}</td>`:`<td class="tbd">TBD</td>`;
+    const marginCell=msrp>0?`<td class="${mClass}">${margin}%</td>`:`<td class="tbd">—</td>`;
+    const newRow=`\n    <tr>\n      <td class="sku">${sku}</td><td>${product}</td><td class="brand">${brand}</td>\n      <td><span class="category">${category}</span></td>\n      <td class="price">$${cost.toFixed(2)}</td>${msrpCell}${marginCell}\n      <td class="qty ${qtyClass}">${qty}</td>\n    </tr>`;
+    try{ const res=await fetch('inventory.html'); let html=await res.text(); html=html.replace('</tbody>',newRow+'\n  </tbody>'); dlFile('inventory.html',html); }
+    catch(e){ alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
 
-  async function generateInventory() {
-    const sku = gval('i-sku') || 'WPC-X-000';
-    const product = gval('i-product') || '—';
-    const brand = gval('i-brand') || '—';
-    const category = gval('i-category');
-    const cost = parseFloat(gval('i-cost')) || 0;
-    const msrp = parseFloat(gval('i-msrp')) || 0;
-    const qty = parseInt(gval('i-qty')) || 1;
-    const margin = msrp > 0 ? Math.round((msrp - cost) / msrp * 100) : 0;
-    const mClass = margin >= 87 ? 'margin top' : 'margin';
-    const qtyClass = qty > 1 ? 'ok' : 'low';
-    const msrpCell = msrp > 0 ? `<td class="price">$${msrp.toFixed(2)}</td>` : `<td class="tbd">TBD</td>`;
-    const marginCell = msrp > 0 ? `<td class="${mClass}">${margin}%</td>` : `<td class="tbd">—</td>`;
-    const newRow = `\n    <tr>\n      <td class="sku">${sku}</td><td>${product}</td><td class="brand">${brand}</td>\n      <td><span class="category">${category}</span></td>\n      <td class="price">$${cost.toFixed(2)}</td>${msrpCell}${marginCell}\n      <td class="qty ${qtyClass}">${qty}</td>\n    </tr>`;
-    try {
-      const res = await fetch('inventory.html');
-      let html = await res.text();
-      html = html.replace('</tbody>', newRow + '\n  </tbody>');
-      dlFile('inventory.html', html);
-    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
-  }
-
-  async function generatePrices() {
-    const product = gval('p-product') || '—';
-    const brand = gval('p-brand') || '—';
-    const price = parseFloat(gval('p-price')) || 0;
-    const cost = parseFloat(gval('p-cost')) || 0;
-    const profit = price - cost;
-    const margin = price > 0 ? Math.round((profit / price) * 100) : 0;
-    const mClass = margin >= 75 ? 'margin-high' : margin >= 50 ? 'margin-mid' : 'margin-low';
-    const section = gval('p-section');
-    const sectionLabels = {
-      'flower':'Flower Pieces','rigs':'Concentrates &amp; Accessories — Rigs',
-      'bangers':'Concentrates &amp; Accessories — Bangers','inserts':'Concentrates &amp; Accessories — Inserts',
-      'banger-sets':'Banger Sets','full-sets':'Full Sets'
-    };
-    const newRow = `\n      <tr>\n        <td><span class="item-name">${product}</span><span class="item-cat">${brand}</span></td>\n        <td class="price">$${price.toFixed(2)}</td><td class="cost">$${cost.toFixed(2)}</td>\n        <td class="profit">$${profit.toFixed(2)}</td>\n        <td><span class="margin-pill ${mClass}">${margin}%</span></td>\n      </tr>`;
-    try {
-      const res = await fetch('prices.html');
-      let html = await res.text();
-      const label = sectionLabels[section];
-      const labelIdx = html.indexOf(label);
-      const insertIdx = html.indexOf('class="totals-row"', labelIdx);
-      if (insertIdx === -1) { alert('Section not found in prices.html.'); return; }
-      const rowStart = html.lastIndexOf('<tr', insertIdx);
-      html = html.slice(0, rowStart) + newRow + '\n      ' + html.slice(rowStart);
-      dlFile('prices.html', html);
-    } catch(e) { alert('Fetch failed — must be on GitHub Pages, not local.'); }
+  async function generatePrices(){
+    const product=gval('p-product')||'—',brand=gval('p-brand')||'—',
+          price=parseFloat(gval('p-price'))||0,cost=parseFloat(gval('p-cost'))||0;
+    const profit=price-cost,margin=price>0?Math.round((profit/price)*100):0;
+    const mClass=margin>=75?'margin-high':margin>=50?'margin-mid':'margin-low';
+    const section=gval('p-section');
+    const labels={'flower':'Flower Pieces','rigs':'Concentrates &amp; Accessories — Rigs','bangers':'Concentrates &amp; Accessories — Bangers','inserts':'Concentrates &amp; Accessories — Inserts','banger-sets':'Banger Sets','full-sets':'Full Sets'};
+    const newRow=`\n      <tr>\n        <td><span class="item-name">${product}</span><span class="item-cat">${brand}</span></td>\n        <td class="price">$${price.toFixed(2)}</td><td class="cost">$${cost.toFixed(2)}</td>\n        <td class="profit">$${profit.toFixed(2)}</td>\n        <td><span class="margin-pill ${mClass}">${margin}%</span></td>\n      </tr>`;
+    try{
+      const res=await fetch('prices.html'); let html=await res.text();
+      const label=labels[section],labelIdx=html.indexOf(label),insertIdx=html.indexOf('class="totals-row"',labelIdx);
+      if(insertIdx===-1){alert('Section not found in prices.html.');return;}
+      const rowStart=html.lastIndexOf('<tr',insertIdx);
+      html=html.slice(0,rowStart)+newRow+'\n      '+html.slice(rowStart);
+      dlFile('prices.html',html);
+    } catch(e){ alert('Fetch failed — must be on GitHub Pages, not local.'); }
   }
 </script>
 </body>
