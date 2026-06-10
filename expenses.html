@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WPGlassCo — Expense Log</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a; --bg2: #111; --bg3: #161616;
+    --border: #1e1e1e; --border2: #242424;
+    --text: #e0e0e0; --muted: #555; --dim: #333;
+    --green: #08E2A5; --green-dim: rgba(8,226,165,0.1); --green-border: rgba(8,226,165,0.2);
+    --red: #ff5f5f; --purple: #cf75ff; --gold: #f0a500;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; padding: 2rem 1.5rem; min-height: 100vh; }
+  .header { max-width: 960px; margin: 0 auto 2rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .header-left { border-left: 3px solid var(--green); padding-left: 1rem; }
+  .header-left h1 { font-size: 1.3rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: #fff; }
+  .header-left p { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; font-family: 'DM Mono', monospace; }
+  .header-badge { background: var(--green-dim); border: 1px solid var(--green-border); border-radius: 4px; padding: 0.4rem 0.9rem; font-size: 0.65rem; font-weight: 600; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; align-self: center; }
+  .summary-strip { max-width: 960px; margin: 0 auto 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; }
+  .stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.1rem; }
+  .stat-label { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; font-family: 'DM Mono', monospace; }
+  .stat-value { font-size: 1.3rem; font-weight: 600; color: var(--green); font-family: 'DM Mono', monospace; }
+  .stat-value.red { color: var(--red); }
+  .stat-value.gold { color: var(--gold); }
+  .stat-sub { font-size: 0.58rem; color: var(--muted); margin-top: 0.2rem; font-family: 'DM Mono', monospace; }
+  .form-wrap { max-width: 960px; margin: 0 auto 2rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .form-header { padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .form-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); font-family: 'DM Mono', monospace; }
+  .form-toggle { background: none; border: 1px solid var(--border2); border-radius: 4px; color: var(--muted); font-size: 0.6rem; font-family: 'DM Mono', monospace; padding: 0.3rem 0.7rem; cursor: pointer; letter-spacing: 0.08em; transition: all 0.15s; }
+  .form-toggle:hover { border-color: var(--green); color: var(--green); }
+  .form-body { padding: 1.25rem; }
+  .form-row { display: grid; gap: 0.85rem; margin-bottom: 0.85rem; }
+  .cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .cols-1 { grid-template-columns: 1fr; }
+  @media (max-width: 700px) { .cols-4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 440px) { .cols-4 { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field label { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .field input, .field select, .field textarea { background: var(--bg3); border: 1px solid var(--border2); border-radius: 4px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 0.55rem 0.75rem; outline: none; transition: border-color 0.15s; width: 100%; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green); }
+  .field select { appearance: none; cursor: pointer; }
+  .field select option { background: #1a1a1a; }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field input[type="number"] { font-family: 'DM Mono', monospace; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--dim); }
+  .amount-wrap { position: relative; }
+  .amount-wrap .prefix { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.82rem; pointer-events: none; }
+  .amount-wrap input { padding-left: 1.4rem; }
+  .recurring-row { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+  .check-field { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+  .check-field input[type="checkbox"] { appearance: none; width: 16px; height: 16px; border: 1px solid var(--border2); border-radius: 3px; background: var(--bg3); cursor: pointer; position: relative; transition: all 0.15s; flex-shrink: 0; }
+  .check-field input[type="checkbox"]:checked { background: var(--green); border-color: var(--green); }
+  .check-field input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: 2px solid #0a0a0a; border-top: none; border-left: none; transform: rotate(45deg); }
+  .check-field label { font-size: 0.78rem; color: var(--text); cursor: pointer; user-select: none; }
+  .next-due-wrap { display: none; align-items: center; gap: 0.5rem; }
+  .next-due-wrap.visible { display: flex; }
+  .next-due-wrap label { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; white-space: nowrap; }
+  .next-due-wrap input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 4px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.78rem; padding: 0.4rem 0.65rem; outline: none; transition: border-color 0.15s; }
+  .next-due-wrap input:focus { border-color: var(--green); }
+  .form-actions { display: flex; align-items: center; gap: 0.75rem; }
+  .btn-submit { background: var(--green); color: #0a0a0a; border: none; border-radius: 4px; padding: 0.6rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+  .btn-submit:hover { opacity: 0.85; }
+  .btn-clear { background: none; border: 1px solid var(--border2); border-radius: 4px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; padding: 0.6rem 1rem; cursor: pointer; transition: all 0.15s; }
+  .btn-clear:hover { border-color: var(--red); color: var(--red); }
+  .form-hint { font-size: 0.6rem; color: var(--muted); font-family: 'DM Mono', monospace; margin-left: auto; }
+  .filter-bar { max-width: 960px; margin: 0 auto 1rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .filter-label { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .filter-btn { background: none; border: 1px solid var(--border2); border-radius: 3px; color: var(--muted); font-size: 0.62rem; font-family: 'DM Mono', monospace; padding: 0.25rem 0.65rem; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+  .filter-search { margin-left: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.75rem; padding: 0.3rem 0.75rem; outline: none; font-family: 'DM Sans', sans-serif; width: 180px; transition: border-color 0.15s; }
+  .filter-search:focus { border-color: var(--green); }
+  .filter-search::placeholder { color: var(--dim); }
+  .table-wrap { max-width: 960px; margin: 0 auto 3rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .table-head-bar { padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .table-head-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); font-family: 'DM Mono', monospace; }
+  .export-btn { background: none; border: 1px solid var(--border2); border-radius: 4px; color: var(--muted); font-size: 0.6rem; font-family: 'DM Mono', monospace; padding: 0.3rem 0.7rem; cursor: pointer; transition: all 0.15s; }
+  .export-btn:hover { border-color: var(--green); color: var(--green); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  thead tr { background: #0f0f0f; }
+  th { padding: 0.65rem 1rem; text-align: left; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-family: 'DM Mono', monospace; border-bottom: 1px solid var(--border); }
+  th.right, td.right { text-align: right; }
+  td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+  .cat-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 3px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.05em; font-family: 'DM Mono', monospace; }
+  .cat-Inventory { background: rgba(8,226,165,0.08);  color: var(--green);  border: 1px solid rgba(8,226,165,0.2); }
+  .cat-Shipping  { background: rgba(79,172,254,0.08); color: #4facfe;       border: 1px solid rgba(79,172,254,0.2); }
+  .cat-Marketing { background: rgba(207,117,255,0.08);color: var(--purple); border: 1px solid rgba(207,117,255,0.2); }
+  .cat-Fees      { background: rgba(240,165,0,0.08);  color: var(--gold);   border: 1px solid rgba(240,165,0,0.2); }
+  .cat-Employees { background: rgba(255,95,95,0.08);  color: var(--red);    border: 1px solid rgba(255,95,95,0.2); }
+  .cat-Content   { background: rgba(94,231,223,0.08); color: #5ee7df;       border: 1px solid rgba(94,231,223,0.2); }
+  .cat-Supplies  { background: rgba(180,180,180,0.08);color: #aaa;          border: 1px solid rgba(180,180,180,0.2); }
+  .amount-cell { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--red); }
+  .note-cell { font-size: 0.7rem; color: var(--muted); font-style: italic; }
+  .date-cell { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+  .recur-badge { display: inline-block; font-size: 0.58rem; font-family: 'DM Mono', monospace; color: var(--gold); background: rgba(240,165,0,0.08); border: 1px solid rgba(240,165,0,0.2); border-radius: 3px; padding: 0.05rem 0.4rem; margin-left: 0.4rem; vertical-align: middle; }
+  .vendor-cell { font-weight: 500; }
+  .next-due-cell { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gold); }
+  .empty-state { padding: 4rem 1rem; text-align: center; }
+  .empty-icon { font-size: 2rem; margin-bottom: 1rem; opacity: 0.2; }
+  .empty-state p { font-size: 0.75rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .empty-state span { display: block; font-size: 0.6rem; color: var(--dim); margin-top: 0.4rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>WPGlassCo — Expense Log</h1>
+    <p>Last updated: June 9, 2026</p>
+  </div>
+  <div class="header-badge" id="entryBadge">0 Entries</div>
+</div>
+
+<div class="summary-strip">
+  <div class="stat"><div class="stat-label">Total Spent</div><div class="stat-value red" id="totalSpent">$0.00</div><div class="stat-sub">all time</div></div>
+  <div class="stat"><div class="stat-label">This Month</div><div class="stat-value red" id="thisMonth">$0.00</div><div class="stat-sub">Jun 2026</div></div>
+  <div class="stat"><div class="stat-label">Top Category</div><div class="stat-value gold" id="topCat">—</div><div class="stat-sub" id="topCatAmt">no data</div></div>
+  <div class="stat"><div class="stat-label">Recurring</div><div class="stat-value" id="recurCount">0</div><div class="stat-sub">active subscriptions</div></div>
+</div>
+
+<div class="form-wrap">
+  <div class="form-header">
+    <div class="form-title">+ Log Expense</div>
+    <button class="form-toggle" onclick="toggleForm(this)">Collapse</button>
+  </div>
+  <div class="form-body" id="formBody">
+    <div class="form-row cols-4">
+      <div class="field"><label>Date</label><input type="date" id="expDate" /></div>
+      <div class="field">
+        <label>Category</label>
+        <select id="expCategory">
+          <option value="" disabled selected>Select</option>
+          <option value="Inventory">Inventory</option>
+          <option value="Shipping">Shipping</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Fees">Fees</option>
+          <option value="Employees">Employees</option>
+          <option value="Content">Content Creation</option>
+          <option value="Supplies">Supplies</option>
+        </select>
+      </div>
+      <div class="field"><label>Vendor / Title</label><input type="text" id="expVendor" placeholder="e.g. Terporium, Canva" /></div>
+      <div class="field">
+        <label>Cost</label>
+        <div class="amount-wrap"><span class="prefix">$</span><input type="number" id="expAmount" placeholder="0.00" step="0.01" min="0" /></div>
+      </div>
+    </div>
+    <div class="form-row cols-1">
+      <div class="field"><label>Notes (optional)</label><textarea id="expNotes" placeholder="Invoice #, order details, context..."></textarea></div>
+    </div>
+    <div class="recurring-row">
+      <label class="check-field">
+        <input type="checkbox" id="expRecurring" onchange="toggleNextDue(this)" />
+        <span>Recurring expense</span>
+      </label>
+      <div class="next-due-wrap" id="nextDueWrap">
+        <label for="expNextDue">Next due</label>
+        <input type="date" id="expNextDue" />
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-submit" onclick="addExpense()">Log Expense</button>
+      <button class="btn-clear" onclick="clearForm()">Clear</button>
+      <span class="form-hint">Date, category, vendor &amp; cost required</span>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="setFilter('All', this)">All</button>
+  <button class="filter-btn" onclick="setFilter('Inventory', this)">Inventory</button>
+  <button class="filter-btn" onclick="setFilter('Shipping', this)">Shipping</button>
+  <button class="filter-btn" onclick="setFilter('Marketing', this)">Marketing</button>
+  <button class="filter-btn" onclick="setFilter('Fees', this)">Fees</button>
+  <button class="filter-btn" onclick="setFilter('Employees', this)">Employees</button>
+  <button class="filter-btn" onclick="setFilter('Content', this)">Content</button>
+  <button class="filter-btn" onclick="setFilter('Supplies', this)">Supplies</button>
+  <button class="filter-btn" onclick="setFilter('recurring', this)">🔄 Recurring</button>
+  <input class="filter-search" type="text" placeholder="Search..." oninput="renderTable()" id="searchInput" />
+</div>
+
+<div class="table-wrap">
+  <div class="table-head-bar">
+    <div class="table-head-title">Expense History</div>
+    <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th><th>Category</th><th>Vendor / Title</th><th>Notes</th><th>Next Due</th><th class="right">Amount</th>
+      </tr>
+    </thead>
+    <tbody id="expBody"></tbody>
+  </table>
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">📋</div>
+    <p>No expenses logged yet</p>
+    <span>Use the form above to log your first expense</span>
+  </div>
+</div>
+
+<script>
+  let expenses = [];
+  let activeFilter = 'All';
+  document.getElementById('expDate').valueAsDate = new Date();
+
+  function toggleNextDue(cb) {
+    const wrap = document.getElementById('nextDueWrap');
+    wrap.classList.toggle('visible', cb.checked);
+    if (cb.checked && !document.getElementById('expNextDue').value) {
+      const next = new Date(); next.setMonth(next.getMonth()+1);
+      document.getElementById('expNextDue').valueAsDate = next;
+    }
+  }
+
+  function addExpense() {
+    const date=document.getElementById('expDate').value, category=document.getElementById('expCategory').value,
+          vendor=document.getElementById('expVendor').value.trim(), amount=parseFloat(document.getElementById('expAmount').value),
+          notes=document.getElementById('expNotes').value.trim(), recurring=document.getElementById('expRecurring').checked,
+          nextDue=recurring?document.getElementById('expNextDue').value:'';
+    if (!date||!category||!vendor||isNaN(amount)||amount<=0){alert('Please fill in date, category, vendor, and cost.');return;}
+    expenses.unshift({date,category,vendor,amount,notes,recurring,nextDue});
+    clearForm(); renderTable(); updateStats();
+  }
+
+  function clearForm() {
+    ['expCategory','expVendor','expAmount','expNotes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('expRecurring').checked=false;
+    document.getElementById('expNextDue').value='';
+    document.getElementById('nextDueWrap').classList.remove('visible');
+    document.getElementById('expDate').valueAsDate=new Date();
+  }
+
+  function setFilter(cat,btn) {
+    activeFilter=cat;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); renderTable();
+  }
+
+  function renderTable() {
+    const search=document.getElementById('searchInput').value.toLowerCase();
+    const filtered=expenses.filter(e=>{
+      const matchCat=activeFilter==='All'||(activeFilter==='recurring'?e.recurring:e.category===activeFilter);
+      const matchSearch=!search||e.vendor.toLowerCase().includes(search)||e.category.toLowerCase().includes(search)||e.notes.toLowerCase().includes(search);
+      return matchCat&&matchSearch;
+    });
+    const tbody=document.getElementById('expBody'), empty=document.getElementById('emptyState');
+    if(!filtered.length){tbody.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    tbody.innerHTML=filtered.map(e=>`
+      <tr>
+        <td class="date-cell">${formatDate(e.date)}</td>
+        <td><span class="cat-pill cat-${e.category}">${e.category}</span></td>
+        <td class="vendor-cell">${e.vendor}${e.recurring?'<span class="recur-badge">recurring</span>':''}</td>
+        <td class="note-cell">${e.notes||'—'}</td>
+        <td class="next-due-cell">${e.nextDue?formatDate(e.nextDue):'—'}</td>
+        <td class="amount-cell right">$${e.amount.toFixed(2)}</td>
+      </tr>`).join('');
+  }
+
+  function updateStats() {
+    const total=expenses.reduce((s,e)=>s+e.amount,0);
+    const now=new Date();
+    const monthTotal=expenses.filter(e=>{const d=new Date(e.date+'T12:00:00');return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).reduce((s,e)=>s+e.amount,0);
+    const catTotals={};
+    expenses.forEach(e=>{catTotals[e.category]=(catTotals[e.category]||0)+e.amount;});
+    const topCat=Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0];
+    const recurCount=expenses.filter(e=>e.recurring).length;
+    document.getElementById('totalSpent').textContent='$'+total.toFixed(2);
+    document.getElementById('thisMonth').textContent='$'+monthTotal.toFixed(2);
+    document.getElementById('entryBadge').textContent=expenses.length+' '+(expenses.length===1?'Entry':'Entries');
+    document.getElementById('topCat').textContent=topCat?topCat[0]:'—';
+    document.getElementById('topCatAmt').textContent=topCat?'$'+topCat[1].toFixed(2)+' total':'no data';
+    document.getElementById('recurCount').textContent=recurCount;
+  }
+
+  function formatDate(str) {
+    if(!str)return'—';
+    const [y,m,d]=str.split('-');
+    return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d)+', '+y;
+  }
+
+  function toggleForm(btn) {
+    const body=document.getElementById('formBody'),hidden=body.style.display==='none';
+    body.style.display=hidden?'block':'none'; btn.textContent=hidden?'Collapse':'Expand';
+  }
+
+  function exportCSV() {
+    if(!expenses.length){alert('No expenses to export.');return;}
+    const headers=['Date','Category','Vendor/Title','Amount','Notes','Recurring','Next Due'];
+    const rows=expenses.map(e=>[e.date,e.category,e.vendor,e.amount.toFixed(2),e.notes,e.recurring?'Yes':'No',e.nextDue||''].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+    const csv=[headers.join(','),...rows].join('\n');
+    const a=document.createElement('a');
+    a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+    a.download='wpglassco_expenses.csv'; a.click();
+  }
+
+  renderTable(); updateStats();
+</script>
+</body>
+</html>
