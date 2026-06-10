@@ -40,18 +40,19 @@
 
 <div class="header">
   <h1>WPGlassCo — Pricing &amp; Margins</h1>
-  <p>Current inventory for sale — Last updated June 7, 2026</p>
+  <p>Current inventory for sale — Last updated June 9, 2026</p>
 </div>
 
 <script>
 const items = [
   [26,0],[21,0],
   [165,98],[125,67],[95,46],[79,30],
-  [80,25],[70,19],
-  [75,23],[60,20],[30,11],[30,12],
-  [28,13],[15,2],[15,2],[15,3],[30,8],[20,7],[15,5.5],
-  [20,3],[35,13],[20,3],[35,13.5],[20,3],
-  [72,38]
+  [80,25],
+  [75,23],[60,20],[25,11],[25,12],
+  [28,13],[15,2],[30,8],[20,7],[15,5.5],
+  [30,13],[33,13.5],[12,3],
+  [40,12],
+  [72,38],[45,21],[50,21],[75,45]
 ];
 window.addEventListener('DOMContentLoaded', () => {
   const totalRev  = items.reduce((s,[p])=>s+p,0);
@@ -140,11 +141,6 @@ window.addEventListener('DOMContentLoaded', () => {
         <td><span class="margin-pill margin-mid">69%</span></td>
       </tr>
       <tr>
-        <td><span class="item-name">Seamless Slurper</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$70</td><td class="cost">$19.00</td><td class="profit">$51.00</td>
-        <td><span class="margin-pill margin-mid">73%</span></td>
-      </tr>
-      <tr>
         <td><span class="item-name">Slide Tower</span><span class="item-cat">Terporium</span></td>
         <td class="price">$75</td><td class="cost">$23.00</td><td class="profit">$52.00</td>
         <td><span class="margin-pill margin-mid">69%</span></td>
@@ -156,16 +152,16 @@ window.addEventListener('DOMContentLoaded', () => {
       </tr>
       <tr>
         <td><span class="item-name">Tower</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$30</td><td class="cost">$11.00</td><td class="profit">$19.00</td>
-        <td><span class="margin-pill margin-mid">63%</span></td>
+        <td class="price">$25</td><td class="cost">$11.00</td><td class="profit">$14.00</td>
+        <td><span class="margin-pill margin-mid">56%</span></td>
       </tr>
       <tr>
         <td><span class="item-name">Mini Slide</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$30</td><td class="cost">$12.00</td><td class="profit">$18.00</td>
-        <td><span class="margin-pill margin-mid">60%</span></td>
+        <td class="price">$25</td><td class="cost">$12.00</td><td class="profit">$13.00</td>
+        <td><span class="margin-pill margin-mid">52%</span></td>
       </tr>
       <tr class="totals-row">
-        <td>Subtotal</td><td class="price">$345</td><td class="cost">$110.00</td><td class="profit">$235.00</td><td></td>
+        <td>Subtotal</td><td class="price">$265</td><td class="cost">$91.00</td><td class="profit">$174.00</td><td></td>
       </tr>
     </tbody>
   </table>
@@ -183,19 +179,9 @@ window.addEventListener('DOMContentLoaded', () => {
         <td><span class="margin-pill margin-mid">54%</span></td>
       </tr>
       <tr>
-        <td><span class="item-name">Zebra Pillar</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$15</td><td class="cost">$2.00</td><td class="profit">$13.00</td>
-        <td><span class="margin-pill margin-high">87%</span></td>
-      </tr>
-      <tr>
         <td><span class="item-name">Surface Enhanced Pillar</span><span class="item-cat">Terporium</span></td>
         <td class="price">$15</td><td class="cost">$2.00</td><td class="profit">$13.00</td>
         <td><span class="margin-pill margin-high">87%</span></td>
-      </tr>
-      <tr>
-        <td><span class="item-name">Hollow Vortex Pillar</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$15</td><td class="cost">$3.00</td><td class="profit">$12.00</td>
-        <td><span class="margin-pill margin-high">80%</span></td>
       </tr>
       <tr>
         <td><span class="item-name">Lucid CFL w/ Opal Topper Cap</span><span class="item-cat">Terporium</span></td>
@@ -213,32 +199,32 @@ window.addEventListener('DOMContentLoaded', () => {
         <td><span class="margin-pill margin-mid">63%</span></td>
       </tr>
       <tr>
-        <td><span class="item-name">Blue Bobber Marble Set</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$20</td><td class="cost">$3.00</td><td class="profit">$17.00</td>
-        <td><span class="margin-pill margin-high">85%</span></td>
-      </tr>
-      <tr>
         <td><span class="item-name">Rainbow Marble Set</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$35</td><td class="cost">$13.00</td><td class="profit">$22.00</td>
-        <td><span class="margin-pill margin-mid">63%</span></td>
+        <td class="price">$30</td><td class="cost">$13.00</td><td class="profit">$17.00</td>
+        <td><span class="margin-pill margin-mid">57%</span></td>
       </tr>
       <tr>
         <td><span class="item-name">Twisty Slurper Set</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$20</td><td class="cost">$3.00</td><td class="profit">$17.00</td>
-        <td><span class="margin-pill margin-high">85%</span></td>
+        <td class="price">$12</td><td class="cost">$3.00</td><td class="profit">$9.00</td>
+        <td><span class="margin-pill margin-mid">75%</span></td>
       </tr>
       <tr>
         <td><span class="item-name">Rainbow Opal Cap</span><span class="item-cat">Terporium</span></td>
-        <td class="price">$35</td><td class="cost">$13.50</td><td class="profit">$21.50</td>
-        <td><span class="margin-pill margin-mid">61%</span></td>
+        <td class="price">$33</td><td class="cost">$13.50</td><td class="profit">$19.50</td>
+        <td><span class="margin-pill margin-mid">59%</span></td>
       </tr>
       <tr>
         <td><span class="item-name">Light Blue Bobber Set</span><span class="item-cat">Terporium</span></td>
         <td class="price">$20</td><td class="cost">$3.00</td><td class="profit">$17.00</td>
         <td><span class="margin-pill margin-high">85%</span></td>
       </tr>
+      <tr>
+        <td><span class="item-name">Mandala Pearl by Steve H</span><span class="item-cat">Ruby Pearl Co</span></td>
+        <td class="price">$40</td><td class="cost">$12.00</td><td class="profit">$28.00</td>
+        <td><span class="margin-pill margin-mid">70%</span></td>
+      </tr>
       <tr class="totals-row">
-        <td>Subtotal</td><td class="price">$268</td><td class="cost">$76.00</td><td class="profit">$192.00</td><td></td>
+        <td>Subtotal</td><td class="price">$243</td><td class="cost">$80.00</td><td class="profit">$163.00</td><td></td>
       </tr>
     </tbody>
   </table>
@@ -255,8 +241,23 @@ window.addEventListener('DOMContentLoaded', () => {
         <td class="price">$72</td><td class="cost">$38.00</td><td class="profit">$34.00</td>
         <td><span class="margin-pill margin-low">47%</span></td>
       </tr>
+      <tr>
+        <td><span class="item-name">The Great Attractor</span><span class="item-cat">Tower · Lucid CFL w/ Opal Topper Cap · Surface Enhanced Pillar</span></td>
+        <td class="price">$45</td><td class="cost">$21.00</td><td class="profit">$24.00</td>
+        <td><span class="margin-pill margin-mid">53%</span></td>
+      </tr>
+      <tr>
+        <td><span class="item-name">The Spectrum</span><span class="item-cat">Tower · Rainbow Marble Set</span></td>
+        <td class="price">$50</td><td class="cost">$21.00</td><td class="profit">$29.00</td>
+        <td><span class="margin-pill margin-mid">58%</span></td>
+      </tr>
+      <tr>
+        <td><span class="item-name">The Mandala Effect</span><span class="item-cat">Terp Taster · Rainbow Opal Cap · Mandala Pearl by Steve H</span></td>
+        <td class="price">$75</td><td class="cost">$45.00</td><td class="profit">$30.00</td>
+        <td><span class="margin-pill margin-low">40%</span></td>
+      </tr>
       <tr class="totals-row">
-        <td>Subtotal</td><td class="price">$72</td><td class="cost">$38.00</td><td class="profit">$34.00</td><td></td>
+        <td>Subtotal</td><td class="price">$242</td><td class="cost">$125.00</td><td class="profit">$117.00</td><td></td>
       </tr>
     </tbody>
   </table>
@@ -270,10 +271,10 @@ window.addEventListener('DOMContentLoaded', () => {
     <tbody>
       <tr class="totals-row" style="font-size:0.9rem;">
         <td style="color:#08E2A5; font-weight:700;">All Items &amp; Sets</td>
-        <td class="price" style="font-size:1.1rem;">$1,196</td>
-        <td class="cost" style="color:#888;">$465.00</td>
-        <td class="profit" style="font-size:1.1rem;">$731.00</td>
-        <td><span class="margin-pill margin-mid">61%</span></td>
+        <td class="price" style="font-size:1.1rem;">$1,261</td>
+        <td class="cost" style="color:#888;">$537.00</td>
+        <td class="profit" style="font-size:1.1rem;">$724.00</td>
+        <td><span class="margin-pill margin-mid">57%</span></td>
       </tr>
     </tbody>
   </table>
